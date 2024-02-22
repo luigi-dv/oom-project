@@ -48,7 +48,7 @@ class User {
     // Implement the toString method for saving user information
 @Override
 public String toString() {
-    return username + ":" + bio + ":" + password; // Format as needed
+    return username + ":" + password + ":" + bio; // Format as needed
 }
 
 }
