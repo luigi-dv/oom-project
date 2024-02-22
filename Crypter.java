@@ -26,7 +26,7 @@ public class Crypter {
     /**
      * The file path of the .key file.
      */
-    public final static String filePath = "";
+    public final static String filePath = "data/key.key";
 
     /**
      * A Dummy Key to not get errors.
@@ -36,7 +36,7 @@ public class Crypter {
     /**
      * The {@link SecretKey}
      */
-    public SecretKey key;
+    public static SecretKey key = DUMMY_KEY;
 
     /**
      * The constructor for the Cypter class
@@ -78,7 +78,7 @@ public class Crypter {
      * @return the encrypted bytes
      * @throws Exception
      */
-    public byte[] encrypt(String text, SecretKey key) throws Exception {
+    public static byte[] encrypt(String text, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
@@ -91,7 +91,7 @@ public class Crypter {
      * @return the encrypted String
      * @throws Exception
      */
-    public String StringToEncryptedString(String text) throws Exception{
+    public static String StringToEncryptedString(String text) throws Exception{
         return Base64.getEncoder().encodeToString(encrypt(text, key));
     }
 
@@ -101,7 +101,7 @@ public class Crypter {
      * @return the decrypted String
      * @throws Exception
      */
-    public String encryptedStringToString(String encrypted) throws Exception {
+    public static String encryptedStringToString(String encrypted) throws Exception {
         return decrypt(convertBase64StringToBytes(encrypted), key);
     }
 
@@ -112,7 +112,7 @@ public class Crypter {
      * @return the decrypted String
      * @throws Exception
      */
-    public String decrypt(byte[] encryptedText, SecretKey key) throws Exception {
+    public static String decrypt(byte[] encryptedText, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
 
@@ -163,7 +163,7 @@ public class Crypter {
      * @return the byte array
      * @see Base64
      */
-    private byte[] convertBase64StringToBytes(String base64String) {
+    private static byte[] convertBase64StringToBytes(String base64String) {
         return Base64.getDecoder().decode(base64String);
     }
 

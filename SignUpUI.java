@@ -142,11 +142,13 @@ public class SignUpUI extends JFrame {
         try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith(username + ":")) {
+                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
                     return true;
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
