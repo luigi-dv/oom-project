@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -53,7 +57,7 @@ public class QuakstagramHomeUI extends JFrame {
         add(cardPanel, BorderLayout.CENTER);
         cardLayout.show(cardPanel, "Home"); // Start with the home view
         
-         // Header Panel (reuse from InstagramProfileUI or customize for home page)
+         // Header Panel (reuse from src.application.views.InstagramProfileUI or customize for home page)
           // Header with the Register label
           JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
           headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
@@ -267,7 +271,7 @@ private String[][] createSampleData() {
         e.printStackTrace();
     }
 
-    // Temporary structure to hold the data
+    // Temporary structure to hold the src.infrastructure.persistance.data
     String[][] tempData = new String[100][]; // Assuming a maximum of 100 posts for simplicity
     int count = 0;
 
@@ -288,7 +292,7 @@ private String[][] createSampleData() {
         e.printStackTrace();
     }
 
-    // Transfer the data to the final array
+    // Transfer the src.infrastructure.persistance.data to the final array
     String[][] sampleData = new String[count][];
     System.arraycopy(tempData, 0, sampleData, 0, count);
 
@@ -328,12 +332,12 @@ private String[][] createSampleData() {
                 fullSizeImageLabel.setText("Image not found");
             }
 
-        //User Info 
+        //src.domain.entities.User Info
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BoxLayout(userPanel,BoxLayout.Y_AXIS));
         JLabel userName = new JLabel(postData[0]);
         userName.setFont(new Font("Arial", Font.BOLD, 18));
-        userPanel.add(userName);//User Name
+        userPanel.add(userName);//src.domain.entities.User Name
 
            JButton likeButton = new JButton("❤");
             likeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -410,7 +414,7 @@ private String[][] createSampleData() {
     }
  
     private void openProfileUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         String loggedInUsername = "";
  
@@ -429,28 +433,28 @@ private String[][] createSampleData() {
     }
  
      private void notificationsUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         NotificationsUI notificationsUI = new NotificationsUI();
         notificationsUI.setVisible(true);
     }
 
     private void ImageUploadUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ImageUploadUI upload = new ImageUploadUI();
         upload.setVisible(true);
     }
  
     private void openHomeUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
         homeUI.setVisible(true);
     }
  
     private void exploreUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ExploreUI explore = new ExploreUI();
         explore.setVisible(true);

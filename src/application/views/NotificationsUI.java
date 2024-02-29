@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -24,7 +28,7 @@ public class NotificationsUI extends JFrame {
     }
 
     private void initializeUI() {
-        // Reuse the header and navigation panel creation methods from the InstagramProfileUI class
+        // Reuse the header and navigation panel creation methods from the src.application.views.InstagramProfileUI class
         JPanel headerPanel = createHeaderPanel();
         JPanel navigationPanel = createNavigationPanel();
 
@@ -102,7 +106,7 @@ private String getElapsedTime(String timestamp) {
 
     private JPanel createHeaderPanel() {
        
-         // Header Panel (reuse from InstagramProfileUI or customize for home page)
+         // Header Panel (reuse from src.application.views.InstagramProfileUI or customize for home page)
           // Header with the Register label
           JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
           headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
@@ -160,7 +164,7 @@ private String getElapsedTime(String timestamp) {
     }
  
     private void ImageUploadUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ImageUploadUI upload = new ImageUploadUI();
         upload.setVisible(true);
@@ -168,7 +172,7 @@ private String getElapsedTime(String timestamp) {
 
 
  private void openProfileUI() {
-       // Open InstagramProfileUI frame
+       // Open src.application.views.InstagramProfileUI frame
        this.dispose();
        String loggedInUsername = "";
 
@@ -187,14 +191,14 @@ private String getElapsedTime(String timestamp) {
    }
  
      private void notificationsUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         NotificationsUI notificationsUI = new NotificationsUI();
         notificationsUI.setVisible(true);
     }
  
     private void openHomeUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
         homeUI.setVisible(true);
@@ -205,7 +209,7 @@ private String getElapsedTime(String timestamp) {
     
  
     private void exploreUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ExploreUI explore = new ExploreUI();
         explore.setVisible(true);

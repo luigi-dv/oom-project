@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +17,6 @@ import java.nio.file.Paths;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ExploreUI extends JFrame {
@@ -38,8 +40,8 @@ public class ExploreUI extends JFrame {
         getContentPane().removeAll(); // Clear existing components
         setLayout(new BorderLayout()); // Reset the layout manager
 
-        JPanel headerPanel = createHeaderPanel(); // Method from your InstagramProfileUI class
-        JPanel navigationPanel = createNavigationPanel(); // Method from your InstagramProfileUI class
+        JPanel headerPanel = createHeaderPanel(); // Method from your src.application.views.InstagramProfileUI class
+        JPanel navigationPanel = createNavigationPanel(); // Method from your src.application.views.InstagramProfileUI class
         JPanel mainContentPanel = createMainContentPanel();
 
         // Add panels to the frame
@@ -98,7 +100,7 @@ public class ExploreUI extends JFrame {
    
     private JPanel createHeaderPanel() {
        
-        // Header Panel (reuse from InstagramProfileUI or customize for home page)
+        // Header Panel (reuse from src.application.views.InstagramProfileUI or customize for home page)
          // Header with the Register label
          JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
          headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
@@ -232,7 +234,7 @@ topPanel.add(timeLabel, BorderLayout.EAST);
  final String finalUsername = username;
 
  usernameLabel.addActionListener(e -> {
-    User user = new User(finalUsername); // Assuming User class has a constructor that takes a username
+    User user = new User(finalUsername); // Assuming src.domain.entities.User class has a constructor that takes a username
     InstagramProfileUI profileUI = new InstagramProfileUI(user);
     profileUI.setVisible(true);
     dispose(); // Close the current frame
@@ -281,13 +283,13 @@ private JButton createIconButton(String iconPath, String buttonType) {
 }
 
 private void ImageUploadUI() {
-    // Open InstagramProfileUI frame
+    // Open src.application.views.InstagramProfileUI frame
     this.dispose();
     ImageUploadUI upload = new ImageUploadUI();
     upload.setVisible(true);
 }
    private void openProfileUI() {
-       // Open InstagramProfileUI frame
+       // Open src.application.views.InstagramProfileUI frame
        this.dispose();
        String loggedInUsername = "";
 
@@ -306,21 +308,21 @@ private void ImageUploadUI() {
    }
 
     private void notificationsUI() {
-       // Open InstagramProfileUI frame
+       // Open src.application.views.InstagramProfileUI frame
        this.dispose();
        NotificationsUI notificationsUI = new NotificationsUI();
        notificationsUI.setVisible(true);
    }
 
    private void openHomeUI() {
-       // Open InstagramProfileUI frame
+       // Open src.application.views.InstagramProfileUI frame
        this.dispose();
        QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
        homeUI.setVisible(true);
    }
 
    private void exploreUI() {
-       // Open InstagramProfileUI frame
+       // Open src.application.views.InstagramProfileUI frame
        this.dispose();
        ExploreUI explore = new ExploreUI();
        explore.setVisible(true);

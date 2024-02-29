@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,7 +89,7 @@ public class SignInUI extends JFrame {
         add(fieldsPanel, BorderLayout.CENTER);
         add(registerPanel, BorderLayout.SOUTH);
 
-        // New button for navigating to SignUpUI
+        // New button for navigating to src.application.views.SignUpUI
         btnRegisterNow = new JButton("No Account? Register Now");
         btnRegisterNow.addActionListener(this::onRegisterNowClicked);
         btnRegisterNow.setBackground(Color.WHITE); // Set a different color for distinction
@@ -110,10 +114,10 @@ public class SignInUI extends JFrame {
     System.out.println(enteredUsername+" <-> "+enteredPassword);
     if (verifyCredentials(enteredUsername, enteredPassword)) {
         System.out.println("It worked");
-         // Close the SignUpUI frame
+         // Close the src.application.views.SignUpUI frame
     dispose();
 
-    // Open the SignInUI frame
+    // Open the src.application.views.SignInUI frame
     SwingUtilities.invokeLater(() -> {
         InstagramProfileUI profileUI = new InstagramProfileUI(newUser);
         profileUI.setVisible(true);
@@ -124,10 +128,10 @@ public class SignInUI extends JFrame {
 }
 
 private void onRegisterNowClicked(ActionEvent event) {
-    // Close the SignInUI frame
+    // Close the src.application.views.SignInUI frame
     dispose();
 
-    // Open the SignUpUI frame
+    // Open the src.application.views.SignUpUI frame
     SwingUtilities.invokeLater(() -> {
         SignUpUI signUpFrame = new SignUpUI();
         signUpFrame.setVisible(true);
@@ -141,8 +145,8 @@ private boolean verifyCredentials(String username, String password) {
             String[] credentials = line.split(":");
             if (credentials[0].equals(username) && credentials[1].equals(password)) {
             String bio = credentials[2];
-            // Create User object and save information
-        newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
+            // Create src.domain.entities.User object and save information
+        newUser = new User(username, bio, password); // Assuming src.domain.entities.User constructor takes these parameters
         saveUserInformation(newUser);
     
                 return true;
@@ -156,7 +160,7 @@ private boolean verifyCredentials(String username, String password) {
 
    private void saveUserInformation(User user) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
-            writer.write(user.toString());  // Implement a suitable toString method in User class
+            writer.write(user.toString());  // Implement a suitable toString method in src.domain.entities.User class
         } catch (IOException e) {
             e.printStackTrace();
         }

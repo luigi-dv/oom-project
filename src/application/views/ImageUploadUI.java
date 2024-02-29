@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -196,7 +200,7 @@ public class ImageUploadUI extends JFrame {
    
     private JPanel createHeaderPanel() {
        
-        // Header Panel (reuse from InstagramProfileUI or customize for home page)
+        // Header Panel (reuse from src.application.views.InstagramProfileUI or customize for home page)
          // Header with the Register label
          JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
          headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
@@ -264,7 +268,7 @@ public class ImageUploadUI extends JFrame {
     }
  
     private void openProfileUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         String loggedInUsername = "";
  
@@ -283,21 +287,21 @@ public class ImageUploadUI extends JFrame {
     }
  
      private void notificationsUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         NotificationsUI notificationsUI = new NotificationsUI();
         notificationsUI.setVisible(true);
     }
  
     private void openHomeUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
         homeUI.setVisible(true);
     }
  
     private void exploreUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ExploreUI explore = new ExploreUI();
         explore.setVisible(true);

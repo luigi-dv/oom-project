@@ -1,11 +1,11 @@
+package src.application.views;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -130,7 +130,7 @@ public class SignUpUI extends JFrame {
             handleProfilePictureUpload();
             dispose();
     
-        // Open the SignInUI frame
+        // Open the src.application.views.SignInUI frame
         SwingUtilities.invokeLater(() -> {
             SignInUI signInFrame = new SignInUI();
             signInFrame.setVisible(true);
@@ -183,10 +183,10 @@ public class SignUpUI extends JFrame {
     }
         
     private void openSignInUI() {
-        // Close the SignUpUI frame
+        // Close the src.application.views.SignUpUI frame
         dispose();
 
-        // Open the SignInUI frame
+        // Open the src.application.views.SignInUI frame
         SwingUtilities.invokeLater(() -> {
             SignInUI signInFrame = new SignInUI();
             signInFrame.setVisible(true);

@@ -1,3 +1,7 @@
+package src.application.views;
+
+import src.domain.entities.User;
+
 import javax.swing.*;
 
 
@@ -8,10 +12,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.awt.*;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -26,7 +26,7 @@ public class InstagramProfileUI extends JFrame {
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel;   // Panel for the header
     private JPanel navigationPanel; // Panel for the navigation
-    private User currentUser; // User object to store the current user's information
+    private User currentUser; // src.domain.entities.User object to store the current user's information
 
     public InstagramProfileUI(User user) {
         this.currentUser = user;
@@ -433,35 +433,35 @@ private void initializeImageGrid() {
     }
  
     private void ImageUploadUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ImageUploadUI upload = new ImageUploadUI();
         upload.setVisible(true);
     }
 
     private void openProfileUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         InstagramProfileUI profileUI = new InstagramProfileUI();
         profileUI.setVisible(true);
     }
  
      private void notificationsUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         NotificationsUI notificationsUI = new NotificationsUI();
         notificationsUI.setVisible(true);
     }
  
     private void openHomeUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
         homeUI.setVisible(true);
     }
  
     private void exploreUI() {
-        // Open InstagramProfileUI frame
+        // Open src.application.views.InstagramProfileUI frame
         this.dispose();
         ExploreUI explore = new ExploreUI();
         explore.setVisible(true);
