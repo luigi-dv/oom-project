@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 // Represents a picture on Quackstagram
 public class Picture {
+
     private String imagePath;
     private String caption;
     private int likesCount;
-    private List<String> comments;
+    private List<Comment> comments;
 
     public Picture(String imagePath, String caption) {
         this.imagePath = imagePath;
@@ -18,7 +19,7 @@ public class Picture {
     }
 
     // Add a comment to the picture
-    public void addComment(String comment) {
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
@@ -31,5 +32,5 @@ public class Picture {
     public String getImagePath() { return imagePath; }
     public String getCaption() { return caption; }
     public int getLikesCount() { return likesCount; }
-    public List<String> getComments() { return comments; }
+    public List<Comment> getComments() { return comments; }
 }

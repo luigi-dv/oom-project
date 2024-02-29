@@ -1,4 +1,4 @@
-package src.domain.entities;
+package src.domain.repositiories;
 
 import java.io.*;
 import java.util.ArrayList;
