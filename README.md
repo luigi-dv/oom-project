@@ -8,9 +8,9 @@ At the core of this app is the feature that allows users to set up and personali
 
 Interaction is a crucial part of the experience. Users can explore new posts, connect with peers through following and messaging, and interact with posts through likes and comments. The Explore feature enables users to discover trending content and new profiles, encouraging them to engage with fresh and interesting posts. Real-time notifications keep users updated on new interactions, ensuring they're always in the loop.
 
-But it's not all just socializing and sharing; the application should also prioritize a safe and orderly environment. Admin users play a crucial role here, with special privileges to moderate content and address user concerns. All user src.infrastructure.persistance.data, including posts, comments, and likes, are managed and stored with care, ensuring both integrity and a seamless user experience.
+But it's not all just socializing and sharing; the application should also prioritize a safe and orderly environment. Admin users play a crucial role here, with special privileges to moderate content and address user concerns. All user data, including posts, comments, and likes, are managed and stored with care, ensuring both integrity and a seamless user experience.
 
-DACS has their own database where they securely store all the images, user information and application related metadata. This database is not part of the specification for this project. Instead, the application has to load up a number of "txt" files that is stores all the app related src.infrastructure.persistance.data.
+DACS has their own database where they securely store all the images, user information and application related metadata. This database is not part of the specification for this project. Instead, the application has to load up a number of "txt" files that is stores all the app related data.
 
 The 'opportunity' that Cheapo Solutions perceives is that it has found some software in a university course material. This software is written in Java and is appropriately called "Quakstagram". It already has much of the functionality that the DACS want. Cheapo Solutions thinks that they will be able to adapt this existing system to their needs and reap the huge reward (€80,000) that the DACS is willing to offer.
 

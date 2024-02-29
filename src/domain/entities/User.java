@@ -1,7 +1,10 @@
 package src.domain.entities;
 
+
+
 import java.util.List;
 import java.util.ArrayList;
+import src.infrastructure.utilities.Crypter;
 
 // Represents a user on Quackstagram
 public class User {

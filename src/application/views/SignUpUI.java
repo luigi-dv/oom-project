@@ -1,5 +1,7 @@
 package src.application.views;
 
+import src.infrastructure.utilities.Crypter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

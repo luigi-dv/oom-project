@@ -1,4 +1,4 @@
-/*
+package src.infrastructure.utilities;/*
  * Copyright: Joa Eliëns
  * Made by: Joa Eliëns
  * Version: 2024.02.22
@@ -16,7 +16,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 /**
- * The Crypter file is used to encrypt and decrypt certain sensitive variables.
+ * The src.infrastructure.utilities.Crypter file is used to encrypt and decrypt certain sensitive variables.
  * 
  * @since 03/12/2023
  * @author Joa V. Eliëns

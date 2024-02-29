@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.domain.entities.User;
+import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
 import java.awt.*;
