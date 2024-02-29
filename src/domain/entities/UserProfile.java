@@ -5,43 +5,32 @@ import java.util.List;
 
 public class UserProfile {
 
-    private int postsCount;
-    private int followersCount;
-    private int followingCount;
     private List<Picture> pictures;
+    private List<User> followingUsers;
+    private List<User> followersUser;
 
     public UserProfile() {
-        this.postsCount = 0;
-        this.followersCount = 0;
-        this.followingCount = 0;
         this.pictures = new ArrayList<>();
+        this.followingUsers = new ArrayList<>();
+        this.followersUser = new ArrayList<>();
     }
 
     public int getPostsCount() {
-        return postsCount;
-    }
-    public void setPostsCount(int postsCount) {
-        this.postsCount = postsCount;
+        return pictures.size();
     }
     public int getFollowersCount() {
-        return followersCount;
-    }
-    public void setFollowersCount(int followersCount) {
-        this.followersCount = followersCount;
+        return followersUser.size();
     }
     public int getFollowingCount() {
-        return followingCount;
+        return followingUsers.size();
     }
-    public void setFollowingCount(int followingCount) {
-        this.followingCount = followingCount;
-    }
+
     public List<Picture> getPictures() {
         return pictures;
     }
     
     public void addPicture(Picture picture) {
         pictures.add(picture);
-        postsCount++;
     }
 
 }
