@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 public class SignInUI extends JFrame {
@@ -30,7 +32,21 @@ public class SignInUI extends JFrame {
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
+        initEncryption();
         initializeUI();
+    }
+
+    private void initEncryption(){
+        Crypter crypter = new Crypter();
+        try {
+            if (Files.exists(Path.of(Crypter.filePath))) {
+                Crypter.key = crypter.loadSecretKey();
+            } else {
+                Crypter.key = crypter.generateAndSaveSecretKey();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeUI() {
@@ -74,7 +90,13 @@ public class SignInUI extends JFrame {
 
         // Register button with black text
         btnSignIn = new JButton("Sign-In");
-        btnSignIn.addActionListener(this::onSignInClicked);
+        btnSignIn.addActionListener(e -> {
+            try {
+                onSignInClicked(e);
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
+        });
         btnSignIn.setBackground(new Color(255, 90, 95)); // Use a red color that matches the mockup
         btnSignIn.setForeground(Color.BLACK); // Set the text color to black
         btnSignIn.setFocusPainted(false);
@@ -108,7 +130,7 @@ public class SignInUI extends JFrame {
 
     }
 
-   private void onSignInClicked(ActionEvent event) {
+   private void onSignInClicked(ActionEvent event) throws Exception {
     String enteredUsername = txtUsername.getText();
     String enteredPassword = txtPassword.getText();
     System.out.println(enteredUsername+" <-> "+enteredPassword);
@@ -138,15 +160,15 @@ private void onRegisterNowClicked(ActionEvent event) {
     });
 }
 
-private boolean verifyCredentials(String username, String password) {
+private boolean verifyCredentials(String username, String password) throws Exception {
     try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] credentials = line.split(":");
-            if (credentials[0].equals(username) && credentials[1].equals(password)) {
-            String bio = credentials[2];
-            // Create src.domain.entities.User object and save information
-        newUser = new User(username, bio, password); // Assuming src.domain.entities.User constructor takes these parameters
+            if (Crypter.encryptedStringToString(credentials[0]).equals(username) && Crypter.encryptedStringToString(credentials[1]).equals(password)) {
+            String bio = Crypter.encryptedStringToString(credentials[2]);
+            // Create User object and save information
+        newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
         saveUserInformation(newUser);
     
                 return true;

@@ -50,7 +50,12 @@ public class User {
     // Implement the toString method for saving user information
 @Override
 public String toString() {
-    return username + ":" + bio + ":" + password; // Format as needed
+    try {
+        return Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password) + ":" + Crypter.StringToEncryptedString(bio);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return username + ":" + password + ":" + bio;
 }
 
 }
