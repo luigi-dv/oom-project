@@ -1,12 +1,13 @@
 package src.application.services.authentication;
 
 
-import java.io.*;
+import src.domain.entities.User;
+
 import javax.imageio.ImageIO;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import src.infrastructure.utilities.Crypter;
-import src.application.services.encription.EncryptService;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Service class responsible for user registration and authentication.
@@ -22,27 +23,6 @@ public class SignUpService extends AuthenticationService {
      */
     private void onRegisterClicked(ActionEvent event) {
         // TODO: Implement callback for register button and handle user registration
-    }
-
-    /**
-     * Method to check if the username already exists
-     * @param username The username
-     * @return True if the username exists, false otherwise
-     */
-    public boolean doesUsernameExist(String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     /**
@@ -67,11 +47,8 @@ public class SignUpService extends AuthenticationService {
      * @param bio The biography
      */
     public void saveCredentials(String username, String password, String bio) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/credentials.txt", true))) {
-            writer.write(EncryptService.generateEncryptInformation(username, password, bio));
-            writer.newLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TODO: This service probably return some information after create the user
+        User u = new User(username, bio, password);
+        userService.createUser(u);
     }
 }

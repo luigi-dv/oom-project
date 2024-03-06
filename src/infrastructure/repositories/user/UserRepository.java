@@ -1,8 +1,15 @@
 package src.infrastructure.repositories.user;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import src.domain.entities.User;
 import src.domain.repositiories.user.IUserRepository;
+import src.infrastructure.utilities.Crypter;
+import src.infrastructure.utilities.filereaders.CredentialsReader;
+import src.infrastructure.utilities.filewriter.CredentialWriter;
 
 
 /**
@@ -11,23 +18,13 @@ import src.domain.repositiories.user.IUserRepository;
 public class UserRepository implements IUserRepository {
 
     /**
-     * Retrieves a user by their unique identifier.
-     *
-     * @param id The unique identifier of the user.
-     * @return The user with the specified ID or null if not found.
-     */
-    public User findById(int id) {
-        return null;
-    }
-
-    /**
      * Retrieves a user by their username.
      *
      * @param username The username of the user to be retrieved.
      * @return The user with the specified username or null if not found.
      */
     public User findByUsername(String username) {
-        return null;
+        return CredentialsReader.readUserByUsername(username);
     }
 
     /**
@@ -37,6 +34,10 @@ public class UserRepository implements IUserRepository {
      * @return The created user entity.
      */
     public User save(User user) {
+        if(CredentialsReader.doesFileExist()) {
+            return CredentialWriter.writeCredentials(user);
+        }
+        // TODO: Not found logging catching
         return null;
     }
 
@@ -47,17 +48,25 @@ public class UserRepository implements IUserRepository {
      * @return The updated user entity.
      */
     public User update(User user) {
+        if(CredentialsReader.doesFileExist()) {
+            return CredentialWriter.updateCredentials(user);
+        }
+        // TODO: Not found logging catching
         return null;
     }
 
     /**
      * Deletes a user by their username.
      *
-     * @param username The username of the user to be deleted.
+     * @param user The User entity to be deleted.
      * @return True if the user was successfully deleted, false otherwise.
      */
-    public boolean delete(String username) {
-        return false;
+    public User delete(User user) {
+        if(CredentialsReader.doesFileExist()) {
+            return CredentialWriter.deleteCredentials(user);
+        }
+        // TODO: Not found logging catching
+        return null;
     }
 
     /**

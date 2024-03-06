@@ -1,5 +1,7 @@
 package src.domain.entities;
 
+import src.domain.aggregates.Post;
+
 import java.util.UUID;
 
 /**

@@ -1,14 +1,12 @@
 package src.domain.entities;
 
-
-
-import java.util.List;
-import java.util.ArrayList;
+import java.util.UUID;
 import src.infrastructure.utilities.Crypter;
 
-// Represents a user on Quackstagram
+
 public class User {
 
+    private UUID id;
     private String username;
     private String bio;
     private String password;
@@ -20,6 +18,10 @@ public class User {
         this.bio = bio;
         this.password = password;
         this.profile = new UserProfile();
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public User(String username) {
@@ -49,6 +51,18 @@ public class User {
         }
         return username + ":" + password + ":" + bio;
     }
+
+
+    /**
+     * Get the user's encrypted password
+     * @return String
+     */
+    public String getPassword() {
+        // TODO: (Alert) - User Domain Service to return encrypted password
+        return password;
+    }
+
+
 
     /**
      * Get the user's profile

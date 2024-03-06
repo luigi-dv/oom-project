@@ -1,5 +1,6 @@
 package src.application.services.user;
 
+import src.application.providers.SessionProvider;
 import src.domain.entities.User;
 import src.infrastructure.repositories.user.UserRepository;
 
@@ -14,20 +15,17 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Constructs a UserService instance, initializing the UserRepository.
+     * The session provider for managing user sessions.
      */
-    public UserService() {
-        this.userRepository = new UserRepository();
-    }
+    private final SessionProvider sessionProvider;
 
     /**
-     * Retrieves a user by their unique identifier.
-     *
-     * @param id The unique identifier of the user.
-     * @return The user with the specified ID or null if not found.
+     * Constructs a UserService instance, initializing the UserRepository.
      */
-    public User getUserById(int id) {
-        return this.userRepository.findById(id);
+    public UserService(SessionProvider sessionProvider) {
+
+        this.userRepository = new UserRepository();
+        this.sessionProvider = sessionProvider;
     }
 
     /**
@@ -63,10 +61,14 @@ public class UserService {
     /**
      * Deletes a user by their username.
      *
-     * @param username The username of the user to be deleted.
-     * @return True if the user was successfully deleted, false otherwise.
+     * @return Deleted user
      */
-    public boolean deleteUser(String username) {
-        return this.userRepository.delete(username);
+    public User deleteUser() {
+        if(this.sessionProvider.isAuthenticated() && this.sessionProvider.getAuthenticatedUser() != null){
+            return this.userRepository.delete(this.sessionProvider.getAuthenticatedUser());
+        }
+        else{
+            throw new IllegalArgumentException("User does not have permission or is not authenticated.");
+        }
     }
 }

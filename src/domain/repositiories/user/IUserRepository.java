@@ -8,15 +8,6 @@ import src.domain.entities.User;
 public interface IUserRepository {
 
     /**
-     * Finds a user by their unique identifier.
-     *
-     * @param id The unique identifier of the user.
-     * @return The user with the specified ID or null if not found.
-     * @implNote This method is a placeholder for the actual implementation.
-     */
-     User findById(int id);
-
-    /**
      * Finds a user by their username.
      *
      * @param username The username of the user to be found.
@@ -48,5 +39,5 @@ public interface IUserRepository {
      * @param username The username of the user to be deleted.
      * @implNote This method is a placeholder for the actual implementation.
      */
-     boolean delete(String username);
+     User delete(User user);
 }

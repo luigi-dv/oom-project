@@ -37,6 +37,9 @@ public class LikeRepository implements ILikeRepository {
      * @return The deleted like entity.
      */
     public Like delete(UUID uuid) {
+        // TODO: Implement search
+        Like e = this.findById(uuid);
+        // Todo Return the object
         return null;
     }
 

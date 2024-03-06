@@ -1,5 +1,6 @@
 package src.application.views;
 
+import src.application.controllers.SignUpController;
 import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class SignUpUI extends JFrame {
     private final String profilePhotoStoragePath = "img/storage/profile/";
     private JButton btnSignIn;
 
+    private final SignUpController signUpController;
 
     public SignUpUI() {
         setTitle("Quackstagram - Register");
@@ -34,6 +36,9 @@ public class SignUpUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
         initializeUI();
+
+        // Initialize the controller
+        signUpController = new SignUpController();
     }
 
     private void initializeUI() {
@@ -124,36 +129,17 @@ public class SignUpUI extends JFrame {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         String bio = txtBio.getText();
-
-        if (doesUsernameExist(username)) {
+        // Call the controller to handle the registration
+        if (signUpController.register(username, password, bio)) {
             JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            saveCredentials(username, password, bio);
-            handleProfilePictureUpload();
             dispose();
-    
-        // Open the src.application.views.SignInUI frame
-        SwingUtilities.invokeLater(() -> {
-            SignInUI signInFrame = new SignInUI();
-            signInFrame.setVisible(true);
-        });
+            // Open the src.application.views.SignInUI frame
+            SwingUtilities.invokeLater(() -> {
+                SignInUI signInFrame = new SignInUI();
+                signInFrame.setVisible(true);
+            });
         }
-    }
-    
-    private boolean doesUsernameExist(String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
      // Method to handle profile picture upload

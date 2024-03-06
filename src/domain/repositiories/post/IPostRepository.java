@@ -1,15 +1,15 @@
-package src.infrastructure.repositories.post;
+package src.domain.repositiories.post;
+
 
 import java.util.List;
 import java.util.UUID;
 import src.domain.entities.User;
 import src.domain.aggregates.Post;
-import src.domain.repositiories.post.IPostRepository;
 
 /**
- * Repository class responsible for handling post data storage and retrieval in the infrastructure layer.
+ * Interface defining operations for managing post entities in the domain.
  */
-public class PostRepository implements IPostRepository {
+public interface IPostRepository {
 
     /**
      * Finds a post by its unique identifier.
@@ -17,9 +17,7 @@ public class PostRepository implements IPostRepository {
      * @param postId The unique identifier of the post.
      * @return The post with the specified ID or null if not found.
      */
-    public Post findById(UUID postId) {
-        return null;
-    }
+    Post findById(UUID postId);
 
     /**
      * Saves a new post.
@@ -27,9 +25,7 @@ public class PostRepository implements IPostRepository {
      * @param post The post entity to be saved.
      * @return The saved post entity.
      */
-    public Post save(Post post) {
-        return null;
-    }
+    Post save(Post post);
 
     /**
      * Updates an existing post.
@@ -37,9 +33,7 @@ public class PostRepository implements IPostRepository {
      * @param post The post entity with updated information.
      * @return The updated post entity.
      */
-    public Post update(Post post) {
-        return null;
-    }
+    Post update(Post post);
 
     /**
      * Deletes a post.
@@ -47,19 +41,14 @@ public class PostRepository implements IPostRepository {
      * @param post The post entity to be deleted.
      * @return The deleted post entity.
      */
-    public Post delete(Post post) {
-        return null;
-    }
+    Post delete(Post post);
 
     /**
      * Retrieves all posts from the users that the current user follows.
      *
      * @return A list of all posts in the system.
      */
-    public List<Post> getFollowingPosts(User user) {
-        // TODO: Implement search for posts from users that the current user follows
-        return null;
-    }
+    List<Post> getFollowingPosts(User user);
 
     /**
      * Retrieves all posts from a specific user.
@@ -67,7 +56,6 @@ public class PostRepository implements IPostRepository {
      * @param userId The user ID to search for.
      * @return A list of all posts from the specified user.
      */
-    public List<Post> findByUserId(UUID userId) {
-        return null;
-    }
+    List<Post> findByUserId(UUID userId);
 }
+

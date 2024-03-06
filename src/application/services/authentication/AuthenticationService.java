@@ -1,15 +1,16 @@
 package src.application.services.authentication;
 
-import java.nio.file.Path;
-import java.nio.file.Files;
+import src.application.providers.SessionProvider;
 import src.application.services.encription.EncryptService;
+import src.application.services.user.UserService;
+import src.domain.entities.User;
 
 
 /**
  * Abstract base class providing common functionality for user authentication services.
  * Subclasses should extend this class to implement specific authentication logic.
  */
-public abstract class AuthenticationService {
+public class AuthenticationService {
 
     /**
      * Service responsible for encryption and decryption operations.
@@ -17,16 +18,21 @@ public abstract class AuthenticationService {
     protected final EncryptService encryptService;
 
     /**
+     * Service responsible for User operations.
+     */
+    protected final UserService userService;
+
+    protected final SessionProvider sessionProvider;
+
+
+    /**
      * Constructs an instance of AuthenticationService initializing the EncryptService.
      */
     public AuthenticationService() {
         encryptService = new EncryptService();
+        sessionProvider = SessionProvider.getInstance();
+        userService = new UserService(SessionProvider.getInstance());
     }
-
-    /**
-     * Path to the credentials file storing user authentication information.
-     */
-    protected final String credentialsFilePath = "data/credentials.txt";
 
     /**
      * Path to the directory where user profile photos are stored.
@@ -34,21 +40,35 @@ public abstract class AuthenticationService {
     protected final String profilePhotoStoragePath = "img/storage/profile/";
 
     /**
-     * Checks if the credentials file exists.
+     * Authenticates a user with the provided username and password.
      *
-     * @return True if the credentials file exists, false otherwise.
+     * @param username The username
+     * @param password The password
      */
-    protected boolean isCredentialsFileExists() {
-        return Files.exists(Path.of(credentialsFilePath));
+    protected void authenticateUser(String username, String password) {
+        // TODO: Implement user authentication logic reading documents from the credentials file
+        // For now, we'll just set a dummy authenticated user
+        User authenticatedUser = new User(username, "Bio", password);
+
+        // Set the authenticated user in the session provider
+        SessionProvider.getInstance().setAuthenticatedUser(authenticatedUser);
     }
 
     /**
-     * Checks if the profile photo storage directory exists.
-     *
-     * @return True if the profile photo storage directory exists, false otherwise.
+     * De-authenticates the currently authenticated user.
      */
-    protected boolean isProfilePhotoStorageDirectoryExists() {
-        return Files.exists(Path.of(profilePhotoStoragePath));
+    protected void deAuthenticateUser() {
+        // Clear the authenticated user in the session provider
+        SessionProvider.getInstance().clearSession();
+    }
+
+    /**
+     * Method to check if the username already exists
+     * @param username The username
+     * @return True if the username exists, false otherwise
+     */
+    public boolean doesUsernameExist(String username) {
+        return userService.getUserByUsername(username) != null;
     }
 }
 

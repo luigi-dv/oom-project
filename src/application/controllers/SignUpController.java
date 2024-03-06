@@ -1,10 +1,12 @@
 package src.application.controllers;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import src.application.services.authentication.SignUpService;
+import src.application.views.SignInUI;
 
 /**
  * Controller class responsible for handling user sign-up operations.
@@ -38,6 +40,16 @@ public class SignUpController {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             signUpService.saveProfilePicture(selectedFile, username);
+        }
+    }
+
+    public boolean register(String username, String password, String bio) {
+        if (signUpService.doesUsernameExist(username)) {
+            return false;
+        } else {
+            signUpService.saveCredentials(username, password, bio);
+            handleProfilePictureUpload(username);
+            return true;
         }
     }
 }
