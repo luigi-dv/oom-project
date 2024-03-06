@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.domain.entities.User;
+import src.domain.entities.UserProfile;
 
 import javax.swing.*;
 
@@ -88,12 +89,12 @@ public class InstagramProfileUI extends JFrame {
 
         System.out.println("Bio for " + currentUser.getUsername() + ": " + bio);
         currentUser.setBio(bio);
+        UserProfile userProfile = currentUser.getProfile();
+        userProfile.setFollowersCount(followersCount);
+        userProfile.setFollowingCount(followingCount);
+        userProfile.setPostCount(imageCount);
 
-        currentUser.setFollowersCount(followersCount);
-        currentUser.setFollowingCount(followingCount);
-        currentUser.setPostCount(imageCount);
-
-        System.out.println(currentUser.getPostsCount());
+        System.out.println(userProfile.getPostsCount());
 
         setTitle("DACS Profile");
         setSize(WIDTH, HEIGHT);
@@ -175,10 +176,11 @@ public class InstagramProfileUI extends JFrame {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         statsPanel.setBackground(new Color(249, 249, 249));
-        System.out.println("Number of posts for this user" + currentUser.getPostsCount());
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getPostsCount()), "Posts"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowersCount()), "Followers"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowingCount()), "Following"));
+        UserProfile userProfile = currentUser.getProfile();
+        System.out.println("Number of posts for this user" + userProfile.getPostsCount());
+        statsPanel.add(createStatLabel(Integer.toString(userProfile.getPostsCount()), "Posts"));
+        statsPanel.add(createStatLabel(Integer.toString(userProfile.getFollowersCount()), "Followers"));
+        statsPanel.add(createStatLabel(Integer.toString(userProfile.getFollowingCount()), "Following"));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0)); // Add some vertical padding
 
         // Follow Button

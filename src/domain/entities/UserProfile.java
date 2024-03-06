@@ -33,4 +33,15 @@ public class UserProfile {
         pictures.add(picture);
     }
 
+    public void setFollowersCount(int followersCount) {
+        // pass
+    }
+
+    public void setFollowingCount(int followingCount) {
+        // pass
+    }
+
+    public void setPostCount(int imageCount) {
+        // pass
+    }
 }

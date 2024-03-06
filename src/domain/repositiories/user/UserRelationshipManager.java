@@ -1,4 +1,4 @@
-package src.domain.repositiories;
+package src.domain.repositiories.user;
 
 import java.io.*;
 import java.util.ArrayList;
