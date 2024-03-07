@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User {
+- username : String
+- password : String
+- bio : String
+- postsCount : int
+- followersCount : int
+- followingCount : int
+- pictures : List<Picture>
+
++ addPicture(picture : Picture) : void
++ getUserName() : String
++ getBio() : String
++ setBio(bio : String) : void
++ getPostsCount() : int
++ getFollowersCount() : int
++ getFollowingCount() : int
++ getPictures() : List<Picture>
++ setFollowersCount(followersCount : int) : void
++ setFollowingCount(followingCount : int) : void
++ setPostsCount(postsCount : int) : void
++ toString() : String
+}
+
+class Picture {
+- imagePath : String
+- caption : String
+- likesCount : int
+- comments : List<String>
+
++ addComment(comment : String) : void
++ like() : void
++ getImagePath() : String
++ getCaption() : String
++ getLikesCount() : int
++ getComments() : List<String>
+}
+
+User "1" *-- "0..*" Picture : has
+@enduml
