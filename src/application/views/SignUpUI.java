@@ -9,13 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class SignUpUI extends JFrame {
+public class SignUpUI extends JPanel {
 
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 500;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final GUI gui;
 
     private JTextField txtUsername;
     private JTextField txtPassword;
@@ -27,18 +30,11 @@ public class SignUpUI extends JFrame {
     private final String profilePhotoStoragePath = "img/storage/profile/";
     private JButton btnSignIn;
 
-    private final SignUpController signUpController;
-
-    public SignUpUI() {
-        setTitle("Quackstagram - Register");
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
+    public SignUpUI(int width, int height, GUI gui) {
+        WIDTH = width;
+        HEIGHT = height;
+        this.gui = gui;
         initializeUI();
-
-        // Initialize the controller
-        signUpController = new SignUpController();
     }
 
     private void initializeUI() {
@@ -56,7 +52,8 @@ public class SignUpUI extends JFrame {
         lblPhoto.setPreferredSize(new Dimension(80, 80));
         lblPhoto.setHorizontalAlignment(JLabel.CENTER);
         lblPhoto.setVerticalAlignment(JLabel.CENTER);
-        lblPhoto.setIcon(new ImageIcon(new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+        lblPhoto.setIcon(new ImageIcon(
+                new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
         JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
         photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         photoPanel.add(lblPhoto);
@@ -82,7 +79,7 @@ public class SignUpUI extends JFrame {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtBio);
         btnUploadPhoto = new JButton("Upload Photo");
-        
+
         btnUploadPhoto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,15 +102,10 @@ public class SignUpUI extends JFrame {
         registerPanel.setBackground(Color.WHITE); // Background for the panel
         registerPanel.add(btnRegister, BorderLayout.CENTER);
 
-      
-
-       
-
         // Adding components to the frame
         add(headerPanel, BorderLayout.NORTH);
         add(fieldsPanel, BorderLayout.CENTER);
-        add(registerPanel, BorderLayout.SOUTH);
-         // Adding the sign in button to the register panel or another suitable panel
+        // Adding the sign in button to the register panel or another suitable panel
         btnSignIn = new JButton("Already have an account? Sign In");
         btnSignIn.addActionListener(new ActionListener() {
             @Override
@@ -122,28 +114,47 @@ public class SignUpUI extends JFrame {
             }
         });
         registerPanel.add(btnSignIn, BorderLayout.SOUTH);
+        add(registerPanel, BorderLayout.SOUTH);
     }
-
 
     private void onRegisterClicked(ActionEvent event) {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         String bio = txtBio.getText();
-        // Call the controller to handle the registration
-        if (signUpController.register(username, password, bio)) {
-            JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        if (doesUsernameExist(username)) {
+            JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         } else {
-            dispose();
-            // Open the src.application.views.SignInUI frame
+            saveCredentials(username, password, bio);
+            handleProfilePictureUpload();
+
+            // Open the SignInUI frame
             SwingUtilities.invokeLater(() -> {
-                SignInUI signInFrame = new SignInUI();
+                SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
                 signInFrame.setVisible(true);
             });
         }
     }
 
-     // Method to handle profile picture upload
-     private void handleProfilePictureUpload() {
+    private boolean doesUsernameExist(String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Method to handle profile picture upload
+    private void handleProfilePictureUpload() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         fileChooser.setFileFilter(filter);
@@ -162,25 +173,28 @@ public class SignUpUI extends JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void saveCredentials(String username, String password, String bio) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/credentials.txt", true))) {
-            writer.write(Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password) + ":" + Crypter.StringToEncryptedString(bio));
+            writer.write(Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password)
+                    + ":" + Crypter.StringToEncryptedString(bio));
             writer.newLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-        
-    private void openSignInUI() {
-        // Close the src.application.views.SignUpUI frame
-        dispose();
 
-        // Open the src.application.views.SignInUI frame
-        SwingUtilities.invokeLater(() -> {
-            SignInUI signInFrame = new SignInUI();
-            signInFrame.setVisible(true);
-        });
+    private void openSignInUI() {
+        // Close the SignUpUI frame
+
+        gui.changeScreen(UI.SIGNIN);
+
+        // Open the SignInUI frame
+        // SwingUtilities.invokeLater(() -> {
+        //     SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
+        //     signInFrame.setVisible(true);
+        // });
     }
 
 }
+

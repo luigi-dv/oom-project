@@ -1,6 +1,6 @@
 package src.application.views;
 
-import src.domain.entities.User;
+import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,27 +12,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class NotificationsUI extends JFrame {
+public class NotificationsUI extends JPanel {
 
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 500;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final GUI gui;
     private static final int NAV_ICON_SIZE = 20; // Size for navigation icons
 
-    public NotificationsUI() {
-        setTitle("Notifications");
+    public NotificationsUI(int width, int height, GUI gui) {
+        WIDTH = width;
+        HEIGHT = height;
+        this.gui = gui;
         setSize(WIDTH, HEIGHT);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         initializeUI();
     }
 
     private void initializeUI() {
-        // Reuse the header and navigation panel creation methods from the
-        // InstagramProfileUI class
-        JPanel headerPanel = createHeaderPanel();
-        JPanel navigationPanel = createNavigationPanel();
-
         // Content Panel for notifications
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -41,25 +38,17 @@ public class NotificationsUI extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Read the current username from users.txt
-        String currentUsername = "";
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
-            String line = reader.readLine();
-            if (line != null) {
-                currentUsername = line.split(":")[0].trim();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String currentUsername = gui.currentUser.getUsername();
 
         try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "notifications.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
-                if (parts[0].trim().equals(currentUsername)) {
+                if (Crypter.encryptedStringToString(parts[0].trim()).equals(currentUsername)) {
                     // Format the notification message
-                    String userWhoLiked = parts[1].trim();
-                    String imageId = parts[2].trim();
-                    String timestamp = parts[3].trim();
+                    String userWhoLiked = Crypter.encryptedStringToString(parts[1].trim());
+                    String imageId = Crypter.encryptedStringToString(parts[2].trim());
+                    String timestamp = Crypter.encryptedStringToString(parts[3].trim());
                     String notificationMessage = userWhoLiked + " liked your picture - " + getElapsedTime(timestamp)
                             + " ago";
 
@@ -76,13 +65,11 @@ public class NotificationsUI extends JFrame {
                     contentPanel.add(notificationPanel);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // Add panels to frame
-        add(headerPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        add(navigationPanel, BorderLayout.SOUTH);
+        add(scrollPane);
     }
 
     private String getElapsedTime(String timestamp) {
@@ -105,110 +92,5 @@ public class NotificationsUI extends JFrame {
         }
         return timeElapsed.toString();
     }
-
-    private JPanel createHeaderPanel() {
-
-        // Header Panel (reuse from InstagramProfileUI or customize for home page)
-        // Header with the Register label
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel(" Notifications 🐥");
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
-        return headerPanel;
-    }
-
-    private JPanel createNavigationPanel() {
-        // Create and return the navigation panel
-        // Navigation Bar
-        JPanel navigationPanel = new JPanel();
-        navigationPanel.setBackground(new Color(249, 249, 249));
-        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
-        navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        navigationPanel.add(createIconButton("img/icons/home.png", "home"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/search.png", "explore"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/add.png", "add"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/heart.png", "notification"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/profile.png", "profile"));
-
-        return navigationPanel;
-    }
-
-    private JButton createIconButton(String iconPath, String buttonType) {
-        ImageIcon iconOriginal = new ImageIcon(iconPath);
-        Image iconScaled = iconOriginal.getImage().getScaledInstance(NAV_ICON_SIZE, NAV_ICON_SIZE, Image.SCALE_SMOOTH);
-        JButton button = new JButton(new ImageIcon(iconScaled));
-        button.setBorder(BorderFactory.createEmptyBorder());
-        button.setContentAreaFilled(false);
-
-        // Define actions based on button type
-        if ("home".equals(buttonType)) {
-            button.addActionListener(e -> openHomeUI());
-        } else if ("profile".equals(buttonType)) {
-            button.addActionListener(e -> openProfileUI());
-        } else if ("notification".equals(buttonType)) {
-            button.addActionListener(e -> notificationsUI());
-        } else if ("explore".equals(buttonType)) {
-            button.addActionListener(e -> exploreUI());
-        } else if ("add".equals(buttonType)) {
-            button.addActionListener(e -> ImageUploadUI());
-        }
-        return button;
-
-    }
-
-    private void ImageUploadUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        ImageUploadUI upload = new ImageUploadUI();
-        upload.setVisible(true);
-    }
-
-    private void openProfileUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        String loggedInUsername = "";
-
-        // Read the logged-in user's username from users.txt
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
-            String line = reader.readLine();
-            if (line != null) {
-                loggedInUsername = line.split(":")[0].trim();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        User user = new User(loggedInUsername);
-        InstagramProfileUI profileUI = new InstagramProfileUI(user);
-        profileUI.setVisible(true);
-    }
-
-    private void notificationsUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        NotificationsUI notificationsUI = new NotificationsUI();
-        notificationsUI.setVisible(true);
-    }
-
-    private void openHomeUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
-        homeUI.setVisible(true);
-    }
-
-    private void exploreUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        ExploreUI explore = new ExploreUI();
-        explore.setVisible(true);
-    }
-
 }
+

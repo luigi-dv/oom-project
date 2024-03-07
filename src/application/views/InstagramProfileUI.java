@@ -1,7 +1,7 @@
 package src.application.views;
 
+import src.domain.aggregate.Profile;
 import src.domain.entities.User;
-import src.domain.entities.UserProfile;
 
 import javax.swing.*;
 
@@ -14,20 +14,26 @@ import java.awt.*;
 import java.nio.file.*;
 import java.util.stream.Stream;
 
-public class InstagramProfileUI extends JFrame {
+public class InstagramProfileUI extends JPanel {
 
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 500;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final GUI GUI;
     private static final int PROFILE_IMAGE_SIZE = 80; // Adjusted size for the profile image to match UI
-    private static final int GRID_IMAGE_SIZE = WIDTH / 3; // Static size for grid images
+    private final int GRID_IMAGE_SIZE; // Static size for grid images
     private static final int NAV_ICON_SIZE = 20; // Corrected static size for bottom icons
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel; // Panel for the header
-    private JPanel navigationPanel; // Panel for the navigation
-    private User currentUser; // src.domain.entities.User object to store the current user's information
+    private User currentUser; // User object to store the current user's information
 
-    public InstagramProfileUI(User user) {
+    public InstagramProfileUI(int width, int height, GUI gui, User user) {
         this.currentUser = user;
+        // Initialize the user profile
+        gui.controller.initializeProfile(user);
+        WIDTH = width;
+        HEIGHT = height;
+        GUI = gui;
+        GRID_IMAGE_SIZE = WIDTH / 3;
         // Initialize counts
         int imageCount = 0;
         int followersCount = 0;
@@ -89,46 +95,33 @@ public class InstagramProfileUI extends JFrame {
 
         System.out.println("Bio for " + currentUser.getUsername() + ": " + bio);
         currentUser.setBio(bio);
-        UserProfile userProfile = currentUser.getProfile();
-        userProfile.setFollowersCount(followersCount);
-        userProfile.setFollowingCount(followingCount);
-        userProfile.setPostCount(imageCount);
 
-        System.out.println(userProfile.getPostsCount());
+        System.out.println(currentUser.getProfile().getPostsCount());
 
-        setTitle("DACS Profile");
         setSize(WIDTH, HEIGHT);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contentPanel = new JPanel();
         headerPanel = createHeaderPanel(); // Initialize header panel
-        navigationPanel = createNavigationPanel(); // Initialize navigation panel
-
         initializeUI();
     }
 
-    public InstagramProfileUI() {
-
-        setTitle("DACS Profile");
+    public InstagramProfileUI(int width, int height, GUI gui) {
+        WIDTH = width;
+        HEIGHT = height;
+        GUI = gui;
+        GRID_IMAGE_SIZE = WIDTH / 3;
         setSize(WIDTH, HEIGHT);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contentPanel = new JPanel();
         headerPanel = createHeaderPanel(); // Initialize header panel
-        navigationPanel = createNavigationPanel(); // Initialize navigation panel
         initializeUI();
     }
 
     private void initializeUI() {
-        getContentPane().removeAll(); // Clear existing components
-
-        // Re-add the header and navigation panels
         add(headerPanel, BorderLayout.NORTH);
-        add(navigationPanel, BorderLayout.SOUTH);
 
-        // Initialize the image grid
         initializeImageGrid();
 
         revalidate();
@@ -176,11 +169,10 @@ public class InstagramProfileUI extends JFrame {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         statsPanel.setBackground(new Color(249, 249, 249));
-        UserProfile userProfile = currentUser.getProfile();
-        System.out.println("Number of posts for this user" + userProfile.getPostsCount());
-        statsPanel.add(createStatLabel(Integer.toString(userProfile.getPostsCount()), "Posts"));
-        statsPanel.add(createStatLabel(Integer.toString(userProfile.getFollowersCount()), "Followers"));
-        statsPanel.add(createStatLabel(Integer.toString(userProfile.getFollowingCount()), "Following"));
+        System.out.println("Number of posts for this user" + currentUser.getProfile().getPostsCount());
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getProfile().getPostsCount()), "Posts"));
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getProfile().getFollowersCount()), "Followers"));
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getProfile().getFollowingCount()), "Following"));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0)); // Add some vertical padding
 
         // Follow Button
@@ -221,10 +213,10 @@ public class InstagramProfileUI extends JFrame {
         followButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         followButton.setFont(new Font("Arial", Font.BOLD, 12));
         followButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, followButton.getMinimumSize().height)); // Make the
-                                                                                                             // button
-                                                                                                             // fill the
-                                                                                                             // horizontal
-                                                                                                             // space
+        // button
+        // fill the
+        // horizontal
+        // space
         followButton.setBackground(new Color(225, 228, 232)); // A soft, appealing color that complements the UI
         followButton.setForeground(Color.BLACK);
         followButton.setOpaque(true);
@@ -318,27 +310,6 @@ public class InstagramProfileUI extends JFrame {
         }
     }
 
-    private JPanel createNavigationPanel() {
-        // Navigation Bar
-        JPanel navigationPanel = new JPanel();
-        navigationPanel.setBackground(new Color(249, 249, 249));
-        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
-        navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        navigationPanel.add(createIconButton("img/icons/home.png", "home"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/search.png", "explore"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/add.png", "add"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/heart.png", "notification"));
-        navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/profile.png", "profile"));
-
-        return navigationPanel;
-
-    }
-
     private void initializeImageGrid() {
         contentPanel.removeAll(); // Clear existing content
         contentPanel.setLayout(new GridLayout(0, 3, 5, 5)); // Grid layout for image grid
@@ -383,7 +354,6 @@ public class InstagramProfileUI extends JFrame {
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            getContentPane().removeAll(); // Remove all components from the frame
             initializeUI(); // Re-initialize the UI
         });
         contentPanel.add(backButton, BorderLayout.SOUTH);
@@ -400,62 +370,5 @@ public class InstagramProfileUI extends JFrame {
         return label;
     }
 
-    private JButton createIconButton(String iconPath, String buttonType) {
-        ImageIcon iconOriginal = new ImageIcon(iconPath);
-        Image iconScaled = iconOriginal.getImage().getScaledInstance(NAV_ICON_SIZE, NAV_ICON_SIZE, Image.SCALE_SMOOTH);
-        JButton button = new JButton(new ImageIcon(iconScaled));
-        button.setBorder(BorderFactory.createEmptyBorder());
-        button.setContentAreaFilled(false);
-
-        // Define actions based on button type
-        if ("home".equals(buttonType)) {
-            button.addActionListener(e -> openHomeUI());
-        } else if ("profile".equals(buttonType)) {
-            //
-        } else if ("notification".equals(buttonType)) {
-            button.addActionListener(e -> notificationsUI());
-        } else if ("explore".equals(buttonType)) {
-            button.addActionListener(e -> exploreUI());
-        } else if ("add".equals(buttonType)) {
-            button.addActionListener(e -> ImageUploadUI());
-        }
-        return button;
-
-    }
-
-    private void ImageUploadUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        ImageUploadUI upload = new ImageUploadUI();
-        upload.setVisible(true);
-    }
-
-    private void openProfileUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        InstagramProfileUI profileUI = new InstagramProfileUI();
-        profileUI.setVisible(true);
-    }
-
-    private void notificationsUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        NotificationsUI notificationsUI = new NotificationsUI();
-        notificationsUI.setVisible(true);
-    }
-
-    private void openHomeUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
-        homeUI.setVisible(true);
-    }
-
-    private void exploreUI() {
-        // Open src.application.views.InstagramProfileUI frame
-        this.dispose();
-        ExploreUI explore = new ExploreUI();
-        explore.setVisible(true);
-    }
-
 }
+

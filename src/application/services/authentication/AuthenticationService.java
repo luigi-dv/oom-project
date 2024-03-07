@@ -1,8 +1,8 @@
 package src.application.services.authentication;
 
 import src.application.providers.SessionProvider;
-import src.application.services.encription.EncryptService;
-import src.application.services.user.UserService;
+import src.application.services.EncryptService;
+import src.application.services.UserService;
 import src.domain.entities.User;
 
 
@@ -31,7 +31,7 @@ public class AuthenticationService {
     public AuthenticationService() {
         encryptService = new EncryptService();
         sessionProvider = SessionProvider.getInstance();
-        userService = new UserService(SessionProvider.getInstance());
+        userService = new UserService();
     }
 
     /**
@@ -45,20 +45,22 @@ public class AuthenticationService {
      * @param username The username
      * @param password The password
      */
-    protected void authenticateUser(String username, String password) {
-        // TODO: Implement user authentication logic reading documents from the credentials file
-        // For now, we'll just set a dummy authenticated user
-        User authenticatedUser = new User(username, "Bio", password);
-
-        // Set the authenticated user in the session provider
-        SessionProvider.getInstance().setAuthenticatedUser(authenticatedUser);
+    public User authenticateUser(String username, String password) {
+        if(userService.getUserByUsername(username) != null){
+            User user = userService.getUserByUsername(username);
+            if(!user.getPassword().equals(password)){
+                return null;
+            }
+            SessionProvider.getInstance().setAuthenticatedUser(user);
+            return user;
+        }
+        return null;
     }
 
     /**
      * De-authenticates the currently authenticated user.
      */
-    protected void deAuthenticateUser() {
-        // Clear the authenticated user in the session provider
+    public void deAuthenticateUser() {
         SessionProvider.getInstance().clearSession();
     }
 

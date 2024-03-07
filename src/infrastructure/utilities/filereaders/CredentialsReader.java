@@ -14,14 +14,14 @@ public class CredentialsReader {
     /**
      * Path to the credentials file storing user authentication information.
      */
-    protected static final String credentialsFilePath = "data/credentials.txt";
+    protected static final String filePath = "src/infrastructure/persistance/data/credentials.txt";
 
     /**
      * Checks if the credentials file exists.
      * @return True if the credentials file exists, false otherwise.
      */
     public static boolean doesFileExist() {
-        return Files.exists(Path.of(credentialsFilePath));
+        return Files.exists(Path.of(filePath));
     }
 
     /**
@@ -31,21 +31,39 @@ public class CredentialsReader {
      */
     public static User readUserByUsername(String username) {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
-                    // TODO: Read lines and construct a User Object from the data.
-                    return null;
+                if (line.startsWith(username + ":")) {
+                    // User entry found, parse the line and construct a User object
+                    return parseUserFromLine(line);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Handle IOException appropriately
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Handle other exceptions appropriately
         }
 
-        // TODO: Remove mocked User
-        return new User("username", "bio", "password");
+        // If the username is not found, return null
+        return null;
+    }
+
+    /**
+     * Parses a User object from a line in the credentials file.
+     * @param line The line to parse.
+     * @return The User object parsed from the line.
+     */
+    private static User parseUserFromLine(String line) {
+        // Split the line using ":" as a separator
+        String[] parts = line.split(":");
+
+        // Assuming the format is "encryptedUsername:bio:encryptedPassword"
+        String username = parts[0];
+        String bio = parts[1];
+        String password = parts[2];
+
+        // Create and return a new User object
+        return new User(username, bio, password);
     }
 }

@@ -1,27 +1,19 @@
 package src.domain.entities;
 
-import java.util.UUID;
-import src.infrastructure.utilities.Crypter;
-
+import src.domain.aggregate.Profile;
 
 public class User {
-
-    private UUID id;
     private String username;
     private String bio;
     private String password;
 
-    private UserProfile profile;
+    private Profile profile;
 
     public User(String username, String bio, String password) {
         this.username = username;
         this.bio = bio;
         this.password = password;
-        this.profile = new UserProfile();
-    }
-
-    public UUID getId() {
-        return id;
+        this.profile = new Profile();
     }
 
     public User(String username) {
@@ -44,11 +36,11 @@ public class User {
     // Implement the toString method for saving user information
     @Override
     public String toString() {
-        try {
-            return Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password) + ":" + Crypter.StringToEncryptedString(bio);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            return Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password) + ":" + Crypter.StringToEncryptedString(bio);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return username + ":" + password + ":" + bio;
     }
 
@@ -68,8 +60,16 @@ public class User {
      * Get the user's profile
      * @return UserProfile
      */
-    public UserProfile getProfile() {
+    public Profile getProfile() {
         return profile;
+    }
+
+    /**
+     * Set the user's profile
+     * @param profile The profile to set.
+     */
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

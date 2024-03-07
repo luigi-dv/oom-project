@@ -43,6 +43,13 @@ public class SignUpController {
         }
     }
 
+    /**
+     * Registers a new user with the provided username, password, and bio.
+     * @param username The username
+     * @param password The password
+     * @param bio The biography
+     * @return True if the user was successfully registered, false otherwise.
+     */
     public boolean register(String username, String password, String bio) {
         if (signUpService.doesUsernameExist(username)) {
             return false;

@@ -1,27 +1,26 @@
 package src.infrastructure.utilities.filewriter;
 
+import src.domain.entities.ILikeable;
+import src.domain.entities.Like;
 import src.domain.entities.User;
-import src.infrastructure.utilities.Crypter;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-public class CredentialWriter {
+public class LikeWriter<T extends ILikeable> {
+
+    private final String credentialsFilePath = "src/infrastructure/persistance/date/like.txt";
 
     /**
-     * Path to the credentials file storing user authentication information.
+     * Writes a like to the file
+     * @param like the like to be written
+     * @return the like that was written
      */
-    protected static final String credentialsFilePath = "src/infrastructure/persistance/data/credentials.txt";
-
-    /**
-     * Writes the user credentials to the credentials file.
-     * @param user The User entity to save
-     */
-    public static User writeCredentials(User user) {
+    public Like<T> writeToFile(Like<T> like) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(credentialsFilePath, true))) {
-            writer.write(user.getUsername() + ":" + user.getPassword() + ":" + user.getBio());
+            writer.write(like.toString());
             writer.newLine();
-            return user;
+            return like;
         } catch (Exception e) {
             // TODO: Catch exception
             e.printStackTrace();
@@ -34,7 +33,7 @@ public class CredentialWriter {
      * @param user The User entity to update
      * @return The updated User entity
      */
-    public static User updateCredentials(User user) {
+    public Like<T> updateEntry(User user) {
         // TODO: Implement update credentials (search line with the username, update the line, save the file)
         return null;
     }
@@ -44,7 +43,7 @@ public class CredentialWriter {
      * @param user The User entity to delete
      * @return The deleted User entity
      */
-    public static User deleteCredentials(User user) {
+    public Like<T> deleteEntry(User user) {
         // TODO: Implement delete credentials (search line with the username, delete the line, save the file)
         return null;
     }
