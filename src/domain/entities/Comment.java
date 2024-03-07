@@ -8,7 +8,7 @@ public class Comment implements ILikeable {
     private User user;
     private Picture picture;
     private String text;
-    private ArrayList<Like<Comment>> likes;
+    private List<Like<Comment>> likes;
 
     public Comment(User user, Picture picture, String text) {
         this.id = UUID.randomUUID();
