@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +16,6 @@ import java.nio.file.Paths;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ExploreUI extends JPanel {
@@ -26,7 +23,7 @@ public class ExploreUI extends JPanel {
     private final int WIDTH;
     private final int HEIGHT;
     private final GUI GUI;
-    private final int NAV_ICON_SIZE = 20; // Size for navigation icons
+    // private final int NAV_ICON_SIZE = 20; // Size for navigation icons
     private final int IMAGE_SIZE; // Size for each image in the grid
 
     public ExploreUI(int width, int height, GUI gui) {
@@ -100,7 +97,7 @@ public class ExploreUI extends JPanel {
     private void displayImage(String imagePath) {
         setLayout(new BorderLayout());
 
-        JPanel imageViewerPanel = new JPanel(new BorderLayout());
+        // JPanel imageViewerPanel = new JPanel(new BorderLayout());
 
         // Extract image ID from the imagePath
         String imageId = new File(imagePath).getName().split("\\.")[0];

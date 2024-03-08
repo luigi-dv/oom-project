@@ -1,7 +1,5 @@
 package src.application.views;
 
-import src.domain.entities.User;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;

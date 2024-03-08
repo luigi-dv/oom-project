@@ -1,7 +1,6 @@
 package src.infrastructure.utilities.filereaders;
 
 import src.domain.entities.User;
-import src.infrastructure.utilities.Crypter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

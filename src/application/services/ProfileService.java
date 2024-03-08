@@ -9,12 +9,10 @@ import java.util.List;
 public class ProfileService {
 
     private PictureService pictureService;
-    private UserService userService;
     private FollowService followService;
 
     public ProfileService(){
         this.pictureService = new PictureService();
-        this.userService = new UserService();
         this.followService = new FollowService();
     }
 

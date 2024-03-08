@@ -1,10 +1,6 @@
 package src.application.services.authentication;
 
-
-import src.domain.entities.User;
-
 import javax.imageio.ImageIO;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +17,9 @@ public class SignUpService extends AuthenticationService {
      * @param event The action event triggering the registration process.
      * @implNote This method is a placeholder for the actual registration logic.
      */
-    private void onRegisterClicked(ActionEvent event) {
-        // TODO: Implement callback for register button and handle user registration
-    }
+    // private void onRegisterClicked(ActionEvent event) {
+    //     // TODO: Implement callback for register button and handle user registration
+    // }
 
     /**
      * Method to save the user's profile picture to the profile photo storage path

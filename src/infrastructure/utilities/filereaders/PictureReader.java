@@ -65,7 +65,7 @@ public class PictureReader {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                Picture picture =parsePictureFromUser(line, username);
+                Picture picture = parsePictureFromUser(line, username);
                 if (picture != null) {
                     pictures.add(picture);
                 }
