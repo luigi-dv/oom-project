@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FollowerReader {
 
-    private static final String credentialsFilePath = "src/infrastructure/persistance/date/follow.txt";
+    private static final String credentialsFilePath = "src/infrastructure/persistance/data/follow.txt";
 
     /**
      * Get the followers of a user.
