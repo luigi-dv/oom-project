@@ -3,7 +3,7 @@ package src.application.services;
 
 import src.domain.entities.Like;
 import src.domain.entities.User;
-import src.domain.entities.ILikeable;
+import src.domain.interfaces.ILikeable;
 import src.application.providers.SessionProvider;
 import src.infrastructure.repositories.LikeRepository;
 

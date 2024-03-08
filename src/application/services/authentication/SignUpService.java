@@ -39,16 +39,4 @@ public class SignUpService extends AuthenticationService {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Method to save the user's credentials to the credentials file
-     * @param username The username
-     * @param password The password
-     * @param bio The biography
-     */
-    public void saveCredentials(String username, String password, String bio) {
-        // TODO: This service probably return some information after create the user
-        User u = new User(username, bio, password);
-        userService.createUser(u);
-    }
 }

@@ -1,6 +1,6 @@
 package src.infrastructure.utilities.filewriter;
 
-import src.domain.entities.ILikeable;
+import src.domain.interfaces.ILikeable;
 import src.domain.entities.Like;
 import src.domain.entities.User;
 

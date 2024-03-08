@@ -26,7 +26,7 @@ public class Crypter {
     /**
      * The file path of the .key file.
      */
-    public final static String filePath = "data/ki.key";
+    public final static String filePath = "src/infrastructure/persistance/data/ki.key";
 
     /**
      * A Dummy Key to not get errors.

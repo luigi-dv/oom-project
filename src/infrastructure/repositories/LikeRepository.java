@@ -3,7 +3,7 @@ package src.infrastructure.repositories;
 import java.util.List;
 import java.util.UUID;
 
-import src.domain.entities.ILikeable;
+import src.domain.interfaces.ILikeable;
 import src.domain.entities.Like;
 import src.domain.repositiories.ILikeRepository;
 import src.infrastructure.utilities.filewriter.LikeWriter;

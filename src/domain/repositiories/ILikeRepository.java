@@ -3,7 +3,7 @@ package src.domain.repositiories;
 import java.util.List;
 import java.util.UUID;
 
-import src.domain.entities.ILikeable;
+import src.domain.interfaces.ILikeable;
 import src.domain.entities.Like;
 
 /**

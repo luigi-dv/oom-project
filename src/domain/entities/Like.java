@@ -1,5 +1,7 @@
 package src.domain.entities;
 
+import src.domain.interfaces.ILikeable;
+
 import java.util.UUID;
 
 /**

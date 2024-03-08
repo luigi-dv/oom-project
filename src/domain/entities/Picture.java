@@ -1,24 +1,51 @@
 package src.domain.entities;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
+import src.domain.interfaces.ILikeable;
 
-// Represents a picture on Quackstagram
+import java.util.List;
+import java.util.UUID;
+import java.util.ArrayList;
+
+/**
+ * Class representing a picture
+ */
 public class Picture implements ILikeable {
+
+    /**
+     * The unique identifier for the picture
+     */
     private final UUID id;
+
+    /**
+     * The user who posted the picture
+     */
     private User user;
-    private String imagePath;
+
+    /**
+     * The caption for the picture
+     */
     private String caption;
-    private List<Like<Picture>> likes;
+
+    /**
+     * The path to the image file
+     */
+    private String imagePath;
+
+    /**
+     * The comments on the picture
+     */
     private List<Comment> comments;
+
+    /**
+     * The likes on the picture
+     */
+    private List<Like<Picture>> likes;
 
     /**
      * Constructor for Picture when the ID is not known
      * @param imagePath The path to the image file
      * @param caption the caption for the picture
      */
-
     public Picture(User user, String imagePath, String caption) {
         this.user = user;
         this.id = UUID.randomUUID();
@@ -60,20 +87,53 @@ public class Picture implements ILikeable {
     public UUID getId() {
         return id;
     }
-    // Getter methods for picture details
+
+    /**
+     * Get the image path
+     * @return The path to the image file
+     */
     public String getImagePath() { return imagePath; }
+
+    /**
+     * Get the caption for the picture
+     * @return The caption for the picture
+     */
     public String getCaption() { return caption; }
 
+    /**
+     * Get the user who posted the picture
+     * @return The user who posted the picture
+     */
     public List<Comment> getComments() { return comments; }
 
+    /**
+     * Get the user who posted the picture
+     * @param comment The comment to be deleted
+     */
     public void deleteComment(Comment comment) {
         comments.remove(comment);
     }
 
+    /**
+     * Get the pictures likes
+     * @return The list of likes for the picture
+     */
+    public List<Like<Picture>> getLikes() {
+        return likes;
+    }
+
+    /**
+     * Get the user who posted the picture
+     * @param like The like to be deleted
+     */
     public void deleteLike(Like<Picture> like) {
         likes.remove(like);
     }
 
+    /**
+     * Get the user who posted the picture
+     * @return The user who posted the picture
+     */
     public String getType() {
         return "picture";
     }

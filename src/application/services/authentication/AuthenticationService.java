@@ -37,7 +37,7 @@ public class AuthenticationService {
     /**
      * Path to the directory where user profile photos are stored.
      */
-    protected final String profilePhotoStoragePath = "img/storage/profile/";
+    protected final String profilePhotoStoragePath = "resources/img/storage/profile/";
 
     /**
      * Authenticates a user with the provided username and password.
@@ -51,10 +51,18 @@ public class AuthenticationService {
             if(!user.getPassword().equals(password)){
                 return null;
             }
-            SessionProvider.getInstance().setAuthenticatedUser(user);
+            sessionProvider.setAuthenticatedUser(user);
             return user;
         }
         return null;
+    }
+
+    /**
+     * Returns the currently authenticated user.
+     * @return The currently authenticated user or null if no user is authenticated.
+     */
+    public User getAuthenticatedUser() {
+        return SessionProvider.getInstance().getAuthenticatedUser();
     }
 
     /**
@@ -72,5 +80,30 @@ public class AuthenticationService {
     public boolean doesUsernameExist(String username) {
         return userService.getUserByUsername(username) != null;
     }
+
+
+    /**
+     * Registers a new user with the provided username, password, and bio.
+     *
+     * @param user The user to register
+     */
+    public void registerUser(User user) {
+        if(saveCredentials(user) == null){
+            return;
+        }
+        authenticateUser(user.getUsername(), user.getPassword());
+    }
+
+
+    /**
+     * Saves the provided credentials to the database.
+
+     * @return The created user entity.
+     */
+    private User saveCredentials(User user) {
+        return userService.createUser(user);
+    }
+
+
 }
 

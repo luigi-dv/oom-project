@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.application.controllers.SignUpController;
+import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
@@ -26,11 +27,14 @@ public class SignUpUI extends JPanel {
     private JButton btnRegister;
     private JLabel lblPhoto;
     private JButton btnUploadPhoto;
-    private final String credentialsFilePath = "data/credentials.txt";
-    private final String profilePhotoStoragePath = "img/storage/profile/";
+    private final String credentialsFilePath = "src/infrastructure/persistance/data/credentials.txt";
+    private final String profilePhotoStoragePath = "resources/img/storage/profile/";
     private JButton btnSignIn;
 
+    private final SignUpController controller;
+
     public SignUpUI(int width, int height, GUI gui) {
+        this.controller = new SignUpController();
         WIDTH = width;
         HEIGHT = height;
         this.gui = gui;
@@ -83,7 +87,7 @@ public class SignUpUI extends JPanel {
         btnUploadPhoto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleProfilePictureUpload();
+                controller.handleProfilePictureUpload(txtUsername.getText());
             }
         });
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -117,70 +121,37 @@ public class SignUpUI extends JPanel {
         add(registerPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Handles the register button click event.
+     *
+     * @param event The action event triggering the registration process.
+     */
     private void onRegisterClicked(ActionEvent event) {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         String bio = txtBio.getText();
 
-        if (doesUsernameExist(username)) {
-            JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        } else {
-            saveCredentials(username, password, bio);
-            handleProfilePictureUpload();
-
-            // Open the SignInUI frame
-            SwingUtilities.invokeLater(() -> {
-                SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
-                signInFrame.setVisible(true);
-            });
+        if (username.isEmpty() || password.isEmpty() || bio.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }
-
-    private boolean doesUsernameExist(String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(Crypter.StringToEncryptedString(username) + ":")) {
-                    return true;
+        else{
+            if (username.equals("Username") || password.equals("Password") || bio.equals("Bio")) {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else {
+                if (!controller.register(username, password, bio)) {
+                    JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    gui.changeScreen(UI.PROFILE, controller.getAuthenticatedUser());
+//                    SwingUtilities.invokeLater(() -> {
+//                        SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
+//                        signInFrame.setVisible(true);
+//                    });
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Method to handle profile picture upload
-    private void handleProfilePictureUpload() {
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
-        fileChooser.setFileFilter(filter);
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            saveProfilePicture(selectedFile, txtUsername.getText());
-        }
-    }
-
-    private void saveProfilePicture(File file, String username) {
-        try {
-            BufferedImage image = ImageIO.read(file);
-            File outputFile = new File(profilePhotoStoragePath + username + ".png");
-            ImageIO.write(image, "png", outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveCredentials(String username, String password, String bio) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/credentials.txt", true))) {
-            writer.write(Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password)
-                    + ":" + Crypter.StringToEncryptedString(bio));
-            writer.newLine();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

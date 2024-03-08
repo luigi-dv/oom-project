@@ -1,6 +1,9 @@
 package src.domain.entities;
 
+import src.domain.interfaces.ILikeable;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Comment implements ILikeable {
@@ -62,7 +65,7 @@ public class Comment implements ILikeable {
      *
      * @return the picture the comment was made on
      */
-    public ArrayList<Like<Comment>> getLikes() {
+    public List<Like<Comment>> getLikes() {
         return likes;
     }
 

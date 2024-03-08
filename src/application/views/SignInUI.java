@@ -1,5 +1,6 @@
 package src.application.views;
 
+import src.application.controllers.SignInController;
 import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
@@ -24,10 +25,13 @@ public class SignInUI extends JPanel {
     private JLabel lblPhoto;
     private User newUser;
 
+    private SignInController controller;
+
     public SignInUI(int width, int height, GUI gui) {
         WIDTH = width;
         HEIGHT = height;
         this.gui = gui;
+        this.controller = new SignInController();
         initializeUI();
     }
 
@@ -116,46 +120,16 @@ public class SignInUI extends JPanel {
         String enteredUsername = txtUsername.getText();
         String enteredPassword = txtPassword.getText();
         System.out.println(enteredUsername + " <-> " + enteredPassword);
-        if (verifyCredentials(enteredUsername, enteredPassword)) {
-            System.out.println("It worked");
-
-            gui.changeScreen(UI.PROFILE, new User(enteredUsername));
-        } else {
-            System.out.println("It Didn't");
+        if (controller.signIn(enteredUsername, enteredPassword)) {
+           gui.changeScreen(UI.PROFILE, new User(enteredUsername));
+           return;
         }
+        // TODO: Show error message
+        return;
     }
 
     private void onRegisterNowClicked(ActionEvent event) {
         gui.changeScreen(UI.SIGNUP);
-    }
-
-    private boolean verifyCredentials(String username, String password) throws Exception {
-        try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] credentials = line.split(":");
-                if (Crypter.encryptedStringToString(credentials[0]).equals(username)
-                        && Crypter.encryptedStringToString(credentials[1]).equals(password)) {
-                    String bio = Crypter.encryptedStringToString(credentials[2]);
-                    // Create User object and save information
-                    newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
-                    saveUserInformation(newUser);
-
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private void saveUserInformation(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
-            writer.write(user.toString()); // Implement a suitable toString method in User class
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 
