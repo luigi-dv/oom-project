@@ -225,7 +225,7 @@ public class QuakstagramHomeUI extends JPanel {
                 String[] details = line.split(", ");
                 String imagePoster = details[1].split(": ")[1];
                 if (followedUsers.contains(imagePoster)) {
-                    String imagePath = "img/uploaded/" + details[0].split(": ")[1] + ".png"; // Assuming PNG format
+                    String imagePath = "resources/storage/images/" + details[0].split(": ")[1] + ".png"; // Assuming PNG format
                     String description = details[2].split(": ")[1];
                     String likes = "Likes: " + details[4].split(": ")[1];
 

@@ -3,8 +3,8 @@ package src.infrastructure.repositories;
 import java.io.File;
 import src.domain.entities.User;
 import src.domain.repositiories.IUserRepository;
-import src.infrastructure.utilities.filereaders.CredentialsReader;
-import src.infrastructure.utilities.filewriter.CredentialWriter;
+import src.infrastructure.utilities.file.reader.CredentialsReader;
+import src.infrastructure.utilities.file.writer.Credential;
 
 /**
  * Repository class responsible for handling user data storage and retrieval in the infrastructure layer.
@@ -29,7 +29,7 @@ public class UserRepository implements IUserRepository {
      */
     public User save(User user) {
         if(CredentialsReader.doesFileExist()) {
-            return CredentialWriter.writeCredentials(user);
+            return Credential.writeToFile(user);
         }
         // TODO: Not found logging catching
         return null;
@@ -43,7 +43,7 @@ public class UserRepository implements IUserRepository {
      */
     public User update(User user) {
         if(CredentialsReader.doesFileExist()) {
-            return CredentialWriter.updateCredentials(user);
+            return Credential.updateCredentials(user);
         }
         // TODO: Not found logging catching
         return null;
@@ -57,7 +57,7 @@ public class UserRepository implements IUserRepository {
      */
     public User delete(User user) {
         if(CredentialsReader.doesFileExist()) {
-            return CredentialWriter.deleteCredentials(user);
+            return Credential.deleteCredentials(user);
         }
         // TODO: Not found logging catching
         return null;

@@ -2,18 +2,11 @@ package src.application.views;
 
 import src.application.controllers.SignUpController;
 import src.domain.entities.User;
-import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import javax.imageio.ImageIO;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SignUpUI extends JPanel {
 
@@ -28,7 +21,7 @@ public class SignUpUI extends JPanel {
     private JLabel lblPhoto;
     private JButton btnUploadPhoto;
     private final String credentialsFilePath = "src/infrastructure/persistance/data/credentials.txt";
-    private final String profilePhotoStoragePath = "resources/img/storage/profile/";
+    private final String profilePhotoStoragePath = "resources/storage/images/";
     private JButton btnSignIn;
 
     private final SignUpController controller;
@@ -57,7 +50,7 @@ public class SignUpUI extends JPanel {
         lblPhoto.setHorizontalAlignment(JLabel.CENTER);
         lblPhoto.setVerticalAlignment(JLabel.CENTER);
         lblPhoto.setIcon(new ImageIcon(
-                new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+                new ImageIcon("resources/imageslogos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
         JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
         photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         photoPanel.add(lblPhoto);
@@ -145,7 +138,8 @@ public class SignUpUI extends JPanel {
                     JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    gui.changeScreen(UI.PROFILE, controller.getAuthenticatedUser());
+                    User authenticatedUser = controller.getAuthenticatedUser();
+                    gui.changeScreen(UI.PROFILE, authenticatedUser);
 //                    SwingUtilities.invokeLater(() -> {
 //                        SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
 //                        signInFrame.setVisible(true);

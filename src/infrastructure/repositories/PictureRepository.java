@@ -2,11 +2,11 @@ package src.infrastructure.repositories;
 
 import java.util.List;
 import java.util.UUID;
-import src.domain.entities.Picture;
+
 import src.domain.entities.User;
 import src.domain.repositiories.IPictureRepository;
-import src.infrastructure.utilities.filereaders.PictureReader;
-import src.infrastructure.utilities.filewriter.PictureWriter;
+import src.infrastructure.utilities.file.reader.PictureReader;
+import src.infrastructure.utilities.file.writer.Picture;
 
 
 /**
@@ -21,7 +21,7 @@ public class PictureRepository implements IPictureRepository {
      * @return The picture with the specified ID or null if not found.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public Picture findById(UUID id) {
+    public src.domain.entities.Picture findById(UUID id) {
         return PictureReader.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class PictureRepository implements IPictureRepository {
      * @return A list of pictures associated with the specified user ID.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public List<Picture> findByUser(User user) {
+    public List<src.domain.entities.Picture> findByUser(User user) {
         return PictureReader.findPicturesFromUser(user);
     }
 
@@ -42,8 +42,8 @@ public class PictureRepository implements IPictureRepository {
      * @return The created picture entity.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public Picture create(Picture picture) {
-       return PictureWriter.writeToFile(picture);
+    public src.domain.entities.Picture create(src.domain.entities.Picture picture) {
+       return Picture.writeToFile(picture);
     }
 
     /**
@@ -53,7 +53,7 @@ public class PictureRepository implements IPictureRepository {
      * @return The updated picture entity.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public Picture update(Picture picture) {
+    public src.domain.entities.Picture update(src.domain.entities.Picture picture) {
         return null;
     }
 

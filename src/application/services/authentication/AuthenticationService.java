@@ -37,7 +37,7 @@ public class AuthenticationService {
     /**
      * Path to the directory where user profile photos are stored.
      */
-    protected final String profilePhotoStoragePath = "resources/img/storage/profile/";
+    protected final String profilePhotoStoragePath = "resources/storage/images/";
 
     /**
      * Authenticates a user with the provided username and password.

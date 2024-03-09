@@ -3,7 +3,12 @@ package src.application.services;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.infrastructure.repositories.PictureRepository;
+import src.infrastructure.utilities.storage.PictureStorage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class PictureService {
@@ -30,7 +35,17 @@ public class PictureService {
     }
 
     /**
+     * Update a picture
+     *
+     * @param picture The picture to be uploaded
+     */
+    public void updatePicture(Picture picture) {
+        repository.update(picture);
+    }
+
+    /**
      * Get all pictures from a user
+     *
      * @param user The user to get the pictures from
      * @return A list of pictures from the user
      */

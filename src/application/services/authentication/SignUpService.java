@@ -1,38 +1,34 @@
 package src.application.services.authentication;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+import src.infrastructure.repositories.StorageRepository;
 
 /**
- * Service class responsible for user registration and authentication.
- * Extends the base AuthenticationService.
+ * Service class responsible for handling user registration and authentication during the sign-up process.
+ * This class extends the base AuthenticationService, providing additional functionality for sign-up operations.
  */
 public class SignUpService extends AuthenticationService {
 
     /**
-     * Handles the register button click event.
-     *
-     * @param event The action event triggering the registration process.
-     * @implNote This method is a placeholder for the actual registration logic.
+     * The storage repository
      */
-    // private void onRegisterClicked(ActionEvent event) {
-    //     // TODO: Implement callback for register button and handle user registration
-    // }
+    private final StorageRepository repository;
 
     /**
-     * Method to save the user's profile picture to the profile photo storage path
-     * @param file The file to save
-     * @param username The username
+     * Constructs an instance of SignUpService, initializing the StorageRepository.
+     */
+    public SignUpService() {
+        repository = new StorageRepository();
+    }
+
+    /**
+     * Saves the user's profile picture during the sign-up process.
+     * This method utilizes the StorageRepository to store the profile picture associated with the specified username.
+     *
+     * @param file     The file representing the user's profile picture to be saved.
+     * @param username The username of the user for whom the profile picture is being saved.
      */
     public void saveProfilePicture(File file, String username) {
-        try {
-            BufferedImage image = ImageIO.read(file);
-            File outputFile = new File(profilePhotoStoragePath + username + ".png");
-            ImageIO.write(image, "png", outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        repository.saveProfilePicture(file, username);
     }
 }

@@ -156,15 +156,15 @@ public class GUI extends JFrame {
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        navigationPanel.add(createIconButton("img/icons/home.png", "home"));
+        navigationPanel.add(createIconButton("resources/imagesicons/home.png", "home"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/search.png", "explore"));
+        navigationPanel.add(createIconButton("resources/imagesicons/search.png", "explore"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/add.png", "add"));
+        navigationPanel.add(createIconButton("resources/imagesicons/add.png", "add"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/heart.png", "notification"));
+        navigationPanel.add(createIconButton("resources/imagesicons/heart.png", "notification"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/profile.png", "profile"));
+        navigationPanel.add(createIconButton("resources/imagesicons/profile.png", "profile"));
 
         return navigationPanel;
 

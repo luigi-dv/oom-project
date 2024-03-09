@@ -1,19 +1,21 @@
 package src.application.views;
 
-import src.domain.aggregate.Profile;
+import java.awt.*;
+import javax.swing.*;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.stream.Stream;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
 import src.domain.entities.User;
 
-import javax.swing.*;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.awt.*;
-import java.nio.file.*;
-import java.util.stream.Stream;
-
+/**
+ * Instagram Profile UI
+ */
 public class InstagramProfileUI extends JPanel {
 
     private final int WIDTH;
@@ -159,7 +161,7 @@ public class InstagramProfileUI extends JPanel {
         topHeaderPanel.setBackground(new Color(249, 249, 249));
 
         // Profile image
-        ImageIcon profileIcon = new ImageIcon(new ImageIcon("resources/img/storage/profile/" + currentUser.getUsername() + ".png")
+        ImageIcon profileIcon = new ImageIcon(new ImageIcon("resources/storage/images/" + currentUser.getUsername() + ".png")
                 .getImage().getScaledInstance(PROFILE_IMAGE_SIZE, PROFILE_IMAGE_SIZE, Image.SCALE_SMOOTH));
         JLabel profileImage = new JLabel(profileIcon);
         profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -314,7 +316,7 @@ public class InstagramProfileUI extends JPanel {
         contentPanel.removeAll(); // Clear existing content
         contentPanel.setLayout(new GridLayout(0, 3, 5, 5)); // Grid layout for image grid
 
-        Path imageDir = Paths.get("resources/img", "uploaded");
+        Path imageDir = Paths.get("resources/images", "uploaded");
         try (Stream<Path> paths = Files.list(imageDir)) {
             paths.filter(path -> path.getFileName().toString().startsWith(currentUser.getUsername() + "_"))
                     .forEach(path -> {

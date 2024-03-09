@@ -1,34 +1,39 @@
-package src.infrastructure.utilities.filereaders;
+package src.infrastructure.utilities.file.reader;
 
-import src.domain.entities.Picture;
-import src.domain.entities.User;
-
-import java.io.BufferedReader;
+import java.util.List;
+import java.util.UUID;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.BufferedReader;
+import src.domain.entities.User;
+import src.domain.entities.Picture;
+import src.infrastructure.utilities.file.IFile;
 
-public class PictureReader {
+/**
+ * Utility class for reading Picture entities from a file.
+ * Implements the IFile interface for generic file reading functionality.
+ */
+public class PictureReader implements IFile {
 
     /**
-     * Path to the credentials file storing user authentication information.
+     * Path to the file storing Picture entities.
      */
-    protected static final String filePath = "src/infrastructure/persistance/data/pictures.txt";
+    private static final String FILE_PATH = FILE_PATH_ROOT + "pictures.txt";
 
     /**
-     * Reads a picture from the credentials file by their id.
-     * @param id The id of the picture to be retrieved.
-     * @return The picture with the specified id or null if not found.
+     * Finds and retrieves a Picture by its unique identifier.
+     *
+     * @param id The unique identifier of the picture to be retrieved.
+     * @return The Picture with the specified ID or null if not found.
      */
     public static Picture findById(UUID id) {
         String stringId = id.toString();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(stringId)) {
-                    // User entry found, parse the line and construct a User object
+                    // Picture entry found, parse the line and construct a Picture object
                     return parsePictureFromLine(line);
                 }
             }
@@ -38,12 +43,13 @@ public class PictureReader {
             e.printStackTrace(); // Handle other exceptions appropriately
         }
 
-        // If the username is not found, return null
+        // If the picture is not found, return null
         return null;
     }
 
     /**
      * Parses a Picture object from a line in the credentials file.
+     *
      * @param line The line to parse.
      * @return The Picture object parsed from the line.
      */
@@ -59,10 +65,16 @@ public class PictureReader {
         return new Picture(id, user, imagePath, caption);
     }
 
+    /**
+     * Finds and retrieves a list of Pictures associated with a specific User.
+     *
+     * @param user The User entity to retrieve pictures for.
+     * @return The list of Pictures associated with the specified User.
+     */
     public static List<Picture> findPicturesFromUser(User user) {
         String username = user.getUsername();
         List<Picture> pictures = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Picture picture = parsePictureFromUser(line, username);
@@ -79,9 +91,15 @@ public class PictureReader {
         return pictures;
     }
 
+    /**
+     * Parses a Picture object from a line in the credentials file, filtering by the specified username.
+     *
+     * @param line     The line to parse.
+     * @param username The username to filter by.
+     * @return The Picture object parsed from the line if associated with the specified username, otherwise null.
+     */
     private static Picture parsePictureFromUser(String line, String username) {
         String[] parts = line.split(":");
-
         String getUsername = parts[1];
         if (getUsername.equals(username)) {
             return null;
@@ -94,5 +112,4 @@ public class PictureReader {
 
         return new Picture(id, user, imagePath, caption);
     }
-
 }

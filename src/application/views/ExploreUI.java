@@ -63,7 +63,7 @@ public class ExploreUI extends JPanel {
         JPanel imageGridPanel = new JPanel(new GridLayout(0, 3, 2, 2)); // 3 columns, auto rows
 
         // Load images from the uploaded folder
-        File imageDir = new File("img/uploaded");
+        File imageDir = new File("resources/storage/images");
         if (imageDir.exists() && imageDir.isDirectory()) {
             File[] imageFiles = imageDir.listFiles((dir, name) -> name.matches(".*\\.(png|jpg|jpeg)"));
             if (imageFiles != null) {
