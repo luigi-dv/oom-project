@@ -16,7 +16,7 @@ public class PictureStorage {
     /**
      * The storage path for profile photos.
      */
-    private static final String PROFILE_PHOTO_STORAGE_PATH = "src/infrastructure/utilities/storage/profilePhotos/";
+    private static final String PROFILE_PHOTO_STORAGE_PATH = "resources/storage/images/";
 
     /**
      * Save the user's profile picture to the profile photo storage path.

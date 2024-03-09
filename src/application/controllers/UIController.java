@@ -1,34 +1,39 @@
 package src.application.controllers;
 
 import src.application.services.ProfileService;
-import src.application.services.authentication.AuthenticationService;
 import src.application.providers.SessionProvider;
 import src.domain.entities.User;
 
+/**
+ * The UIController class is responsible for handling the UI logic.
+ */
 public class UIController {
 
-    private final AuthenticationService authenticationService;
+    /**
+     * The profile service to be used by the UIController.
+     */
     private final ProfileService profileService;
+
+    /**
+     * The session provider to be used by the UIController.
+     */
     private final SessionProvider sessionProvider;
 
+    /**
+     * Constructor for the UIController class.
+     */
     public UIController() {
-        this.authenticationService = new AuthenticationService();
         this.sessionProvider = SessionProvider.getInstance();
         this.profileService = new ProfileService();
     }
 
+    /**
+     * Authenticates a user with the provided username and password.
+     *
+     * @return True if the user was successfully authenticated, null otherwise.
+     */
     public User getAuthenticatedUser() {
         return sessionProvider.getAuthenticatedUser();
-    }
-
-    public void authenticateUser(String username, String password) {
-        User authenticatedUser = authenticationService.authenticateUser(username, password);
-        // TODO: Handle UI updates or navigation after authentication
-    }
-
-    public void deAuthenticateUser() {
-        authenticationService.deAuthenticateUser();
-        // TODO: Handle UI updates or navigation after de-authentication
     }
 
     /**

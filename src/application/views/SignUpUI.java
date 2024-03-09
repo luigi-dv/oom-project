@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.application.controllers.SignUpController;
+import src.application.providers.SessionProvider;
 import src.domain.entities.User;
 
 import javax.swing.*;
@@ -20,8 +21,6 @@ public class SignUpUI extends JPanel {
     private JButton btnRegister;
     private JLabel lblPhoto;
     private JButton btnUploadPhoto;
-    private final String credentialsFilePath = "src/infrastructure/persistance/data/credentials.txt";
-    private final String profilePhotoStoragePath = "resources/storage/images/";
     private JButton btnSignIn;
 
     private final SignUpController controller;
@@ -138,7 +137,7 @@ public class SignUpUI extends JPanel {
                     JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    User authenticatedUser = controller.getAuthenticatedUser();
+                    User authenticatedUser = SessionProvider.getInstance().getAuthenticatedUser();
                     gui.changeScreen(UI.PROFILE, authenticatedUser);
 //                    SwingUtilities.invokeLater(() -> {
 //                        SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);

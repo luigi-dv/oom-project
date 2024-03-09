@@ -67,11 +67,11 @@ public class CredentialsReader implements IFile {
 
         // Assuming the format is "encryptedUsername:bio:encryptedPassword"
         String username = parts[0];
-        String bio = parts[1];
-        String password = parts[2];
+        String password = parts[1];
+        String bio = parts[2];
 
         // Create and return a new User object
-        return new User(username, bio, password);
+        return new User(username, password, bio);
     }
 
     /**

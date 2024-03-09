@@ -125,9 +125,10 @@ public class GUI extends JFrame {
         }
 
         JPanel pane = new InstagramProfileUI(WIDTH, HEIGHT, this, user);
+
+        add(pane, BorderLayout.NORTH);
         add(navigationPanel, BorderLayout.SOUTH);
 
-        add(pane);
         setVisible(true);
 
     }

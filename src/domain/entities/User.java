@@ -31,10 +31,10 @@ public class User {
      * Constructor for User
      *
      * @param username username of the user
-     * @param bio bio of the user
      * @param password password of the user
+     * @param bio bio of the user
      */
-    public User(String username, String bio, String password) {
+    public User(String username, String password, String bio) {
         this.username = username;
         this.bio = bio;
         this.password = password;

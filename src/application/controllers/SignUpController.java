@@ -57,7 +57,7 @@ public class SignUpController {
         } else {
             User newUser = new User(username, password, bio);
             signUpService.registerUser(newUser);
-            handleProfilePictureUpload(username);
+            //TODO: Check if the user profile have already upload photo - handleProfilePictureUpload(username);
             return true;
         }
     }
