@@ -9,7 +9,7 @@ import java.io.FileWriter;
  * Utility class responsible for writing comments to a file.
  * Implements the IFileWriter interface for generic file writing functionality.
  */
-public class Comment implements IFile {
+public class CommentWriter implements IFile {
 
     /**
      * Path to the file.

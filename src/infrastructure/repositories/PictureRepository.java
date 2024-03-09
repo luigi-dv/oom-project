@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import src.domain.entities.User;
 import src.domain.repositiories.IPictureRepository;
+import src.domain.entities.Picture;
 import src.infrastructure.utilities.file.reader.PictureReader;
-import src.infrastructure.utilities.file.writer.Picture;
+import src.infrastructure.utilities.file.writer.PictureWriter;
 
 
 /**
@@ -21,7 +22,7 @@ public class PictureRepository implements IPictureRepository {
      * @return The picture with the specified ID or null if not found.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public src.domain.entities.Picture findById(UUID id) {
+    public Picture findById(UUID id) {
         return PictureReader.findById(id);
     }
 
@@ -31,8 +32,28 @@ public class PictureRepository implements IPictureRepository {
      * @return A list of pictures associated with the specified user ID.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public List<src.domain.entities.Picture> findByUser(User user) {
+    public List<Picture> findByUser(User user) {
         return PictureReader.findPicturesFromUser(user);
+    }
+
+    /**
+     * Finds all pictures associated with users that the specified user is following.
+     *
+     * @param user The user entity.
+     * @return A list of pictures associated with users that the specified user is following.
+     */
+    public List<Picture> findByFollowedUsers(User user) {
+        // TODO: Implement the actual logic for finding pictures from followed users.
+        return null;
+    }
+
+    /**
+     * Finds all pictures.
+     *
+     * @return A list of all pictures.
+     */
+    public List<Picture> findAll() {
+        return PictureReader.findAll();
     }
 
     /**
@@ -42,8 +63,8 @@ public class PictureRepository implements IPictureRepository {
      * @return The created picture entity.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public src.domain.entities.Picture create(src.domain.entities.Picture picture) {
-       return Picture.writeToFile(picture);
+    public Picture create(Picture picture) {
+       return PictureWriter.writeToFile(picture);
     }
 
     /**
@@ -53,7 +74,7 @@ public class PictureRepository implements IPictureRepository {
      * @return The updated picture entity.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public src.domain.entities.Picture update(src.domain.entities.Picture picture) {
+    public Picture update(Picture picture) {
         return null;
     }
 

@@ -32,84 +32,23 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         this.currentUser = user;
         // Initialize the user profile
         gui.controller.initializeProfile(user);
+
         WIDTH = width;
         HEIGHT = height;
         GUI = gui;
         GRID_IMAGE_SIZE = WIDTH / 3;
-        // Initialize counts
-        int imageCount = 0;
-        int followersCount = 0;
-        int followingCount = 0;
-
-        // // Step 1: Read image_details.txt to count the number of images posted by the
-        // // user
-        // Path imageDetailsFilePath = Paths.get("img", "image_details.txt");
-        // try (BufferedReader imageDetailsReader = Files.newBufferedReader(imageDetailsFilePath)) {
-        //     String line;
-        //     while ((line = imageDetailsReader.readLine()) != null) {
-        //         if (line.contains("Username: " + currentUser.getUsername())) {
-        //             imageCount++;
-        //         }
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
-        // Step 2: Read following.txt to calculate followers and following
-        // Path followingFilePath = Paths.get("data", "following.txt");
-        // try (BufferedReader followingReader = Files.newBufferedReader(followingFilePath)) {
-        //     String line;
-        //     while ((line = followingReader.readLine()) != null) {
-        //         String[] parts = line.split(":");
-        //         if (parts.length == 2) {
-        //             String username = parts[0].trim();
-        //             String[] followingUsers = parts[1].split(";");
-        //             if (username.equals(currentUser.getUsername())) {
-        //                 followingCount = followingUsers.length;
-        //             } else {
-        //                 for (String followingUser : followingUsers) {
-        //                     if (followingUser.trim().equals(currentUser.getUsername())) {
-        //                         followersCount++;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
-
-        // System.out.println("Bio for " + currentUser.getUsername() + ": " + bio);
-        // currentUser.setBio(bio);
-
-        // System.out.println(currentUser.getProfile().getPostsCount());
 
         setSize(WIDTH, HEIGHT);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new BorderLayout());
         contentPanel = new JPanel();
-        headerPanel = createHeaderPanel(); // Initialize header panel
-        initializeUI();
-    }
-
-    public InstagramProfileUI(int width, int height, GUI gui) {
-        WIDTH = width;
-        HEIGHT = height;
-        GUI = gui;
-        GRID_IMAGE_SIZE = WIDTH / 3;
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setLayout(new BorderLayout());
-        contentPanel = new JPanel();
-        headerPanel = createHeaderPanel(); // Initialize header panel
+        headerPanel = createHeaderPanel();
         initializeUI();
     }
 
     private void initializeUI() {
         add(headerPanel, BorderLayout.NORTH);
-
         initializeImageGrid();
-
         revalidate();
         repaint();
     }
@@ -132,83 +71,26 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         topHeaderPanel.setBackground(new Color(249, 249, 249));
 
         // Profile image
-        ImageIcon profileIcon = new ImageIcon(new ImageIcon("resources/storage/images/" + currentUser.getUsername() + ".png")
-                .getImage().getScaledInstance(PROFILE_IMAGE_SIZE, PROFILE_IMAGE_SIZE, Image.SCALE_SMOOTH));
-        JLabel profileImage = new JLabel(profileIcon);
-        profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel  profileImage  = IProfile.createProfileImage(currentUser);
         topHeaderPanel.add(profileImage, BorderLayout.WEST);
 
-        // Stats Panel
+        // Stats Panel - this can be put into the IProfile interface
         JPanel statsPanel = IProfile.createStatsPanel();
         JPanel statsFollowPanel = IProfile.createStatsFollowPanel(currentUser);
         JButton editProfileButton = IProfile.createEditProfileButton();
         statsPanel.add(statsFollowPanel);
         statsPanel.add(editProfileButton);
+
         topHeaderPanel.add(statsPanel, BorderLayout.CENTER);
         headerPanel.add(topHeaderPanel);
 
         // Profile Name and Bio Panel
         JPanel profileNameAndBioPanel = IProfile.createProfileNameAndBioPanel(currentUser);
-
         headerPanel.add(profileNameAndBioPanel);
 
         return headerPanel;
 
     }
-
-    // private void handleFollowAction(String usernameToFollow) {
-    //     Path followingFilePath = Paths.get("data", "following.txt");
-    //     Path usersFilePath = Paths.get("data", "users.txt");
-    //     String currentUserUsername = "";
-
-    //     try {
-    //         // Read the current user's username from users.txt
-    //         try (BufferedReader reader = Files.newBufferedReader(usersFilePath)) {
-    //             String line;
-    //             while ((line = reader.readLine()) != null) {
-    //                 String[] parts = line.split(":");
-    //                 currentUserUsername = parts[0];
-    //             }
-    //         }
-
-    //         System.out.println("Real user is " + currentUserUsername);
-    //         // If currentUserUsername is not empty, process following.txt
-    //         if (!currentUserUsername.isEmpty()) {
-    //             boolean found = false;
-    //             StringBuilder newContent = new StringBuilder();
-
-    //             // Read and process following.txt
-    //             if (Files.exists(followingFilePath)) {
-    //                 try (BufferedReader reader = Files.newBufferedReader(followingFilePath)) {
-    //                     String line;
-    //                     while ((line = reader.readLine()) != null) {
-    //                         String[] parts = line.split(":");
-    //                         if (parts[0].trim().equals(currentUserUsername)) {
-    //                             found = true;
-    //                             if (!line.contains(usernameToFollow)) {
-    //                                 line = line.concat(line.endsWith(":") ? "" : "; ").concat(usernameToFollow);
-    //                             }
-    //                         }
-    //                         newContent.append(line).append("\n");
-    //                     }
-    //                 }
-    //             }
-
-    //             // If the current user was not found in following.txt, add them
-    //             if (!found) {
-    //                 newContent.append(currentUserUsername).append(": ").append(usernameToFollow).append("\n");
-    //             }
-
-    //             // Write the updated content back to following.txt
-    //             try (BufferedWriter writer = Files.newBufferedWriter(followingFilePath)) {
-    //                 writer.write(newContent.toString());
-    //             }
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
 
 
     private void initializeImageGrid() {

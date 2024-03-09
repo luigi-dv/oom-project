@@ -13,7 +13,7 @@ import src.infrastructure.utilities.file.IFile;
  *
  * @param <T> The type of entity that can be liked, implementing the ILikeable interface.
  */
-public class Like<T extends ILikeable> implements IFile {
+public class LikeWriter<T extends ILikeable> implements IFile {
 
     /**
      * Path to the file storing Like entities.

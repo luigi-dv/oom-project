@@ -22,6 +22,28 @@ public class PictureReader implements IFile {
     private static final String FILE_PATH = FILE_PATH_ROOT + "pictures.txt";
 
     /**
+     * Reads all Picture entities from the file.
+     *
+     * @return A list of all Picture entities in the file.
+     */
+    public static List<Picture> findAll() {
+        List<Picture> pictures = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Picture picture = parsePictureFromLine(line);
+                pictures.add(picture);
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle IOException appropriately
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle other exceptions appropriately
+        }
+        return pictures;
+    }
+
+
+    /**
      * Finds and retrieves a Picture by its unique identifier.
      *
      * @param id The unique identifier of the picture to be retrieved.

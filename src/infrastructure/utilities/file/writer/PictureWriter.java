@@ -8,7 +8,7 @@ import java.io.BufferedWriter;
 /**
  * The following utility class implements the Picture Writing methods for store data
  */
-public class Picture implements IFile {
+public class PictureWriter implements IFile {
     protected static final String FILE_PATH = FILE_PATH_ROOT + "pictures.txt";
 
     /**

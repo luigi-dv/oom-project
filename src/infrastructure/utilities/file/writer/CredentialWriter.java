@@ -9,7 +9,7 @@ import src.infrastructure.utilities.file.IFile;
  * Utility class responsible for managing user credentials in a file.
  * Implements the IFileWriter interface for generic file writing functionality.
  */
-public class Credential implements IFile {
+public class CredentialWriter implements IFile {
 
     /**
      * Path to the file.

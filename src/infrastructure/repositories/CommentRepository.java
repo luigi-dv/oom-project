@@ -2,7 +2,7 @@ package src.infrastructure.repositories;
 
 import src.domain.repositiories.ICommentRepository;
 import src.infrastructure.utilities.file.reader.CommentReader;
-import src.infrastructure.utilities.file.writer.Comment;
+import src.infrastructure.utilities.file.writer.CommentWriter;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class CommentRepository implements ICommentRepository {
      * @return The created comment
      */
     public src.domain.entities.Comment create(src.domain.entities.Comment comment){
-        return Comment.writeToFile(comment);
+        return CommentWriter.writeToFile(comment);
     }
 
     public src.domain.entities.Comment update(src.domain.entities.Comment comment){

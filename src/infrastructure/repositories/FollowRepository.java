@@ -4,7 +4,7 @@ import src.domain.aggregate.Follow;
 import src.domain.entities.User;
 import src.domain.repositiories.IFollowRepository;
 import src.infrastructure.utilities.file.reader.FollowingReader;
-import src.infrastructure.utilities.file.writer.Follower;
+import src.infrastructure.utilities.file.writer.FollowerWriter;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class FollowRepository implements IFollowRepository {
      * @return the created follow aggregate.
      */
     public Follow save(Follow follow) {
-        return Follower.writeToFile(follow);
+        return FollowerWriter.writeToFile(follow);
     }
 
 

@@ -11,7 +11,7 @@ import src.application.services.authentication.SignUpService;
 /**
  * Controller class responsible for handling user sign-up operations.
  */
-public class SignUpController {
+public class SignUpController extends BaseController {
 
     /**
      * Service responsible for handling sign-up logic.

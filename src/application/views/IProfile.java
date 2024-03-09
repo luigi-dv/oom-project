@@ -10,6 +10,14 @@ public interface IProfile {
     int PROFILE_IMAGE_SIZE = 80; // Adjusted size for the profile image to match UI
     int NAV_ICON_SIZE = 20; // Corrected static size for bottom icons
 
+    static JLabel createProfileImage(User user) {
+        ImageIcon profileIcon = new ImageIcon(new ImageIcon("resources/storage/images/" + user.getUsername() + ".png")
+                .getImage().getScaledInstance(PROFILE_IMAGE_SIZE, PROFILE_IMAGE_SIZE, Image.SCALE_SMOOTH));
+        JLabel profileImage = new JLabel(profileIcon);
+        profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        return profileImage;
+    }
+
     /**
      * Create a panel containing the user's profile picture.
      *

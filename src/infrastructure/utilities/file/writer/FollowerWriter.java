@@ -9,7 +9,7 @@ import src.infrastructure.utilities.file.IFile;
  * Utility class for writing Follow entities to a file.
  * Implements the IFileWriter interface for generic file writing functionality.
  */
-public class Follower implements IFile {
+public class FollowerWriter implements IFile {
 
     /**
      * Path to the file.

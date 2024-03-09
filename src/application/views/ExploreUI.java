@@ -17,6 +17,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
+import src.application.controllers.ExploreController;
 
 public class ExploreUI extends JPanel {
 
@@ -26,7 +27,10 @@ public class ExploreUI extends JPanel {
     // private final int NAV_ICON_SIZE = 20; // Size for navigation icons
     private final int IMAGE_SIZE; // Size for each image in the grid
 
+    private final ExploreController controller;
+
     public ExploreUI(int width, int height, GUI gui, User user) {
+        this.controller = new ExploreController();
         WIDTH = width;
         HEIGHT = height;
         GUI = gui;
@@ -50,47 +54,15 @@ public class ExploreUI extends JPanel {
     }
 
     private JPanel createMainContentPanel() {
-        // Create the main content panel with search and image grid
-        // Search bar at the top
-        JPanel searchPanel = new JPanel(new BorderLayout());
-        JTextField searchField = new JTextField(" Search Users");
-        searchPanel.add(searchField, BorderLayout.CENTER);
-        searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, searchField.getPreferredSize().height)); // Limit
-        // the
-        // height
-
-        // Image Grid
-        JPanel imageGridPanel = new JPanel(new GridLayout(0, 3, 2, 2)); // 3 columns, auto rows
-
-        // Load images from the uploaded folder
-        File imageDir = new File("resources/storage/images");
-        if (imageDir.exists() && imageDir.isDirectory()) {
-            File[] imageFiles = imageDir.listFiles((dir, name) -> name.matches(".*\\.(png|jpg|jpeg)"));
-            if (imageFiles != null) {
-                for (File imageFile : imageFiles) {
-                    ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageFile.getPath()).getImage()
-                            .getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH));
-                    JLabel imageLabel = new JLabel(imageIcon);
-                    imageLabel.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            displayImage(imageFile.getPath()); // Call method to display the clicked image
-                        }
-                    });
-                    imageGridPanel.add(imageLabel);
-                }
-            }
-        }
-
-        JScrollPane scrollPane = new JScrollPane(imageGridPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        // Main content panel that holds both the search bar and the image grid
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
+
+        JPanel searchPanel = IExploreUI.createSearchPanel();
+        JPanel imageGridPanel = IExploreUI.createImageGridPanel();
+        JScrollPane scrollPane = IExploreUI.createScrollPane(imageGridPanel);
+
         mainContentPanel.add(searchPanel);
-        mainContentPanel.add(scrollPane); // This will stretch to take up remaining space
+        mainContentPanel.add(scrollPane);
         return mainContentPanel;
     }
 
@@ -107,7 +79,7 @@ public class ExploreUI extends JPanel {
         String bio = "";
         String timestampString = "";
         int likes = 0;
-        Path detailsPath = Paths.get("img", "image_details.txt");
+        Path detailsPath = Paths.get("src/infrastructure/persistence/data/", "image_details.txt");
         try (Stream<String> lines = Files.lines(detailsPath)) {
             String details = lines.filter(line -> line.contains("ImageID: " + imageId)).findFirst().orElse("");
             if (!details.isEmpty()) {

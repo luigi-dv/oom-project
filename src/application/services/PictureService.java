@@ -52,4 +52,18 @@ public class PictureService {
     public List<Picture> getPicturesFromUser(User user) {
         return repository.findByUser(user);
     }
+
+    /**
+     * Get all pictures from followed users
+     *
+     * @param user The user to get the pictures from
+     * @return A list of pictures from the followed users
+     */
+    public List<Picture> getPicturesFromFollowedUsers(User user) {
+        return repository.findByFollowedUsers(user);
+    }
+
+    public List<Picture> getAllPictures() {
+        return repository.findAll();
+    }
 }

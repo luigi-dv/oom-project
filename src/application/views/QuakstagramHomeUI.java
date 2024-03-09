@@ -152,7 +152,7 @@ public class QuakstagramHomeUI extends JPanel {
     }
 
     private void handleLikeAction(String imageId, JLabel likesLabel) {
-        Path detailsPath = Paths.get("img", "image_details.txt");
+        Path detailsPath = Paths.get("src/infrastructure/persistence/data/image_details.txt", "image_details.txt");
         StringBuilder newContent = new StringBuilder();
         boolean updated = false;
         String currentUser = gui.currentUser.getUsername();
@@ -203,7 +203,7 @@ public class QuakstagramHomeUI extends JPanel {
     private String[][] createSampleData() {
         String currentUser = gui.currentUser.getUsername();
         String followedUsers = "";
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "following.txt"))) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/infrastructure/persistence/data/", "following.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(currentUser + ":")) {
@@ -219,7 +219,7 @@ public class QuakstagramHomeUI extends JPanel {
         String[][] tempData = new String[100][]; // Assuming a maximum of 100 posts for simplicity
         int count = 0;
 
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("img", "image_details.txt"))) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/infrastructure/persistence/data/", "image_details.txt"))) {
             String line;
             while ((line = reader.readLine()) != null && count < tempData.length) {
                 String[] details = line.split(", ");
