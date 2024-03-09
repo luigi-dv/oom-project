@@ -2,30 +2,22 @@ package src.application.views;
 
 import src.application.controllers.SignInController;
 import src.domain.entities.User;
-import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class SignInUI extends JPanel {
 
     private final int WIDTH;
     private final int HEIGHT;
     private final GUI gui;
-
     private JTextField txtUsername;
     private JTextField txtPassword;
     private JButton btnSignIn, btnRegisterNow;
     private JLabel lblPhoto;
-    private User newUser;
 
-    private SignInController controller;
+    private final SignInController controller;
 
     public SignInUI(int width, int height, GUI gui) {
         WIDTH = width;
@@ -121,7 +113,7 @@ public class SignInUI extends JPanel {
         String enteredPassword = txtPassword.getText();
         System.out.println(enteredUsername + " <-> " + enteredPassword);
         if (controller.signIn(enteredUsername, enteredPassword)) {
-           gui.changeScreen(UI.PROFILE, new User(enteredUsername));
+            gui.changeScreen(UI.PROFILE);
            return;
         }
         // TODO: Show error message
@@ -129,7 +121,7 @@ public class SignInUI extends JPanel {
     }
 
     private void onRegisterNowClicked(ActionEvent event) {
-        gui.changeScreen(UI.SIGNUP);
+        gui.changeAuthenticationScreen(UI.SIGNUP);
     }
 }
 

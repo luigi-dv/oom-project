@@ -1,8 +1,6 @@
 package src.application.views;
 
 import src.application.controllers.SignUpController;
-import src.application.providers.SessionProvider;
-import src.domain.entities.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -137,8 +135,7 @@ public class SignUpUI extends JPanel {
                     JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    User authenticatedUser = SessionProvider.getInstance().getAuthenticatedUser();
-                    gui.changeScreen(UI.PROFILE, authenticatedUser);
+                    gui.changeScreen(UI.PROFILE);
 //                    SwingUtilities.invokeLater(() -> {
 //                        SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
 //                        signInFrame.setVisible(true);
@@ -151,7 +148,7 @@ public class SignUpUI extends JPanel {
     private void openSignInUI() {
         // Close the SignUpUI frame
 
-        gui.changeScreen(UI.SIGNIN);
+        gui.changeAuthenticationScreen(UI.SIGNIN);
 
         // Open the SignInUI frame
         // SwingUtilities.invokeLater(() -> {

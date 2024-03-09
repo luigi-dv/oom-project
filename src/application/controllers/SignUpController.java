@@ -61,13 +61,4 @@ public class SignUpController {
             return true;
         }
     }
-
-    /**
-     * Retrieves the authenticated user with the provided username.
-     *
-     * @return The authenticated user or null if no user is authenticated.
-     */
-    public User getAuthenticatedUser() {
-        return signUpService.getAuthenticatedUser();
-    }
 }

@@ -41,7 +41,6 @@ public class GUI extends JFrame {
         add(panel);
         navigationPanel = createNavigationPanel();
         headerPanel = createHeaderPanel();
-
     }
 
     private void initEncryption(){
@@ -57,48 +56,63 @@ public class GUI extends JFrame {
         }
     }
 
+    public void changeAuthenticationScreen(UI panel) {
+        getContentPane().removeAll();
+        repaint();
+        JPanel pane = new JPanel();
+        switch (panel) {
+            case SIGNIN:
+                setTitle("Quackstagram - Sign In");
+                pane = new SignInUI(WIDTH, HEIGHT, this);
+                break;
+            case SIGNUP:
+                setTitle("Quackstagram - Register");
+                pane = new SignUpUI(WIDTH, HEIGHT, this);
+                break;
+            default:
+                break;
+        }
+        add(pane, BorderLayout.CENTER);
+        setVisible(true);
+    }
+
     public void changeScreen(UI panel){
+        currentUser = controller.getAuthenticatedUser();
         getContentPane().removeAll();
         repaint();
         JPanel pane = new JPanel();
         boolean header = false;
         boolean footer = false;
         switch (panel) {
-            case SIGNIN:
-                pane = new SignInUI(WIDTH, HEIGHT, this);
-                break;
-            case SIGNUP:
-                pane = new SignUpUI(WIDTH, HEIGHT, this);
-                break;
             case EXPLORE:
                 setTitle("Explore");
-                pane = new ExploreUI(WIDTH, HEIGHT, this);
+                pane = new ExploreUI(WIDTH, HEIGHT, this, currentUser);
                 setHeaderText("Explore");
                 footer = true;
                 header = true;
                 break;
             case PROFILE:
-                setTitle("DACS Profile");
-                pane = new InstagramProfileUI(WIDTH, HEIGHT, this);
+                setTitle("@" + currentUser.getUsername());
+                pane = new InstagramProfileUI(WIDTH, HEIGHT, this, currentUser);
                 footer = true;
                 break;
             case IMAGEUPLOAD:
                 setTitle("Upload Image");
-                pane = new ImageUploadUI(WIDTH, HEIGHT, this);
+                pane = new ImageUploadUI(WIDTH, HEIGHT, this, currentUser);
                 setHeaderText("Upload Image");
                 header = true;
                 footer = true;
                 break;
             case NOTIFICATIONS:
                 setTitle("Notifications");
-                pane = new NotificationsUI(WIDTH, HEIGHT, this);
+                pane = new NotificationsUI(WIDTH, HEIGHT, this, currentUser);
                 setHeaderText("Notifications");
                 header = true;
                 footer = true;
                 break;
             case HOME:
                 setTitle("Quakstagram Home");
-                pane = new QuakstagramHomeUI(WIDTH, HEIGHT, this);
+                pane = new QuakstagramHomeUI(WIDTH, HEIGHT, this, currentUser);
                 setHeaderText("Quackstagram");
                 header = true;
                 footer = true;
@@ -114,23 +128,6 @@ public class GUI extends JFrame {
             add(navigationPanel, BorderLayout.SOUTH);
         }
         setVisible(true);
-    }
-
-    public void changeScreen(UI panel, User user){
-        getContentPane().removeAll();
-        repaint();
-
-        if(currentUser == null){
-            currentUser = user;
-        }
-
-        JPanel pane = new InstagramProfileUI(WIDTH, HEIGHT, this, user);
-
-        add(pane, BorderLayout.NORTH);
-        add(navigationPanel, BorderLayout.SOUTH);
-
-        setVisible(true);
-
     }
 
     private void setHeaderText(String text){
@@ -157,15 +154,15 @@ public class GUI extends JFrame {
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        navigationPanel.add(createIconButton("resources/imagesicons/home.png", "home"));
+        navigationPanel.add(createIconButton("resources/images/icons/home.png", "home"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("resources/imagesicons/search.png", "explore"));
+        navigationPanel.add(createIconButton("resources/images/icons/search.png", "explore"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("resources/imagesicons/add.png", "add"));
+        navigationPanel.add(createIconButton("resources/images/icons/add.png", "add"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("resources/imagesicons/heart.png", "notification"));
+        navigationPanel.add(createIconButton("resources/images/icons/heart.png", "notification"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("resources/imagesicons/profile.png", "profile"));
+        navigationPanel.add(createIconButton("resources/images/icons/profile.png", "profile"));
 
         return navigationPanel;
 
@@ -198,7 +195,7 @@ public class GUI extends JFrame {
     }
 
     private void openProfileUI() {
-        changeScreen(UI.PROFILE, currentUser);
+        changeScreen(UI.PROFILE);
     }
 
     private void notificationsUI() {

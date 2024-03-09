@@ -1,5 +1,7 @@
 package src.application.views;
 
+import src.domain.entities.User;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -22,7 +24,7 @@ public class ImageUploadUI extends JPanel {
     private JButton saveButton;
     private boolean imageUploaded = false;
 
-    public ImageUploadUI(int width, int height, GUI gui) {
+    public ImageUploadUI(int width, int height, GUI gui, User user) {
         WIDTH = width;
         HEIGHT = height;
         setSize(WIDTH, HEIGHT);

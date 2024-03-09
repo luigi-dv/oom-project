@@ -1,5 +1,6 @@
 package src.application.views;
 
+import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class NotificationsUI extends JPanel {
     private final GUI gui;
     private static final int NAV_ICON_SIZE = 20; // Size for navigation icons
 
-    public NotificationsUI(int width, int height, GUI gui) {
+    public NotificationsUI(int width, int height, GUI gui, User user) {
         WIDTH = width;
         HEIGHT = height;
         this.gui = gui;

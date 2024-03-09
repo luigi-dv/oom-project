@@ -26,7 +26,7 @@ public class ExploreUI extends JPanel {
     // private final int NAV_ICON_SIZE = 20; // Size for navigation icons
     private final int IMAGE_SIZE; // Size for each image in the grid
 
-    public ExploreUI(int width, int height, GUI gui) {
+    public ExploreUI(int width, int height, GUI gui, User user) {
         WIDTH = width;
         HEIGHT = height;
         GUI = gui;
@@ -183,7 +183,7 @@ public class ExploreUI extends JPanel {
 
         usernameLabel.addActionListener(e -> {
             User user = new User(finalUsername); // Assuming User class has a constructor that takes a username
-            GUI.changeScreen(UI.PROFILE, user);
+            GUI.changeScreen(UI.PROFILE);
         });
 
         // Container panel for image and details

@@ -1,6 +1,6 @@
 package src.application.controllers;
 
-
+import src.domain.entities.User;
 import src.application.services.authentication.SignInService;
 
 public class SignInController {
@@ -26,8 +26,4 @@ public class SignInController {
     public boolean signIn(String username, String password) {
         return signInService.verifyCredentials(username, password) != null;
     }
-
-
-
-
 }

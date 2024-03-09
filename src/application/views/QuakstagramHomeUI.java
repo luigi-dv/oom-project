@@ -37,7 +37,7 @@ public class QuakstagramHomeUI extends JPanel {
     private JPanel homePanel;
     private JPanel imageViewPanel;
 
-    public QuakstagramHomeUI(int width, int height, GUI gui) {
+    public QuakstagramHomeUI(int width, int height, GUI gui, User user) {
         WIDTH = width;
         HEIGHT = height;
         this.gui = gui;

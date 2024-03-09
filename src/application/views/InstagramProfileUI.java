@@ -79,22 +79,6 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         //     e.printStackTrace();
         // }
 
-        // String bio = "";
-
-        // Path bioDetailsFilePath = Paths.get("data", "credentials.txt");
-        // try (BufferedReader bioDetailsReader = Files.newBufferedReader(bioDetailsFilePath)) {
-        //     String line;
-        //     while ((line = bioDetailsReader.readLine()) != null) {
-        //         String[] parts = line.split(":");
-        //         if (parts[0].equals(currentUser.getUsername()) && parts.length >= 3) {
-        //             bio = parts[2];
-        //             break; // Exit the loop once the matching bio is found
-        //         }
-        //     }
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
-
         // System.out.println("Bio for " + currentUser.getUsername() + ": " + bio);
         // currentUser.setBio(bio);
 
@@ -165,6 +149,7 @@ public class InstagramProfileUI extends JPanel implements IProfile {
 
         // Profile Name and Bio Panel
         JPanel profileNameAndBioPanel = IProfile.createProfileNameAndBioPanel(currentUser);
+
         headerPanel.add(profileNameAndBioPanel);
 
         return headerPanel;
