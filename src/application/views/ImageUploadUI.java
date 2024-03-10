@@ -1,24 +1,20 @@
 package src.application.views;
 
 import src.application.controllers.ImageUploadController;
+import src.application.views.interfaces.IImageUploadUI;
+import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class ImageUploadUI extends JPanel {
 
-    private final int WIDTH;
-    private final int HEIGHT;
     private JLabel imagePreviewLabel;
     private JTextArea captionTextArea;
     private JButton uploadButton;
@@ -27,13 +23,11 @@ public class ImageUploadUI extends JPanel {
     private final ImageUploadController controller;
     private User user;
 
-    public ImageUploadUI(int width, int height, GUI gui, User user) {
+    public ImageUploadUI(GUI gui, User user) {
         this.user = user;
         this.controller = new ImageUploadController();
-        WIDTH = width;
-        HEIGHT = height;
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
+        setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
         initializeUI();
     }
@@ -44,14 +38,14 @@ public class ImageUploadUI extends JPanel {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
         // Image preview
-        imagePreviewLabel = IImageUploadUI.createImagePreviewLabel(WIDTH, HEIGHT);
+        imagePreviewLabel = IImageUploadUI.createImagePreviewLabel(UIConstants.WIDTH, UIConstants.HEIGHT);
         contentPanel.add(imagePreviewLabel);
 
         // Bio text area
         captionTextArea = IImageUploadUI.createCaptionTextArea();
 
         JScrollPane bioScrollPane = new JScrollPane(captionTextArea);
-        bioScrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT / 6));
+        bioScrollPane.setPreferredSize(new Dimension(UIConstants.WIDTH - 50,  UIConstants.HEIGHT / 6));
         contentPanel.add(bioScrollPane);
 
         // Upload button
