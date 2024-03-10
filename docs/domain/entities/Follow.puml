@@ -1,0 +1,11 @@
+@startuml
+class Follow(Record) {
+- user : User
+- follower : User
+- datetime : LocalDateTime
+
++ user() : User
++ follower() : User
++ datetime() : LocalDateTime
+}
+@enduml
