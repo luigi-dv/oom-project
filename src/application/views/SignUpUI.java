@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.application.controllers.SignUpController;
+import src.application.views.interfaces.IAuthenticationUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,51 +10,66 @@ import java.awt.event.ActionListener;
 
 public class SignUpUI extends JPanel {
 
-    private final int WIDTH;
-    private final int HEIGHT;
     private final GUI gui;
 
     private JTextField txtUsername;
     private JTextField txtPassword;
     private JTextField txtBio;
-    private JButton btnRegister;
-    private JLabel lblPhoto;
-    private JButton btnUploadPhoto;
-    private JButton btnSignIn;
-
     private final SignUpController controller;
 
-    public SignUpUI(int width, int height, GUI gui) {
+    public SignUpUI(GUI gui) {
         this.controller = new SignUpController();
-        WIDTH = width;
-        HEIGHT = height;
         this.gui = gui;
         initializeUI();
     }
 
     private void initializeUI() {
-        // Header with the Register label
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel("Quackstagram 🐥");
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
+      
+        JPanel headerPanel = IAuthenticationUI.createHeaderPanel(); // Give the header a fixed height
+        JPanel fieldsPanel = createFieldsPanel();
+        JPanel registerPanel = createRegisterPanel();
 
-        // Profile picture placeholder without border
-        lblPhoto = new JLabel();
-        lblPhoto.setPreferredSize(new Dimension(80, 80));
-        lblPhoto.setHorizontalAlignment(JLabel.CENTER);
-        lblPhoto.setVerticalAlignment(JLabel.CENTER);
-        lblPhoto.setIcon(new ImageIcon(
-                new ImageIcon("resources/imageslogos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
-        JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
-        photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        photoPanel.add(lblPhoto);
+        // Adding components to the frame
+        add(headerPanel, BorderLayout.NORTH);
+        add(fieldsPanel, BorderLayout.CENTER);
+        add(registerPanel, BorderLayout.SOUTH);
+    }
 
-        // Text fields panel
+    private JButton createSignInButton() {
+        JButton signInButton = new JButton("Already have an account? Sign In");
+        signInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openSignInUI();
+            }
+        });
+        return signInButton;
+    }
+
+    private JButton createRegisterButton() {
+        JButton registerButton = new JButton("Register");
+        registerButton.addActionListener(this::onRegisterClicked);
+        registerButton.setBackground(new Color(255, 90, 95)); // Use a red color that matches the mockup
+        registerButton.setForeground(Color.BLACK); // Set the text color to black
+        registerButton.setFocusPainted(false);
+        registerButton.setBorderPainted(false);
+        registerButton.setFont(new Font("Arial", Font.BOLD, 14));
+        return registerButton;
+    }
+
+    private JPanel createRegisterPanel() {
+        JPanel registerPanel = new JPanel(new BorderLayout()); // Panel to contain the register button
+        registerPanel.setBackground(Color.WHITE);
+        JButton registerButton = createRegisterButton(); // Background for the panel
+        registerPanel.add(registerButton, BorderLayout.CENTER);
+        JButton signInButton = createSignInButton();
+        registerPanel.add(signInButton, BorderLayout.SOUTH);
+        return registerPanel;
+    }
+
+    private JPanel createFieldsPanel() {
         JPanel fieldsPanel = new JPanel();
+        JPanel photoPanel = IAuthenticationUI.createPhotoPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
@@ -72,43 +88,29 @@ public class SignUpUI extends JPanel {
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtBio);
-        btnUploadPhoto = new JButton("Upload Photo");
+        
+        JPanel photoUploadPanel = createPhotoUploadPanel();
+        fieldsPanel.add(photoUploadPanel);
+        return fieldsPanel;
+    }
 
-        btnUploadPhoto.addActionListener(new ActionListener() {
+    private JPanel createPhotoUploadPanel() {
+        JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton uploadPhotoButton = createUploadPhotoButton();
+        photoUploadPanel.add(uploadPhotoButton);
+        return photoUploadPanel;
+    }
+
+    private JButton createUploadPhotoButton() {
+        JButton uploadPhButton = new JButton("Upload Photo");
+
+        uploadPhButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.handleProfilePictureUpload(txtUsername.getText());
             }
         });
-        JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        photoUploadPanel.add(btnUploadPhoto);
-        fieldsPanel.add(photoUploadPanel);
-
-        // Register button with black text
-        btnRegister = new JButton("Register");
-        btnRegister.addActionListener(this::onRegisterClicked);
-        btnRegister.setBackground(new Color(255, 90, 95)); // Use a red color that matches the mockup
-        btnRegister.setForeground(Color.BLACK); // Set the text color to black
-        btnRegister.setFocusPainted(false);
-        btnRegister.setBorderPainted(false);
-        btnRegister.setFont(new Font("Arial", Font.BOLD, 14));
-        JPanel registerPanel = new JPanel(new BorderLayout()); // Panel to contain the register button
-        registerPanel.setBackground(Color.WHITE); // Background for the panel
-        registerPanel.add(btnRegister, BorderLayout.CENTER);
-
-        // Adding components to the frame
-        add(headerPanel, BorderLayout.NORTH);
-        add(fieldsPanel, BorderLayout.CENTER);
-        // Adding the sign in button to the register panel or another suitable panel
-        btnSignIn = new JButton("Already have an account? Sign In");
-        btnSignIn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openSignInUI();
-            }
-        });
-        registerPanel.add(btnSignIn, BorderLayout.SOUTH);
-        add(registerPanel, BorderLayout.SOUTH);
+        return uploadPhButton;
     }
 
     /**
@@ -136,25 +138,13 @@ public class SignUpUI extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     gui.changeScreen(UI.PROFILE);
-//                    SwingUtilities.invokeLater(() -> {
-//                        SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
-//                        signInFrame.setVisible(true);
-//                    });
                 }
             }
         }
     }
 
     private void openSignInUI() {
-        // Close the SignUpUI frame
-
         gui.changeAuthenticationScreen(UI.SIGNIN);
-
-        // Open the SignInUI frame
-        // SwingUtilities.invokeLater(() -> {
-        //     SignInUI signInFrame = new SignInUI(WIDTH, HEIGHT, gui);
-        //     signInFrame.setVisible(true);
-        // });
     }
 
 }
