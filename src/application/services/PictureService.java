@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class PictureService {
 
@@ -65,5 +66,9 @@ public class PictureService {
 
     public List<Picture> getAllPictures() {
         return repository.findAll();
+    }
+
+    public Picture getPictureById(UUID id) {
+        return repository.findById(id);
     }
 }

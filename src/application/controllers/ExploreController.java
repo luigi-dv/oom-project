@@ -6,6 +6,7 @@ import src.domain.entities.Picture;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.UUID;
 
 public class ExploreController extends BaseController {
 
@@ -36,5 +37,13 @@ public class ExploreController extends BaseController {
     public void displayImageDetails(ImageIcon imageIcon) {
         // Code for displaying image details using imageService
         // ...
+    }
+
+    public List<Picture> getallPictures() {
+        return pictureService.getAllPictures();
+    }
+
+    public Picture getPictureById(UUID id) {
+        return pictureService.getPictureById(id);
     }
 }
