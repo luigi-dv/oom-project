@@ -7,7 +7,6 @@ import src.infrastructure.utilities.Crypter;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -44,7 +43,7 @@ public class NotificationsUI extends JPanel {
                 if (Crypter.encryptedStringToString(parts[0].trim()).equals(currentUsername)) {
                     // Format the notification message
                     String userWhoLiked = Crypter.encryptedStringToString(parts[1].trim());
-                    String imageId = Crypter.encryptedStringToString(parts[2].trim());
+                    // String imageId = Crypter.encryptedStringToString(parts[2].trim());
                     String timestamp = Crypter.encryptedStringToString(parts[3].trim());
                     String notificationMessage = userWhoLiked + " liked your picture - " + getElapsedTime(timestamp)
                             + " ago";

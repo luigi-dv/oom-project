@@ -3,12 +3,7 @@ package src.application.services;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.infrastructure.repositories.PictureRepository;
-import src.infrastructure.utilities.storage.PictureStorage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 

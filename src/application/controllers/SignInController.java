@@ -1,6 +1,5 @@
 package src.application.controllers;
 
-import src.domain.entities.User;
 import src.application.services.authentication.SignInService;
 
 public class SignInController extends BaseController {

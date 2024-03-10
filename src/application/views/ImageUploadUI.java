@@ -19,7 +19,7 @@ public class ImageUploadUI extends JPanel {
     private JTextArea captionTextArea;
     private JButton uploadButton;
     private JButton saveButton;
-    private boolean imageUploaded = false;
+    // private boolean imageUploaded = false;
     private final ImageUploadController controller;
     private User user;
 
@@ -109,7 +109,7 @@ public class ImageUploadUI extends JPanel {
                 imagePreviewLabel.setIcon(imageIcon);
 
                 // Update the flag to indicate that an image has been uploaded
-                imageUploaded = true;
+                // imageUploaded = true;
 
                 // Change the text of the upload button
                 uploadButton.setText("Upload Another Image");

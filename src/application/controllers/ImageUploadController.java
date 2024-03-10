@@ -4,9 +4,6 @@ import src.application.services.PictureService;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 
-import java.awt.*;
-import java.net.UnknownServiceException;
-
 public class ImageUploadController extends BaseController{
 
     private final PictureService pictureService;

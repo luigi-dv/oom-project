@@ -68,6 +68,7 @@ public class LikeReader<T extends ILikeable> implements IFile {
      * @param line The line to parse.
      * @return The Like object parsed from the line.
      */
+    @SuppressWarnings("unchecked")
     private Like<T> parseLikeFromLine(String line) {
         String[] parts = line.split(":");
         String stringId = parts[1];
@@ -78,6 +79,7 @@ public class LikeReader<T extends ILikeable> implements IFile {
         UUID contentId = UUID.fromString(stringContentId);
         User user = new User(username);
 
+        // TODO: fix this
         ILikeable content;
         if (parts[0].equals("picture")) {
             content = new Picture(contentId);
@@ -85,6 +87,6 @@ public class LikeReader<T extends ILikeable> implements IFile {
             content = new Comment(contentId);
         }
 
-        return new Like<>(id, user, (T) content);
+        return new Like<T>(id, user, (T) content);
     }
 }

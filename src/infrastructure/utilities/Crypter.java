@@ -49,7 +49,7 @@ public class Crypter {
      * @param key
      */
     public void setKey(SecretKey key){
-        this.key = key;
+        Crypter.key = key;
     }
 
     /**
