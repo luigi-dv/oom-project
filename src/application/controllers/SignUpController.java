@@ -1,17 +1,17 @@
 package src.application.controllers;
 
-import java.awt.event.ActionEvent;
+
 import java.io.File;
 import javax.swing.*;
-import javax.imageio.ImageIO;
+import src.domain.entities.User;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import src.application.services.authentication.SignUpService;
-import src.application.views.SignInUI;
+
 
 /**
  * Controller class responsible for handling user sign-up operations.
  */
-public class SignUpController {
+public class SignUpController extends BaseController {
 
     /**
      * Service responsible for handling sign-up logic.
@@ -30,7 +30,7 @@ public class SignUpController {
      *
      * @param username The username of the user for whom the profile picture is being uploaded.
      */
-    private void handleProfilePictureUpload(String username) {
+    public void handleProfilePictureUpload(String username) {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif");
         fileChooser.setFileFilter(filter);
@@ -45,6 +45,7 @@ public class SignUpController {
 
     /**
      * Registers a new user with the provided username, password, and bio.
+     *
      * @param username The username
      * @param password The password
      * @param bio The biography
@@ -54,8 +55,9 @@ public class SignUpController {
         if (signUpService.doesUsernameExist(username)) {
             return false;
         } else {
-            signUpService.saveCredentials(username, password, bio);
-            handleProfilePictureUpload(username);
+            User newUser = new User(username, password, bio);
+            signUpService.registerUser(newUser);
+            //TODO: Check if the user profile have already upload photo - handleProfilePictureUpload(username);
             return true;
         }
     }

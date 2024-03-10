@@ -2,11 +2,12 @@ package src.infrastructure.repositories;
 
 import java.util.List;
 import java.util.UUID;
-import src.domain.entities.Picture;
+
 import src.domain.entities.User;
 import src.domain.repositiories.IPictureRepository;
-import src.infrastructure.utilities.filereaders.PictureReader;
-import src.infrastructure.utilities.filewriter.PictureWriter;
+import src.domain.entities.Picture;
+import src.infrastructure.utilities.file.reader.PictureReader;
+import src.infrastructure.utilities.file.writer.PictureWriter;
 
 
 /**
@@ -33,6 +34,26 @@ public class PictureRepository implements IPictureRepository {
      */
     public List<Picture> findByUser(User user) {
         return PictureReader.findPicturesFromUser(user);
+    }
+
+    /**
+     * Finds all pictures associated with users that the specified user is following.
+     *
+     * @param user The user entity.
+     * @return A list of pictures associated with users that the specified user is following.
+     */
+    public List<Picture> findByFollowedUsers(User user) {
+        // TODO: Implement the actual logic for finding pictures from followed users.
+        return null;
+    }
+
+    /**
+     * Finds all pictures.
+     *
+     * @return A list of all pictures.
+     */
+    public List<Picture> findAll() {
+        return PictureReader.findAll();
     }
 
     /**

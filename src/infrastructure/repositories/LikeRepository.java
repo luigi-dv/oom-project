@@ -3,10 +3,10 @@ package src.infrastructure.repositories;
 import java.util.List;
 import java.util.UUID;
 
-import src.domain.entities.ILikeable;
-import src.domain.entities.Like;
+import src.domain.interfaces.ILikeable;
 import src.domain.repositiories.ILikeRepository;
-import src.infrastructure.utilities.filewriter.LikeWriter;
+import src.infrastructure.utilities.file.writer.LikeWriter;
+import src.domain.entities.Like;
 
 /**
  * Repository class responsible for handling like data storage and retrieval in the infrastructure layer.
@@ -29,8 +29,8 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
      * @param like The like entity to be saved.
      * @return The saved like entity.
      */
-    public Like<T> save(Like<T> like) {
-        LikeWriter <T> likeWriter = new LikeWriter<>();
+    public Like<T> save(src.domain.entities.Like<T> like) {
+        LikeWriter<T> likeWriter = new LikeWriter<>();
         return likeWriter.writeToFile(like);
     }
 
@@ -43,6 +43,9 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
     public Like<T> delete(UUID uuid) {
         // TODO: Implement search
         Like<T> e = this.findById(uuid);
+        if (e != null) {
+            
+        }
         // Todo Return the object
         return null;
     }

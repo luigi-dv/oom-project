@@ -1,11 +1,12 @@
 package src.application.views;
 
+import src.application.views.interfaces.UIConstants;
+import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -14,17 +15,12 @@ import java.time.temporal.ChronoUnit;
 
 public class NotificationsUI extends JPanel {
 
-    private final int WIDTH;
-    private final int HEIGHT;
     private final GUI gui;
-    private static final int NAV_ICON_SIZE = 20; // Size for navigation icons
 
-    public NotificationsUI(int width, int height, GUI gui) {
-        WIDTH = width;
-        HEIGHT = height;
+    public NotificationsUI(GUI gui, User user) {
         this.gui = gui;
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
+        setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
         initializeUI();
     }
@@ -40,14 +36,14 @@ public class NotificationsUI extends JPanel {
         // Read the current username from users.txt
         String currentUsername = gui.currentUser.getUsername();
 
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "notifications.txt"))) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/infrastructure/persistence/data/", "notifications.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (Crypter.encryptedStringToString(parts[0].trim()).equals(currentUsername)) {
                     // Format the notification message
                     String userWhoLiked = Crypter.encryptedStringToString(parts[1].trim());
-                    String imageId = Crypter.encryptedStringToString(parts[2].trim());
+                    // String imageId = Crypter.encryptedStringToString(parts[2].trim());
                     String timestamp = Crypter.encryptedStringToString(parts[3].trim());
                     String notificationMessage = userWhoLiked + " liked your picture - " + getElapsedTime(timestamp)
                             + " ago";

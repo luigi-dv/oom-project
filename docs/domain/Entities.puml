@@ -1,6 +1,5 @@
 @startuml
 class User {
-
 - username : String
 - bio : String
 - password : String

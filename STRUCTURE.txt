@@ -16,7 +16,7 @@ Quackgram
 │           ├── utilities
 │           │   ├── filereaders
 │           │   ├── filewriter
-│           ├── persistance/data
+│           ├── persistence/data
 │           │   ├── credentials
 │           │   ├── following
 │           │   ├── notifications

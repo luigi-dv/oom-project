@@ -35,26 +35,51 @@ public class AuthenticationService {
     }
 
     /**
-     * Path to the directory where user profile photos are stored.
-     */
-    protected final String profilePhotoStoragePath = "img/storage/profile/";
-
-    /**
      * Authenticates a user with the provided username and password.
      *
      * @param username The username
      * @param password The password
      */
     public User authenticateUser(String username, String password) {
-        if(userService.getUserByUsername(username) != null){
+
+        try {
             User user = userService.getUserByUsername(username);
-            if(!user.getPassword().equals(password)){
-                return null;
+
+            if (user != null && validatePassword(user, password)) {
+                sessionProvider.setAuthenticatedUser(user);
+                return user;
+            } else {
+                System.out.println("Authentication failed for user: " + username);
+                // Log authentication failure or throw an exception
+                // depending on your application's error handling strategy.
+                // Example: LOGGER.error("Authentication failed for user: {}", username);
             }
-            SessionProvider.getInstance().setAuthenticatedUser(user);
-            return user;
+        } catch (Exception e) {
+            // Handle exceptions appropriately (e.g., log or throw)
         }
+
         return null;
+    }
+
+    /**
+     * Validates the provided password for the given user.
+     * @param user The user
+     * @param password The password to validate
+     * @return True if the password is valid, false otherwise
+     * @implNote This method should be overridden in subclasses to implement secure password validation logic.
+     */
+    private boolean validatePassword(User user, String password) {
+        // Implement secure password validation logic here
+        // e.g., using a secure hashing algorithm
+        return user.getPassword().equals(password);
+    }
+
+    /**
+     * Returns the currently authenticated user.
+     * @return The currently authenticated user or null if no user is authenticated.
+     */
+    public User getAuthenticatedUser() {
+        return SessionProvider.getInstance().getAuthenticatedUser();
     }
 
     /**
@@ -71,6 +96,18 @@ public class AuthenticationService {
      */
     public boolean doesUsernameExist(String username) {
         return userService.getUserByUsername(username) != null;
+    }
+
+
+    /**
+     * Registers a new user with the provided username, password, and bio.
+     *
+     * @param user The user to register
+     */
+    public void registerUser(User user) {
+        if(userService.createUser(user) != null){
+            authenticateUser(user.getUsername(), user.getPassword());
+        }
     }
 }
 

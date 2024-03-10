@@ -3,8 +3,8 @@ package src.infrastructure.repositories;
 import src.domain.aggregate.Follow;
 import src.domain.entities.User;
 import src.domain.repositiories.IFollowRepository;
-import src.infrastructure.utilities.filereaders.FollowerReader;
-import src.infrastructure.utilities.filewriter.FollowerWriter;
+import src.infrastructure.utilities.file.reader.FollowingReader;
+import src.infrastructure.utilities.file.writer.FollowerWriter;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class FollowRepository implements IFollowRepository {
      * @return The list of users following the user.
      */
     public List<User> findByUser(User user) {
-        return FollowerReader.getFollowersFromUser(user);
+        return FollowingReader.getFollowersFromUser(user);
     }
 
     /**
@@ -27,7 +27,7 @@ public class FollowRepository implements IFollowRepository {
      * @return The list of users that the user is following.q
      */
     public List<User> findByFollower(User user) {
-        return FollowerReader.getFollowingUsers(user);
+        return FollowingReader.getFollowingUsers(user);
     }
 
     /**

@@ -1,0 +1,16 @@
+@startuml
+class User {
+- username : String
+- bio : String
+- password : String
+- profile : Profile
+
++ getUsername() : String
++ getBio() : String
++ getProfile() : Profile
+
++ setUsername(username : String) : void
++ setProfile(profile : Profile) : void
++ toString() : String
+}
+@enduml
