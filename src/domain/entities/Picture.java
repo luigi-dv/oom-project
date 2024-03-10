@@ -130,6 +130,10 @@ public class Picture implements ILikeable {
         likes.remove(like);
     }
 
+    public User getUser() {
+        return user;
+    }
+
     /**
      * Get the user who posted the picture
      * @return The user who posted the picture
