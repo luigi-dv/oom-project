@@ -1,5 +1,6 @@
 package src.application.views;
 
+import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
@@ -15,17 +16,12 @@ import java.time.temporal.ChronoUnit;
 
 public class NotificationsUI extends JPanel {
 
-    private final int WIDTH;
-    private final int HEIGHT;
     private final GUI gui;
-    private static final int NAV_ICON_SIZE = 20; // Size for navigation icons
 
-    public NotificationsUI(int width, int height, GUI gui, User user) {
-        WIDTH = width;
-        HEIGHT = height;
+    public NotificationsUI(GUI gui, User user) {
         this.gui = gui;
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
+        setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
         initializeUI();
     }

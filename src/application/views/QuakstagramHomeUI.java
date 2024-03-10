@@ -1,5 +1,6 @@
 package src.application.views;
 
+import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 
 import javax.imageio.ImageIO;
@@ -25,25 +26,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class QuakstagramHomeUI extends JPanel {
-    private final int WIDTH;
-    private final int HEIGHT;
     private final GUI gui;
-    private static final int NAV_ICON_SIZE = 20; // Corrected static size for bottom icons
     private final int IMAGE_WIDTH; // Width for the image posts
-    private static final int IMAGE_HEIGHT = 150; // Height for the image posts
-    private static final Color LIKE_BUTTON_COLOR = new Color(255, 90, 95); // Color for the like button
+    private final int IMAGE_HEIGHT = 150; // Height for the image posts
+    private final Color LIKE_BUTTON_COLOR = new Color(255, 90, 95); // Color for the like button
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JPanel homePanel;
     private JPanel imageViewPanel;
 
-    public QuakstagramHomeUI(int width, int height, GUI gui, User user) {
-        WIDTH = width;
-        HEIGHT = height;
+    public QuakstagramHomeUI(GUI gui, User user) {
+    
         this.gui = gui;
-        IMAGE_WIDTH = WIDTH - 100;
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        IMAGE_WIDTH = UIConstants.WIDTH - 100;
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
+        setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -145,7 +142,7 @@ public class QuakstagramHomeUI extends JPanel {
 
             // Grey spacing panel
             JPanel spacingPanel = new JPanel();
-            spacingPanel.setPreferredSize(new Dimension(WIDTH - 10, 5)); // Set the height for spacing
+            spacingPanel.setPreferredSize(new Dimension(UIConstants.WIDTH - 10, 5)); // Set the height for spacing
             spacingPanel.setBackground(new Color(230, 230, 230)); // Grey color for spacing
             panel.add(spacingPanel);
         }
@@ -254,8 +251,8 @@ public class QuakstagramHomeUI extends JPanel {
 
         try {
             BufferedImage originalImage = ImageIO.read(new File(postData[3]));
-            BufferedImage croppedImage = originalImage.getSubimage(0, 0, Math.min(originalImage.getWidth(), WIDTH - 20),
-                    Math.min(originalImage.getHeight(), HEIGHT - 40));
+            BufferedImage croppedImage = originalImage.getSubimage(0, 0, Math.min(originalImage.getWidth(), UIConstants.WIDTH - 20),
+                    Math.min(originalImage.getHeight(), UIConstants.HEIGHT - 40));
             ImageIcon imageIcon = new ImageIcon(croppedImage);
             fullSizeImageLabel.setIcon(imageIcon);
         } catch (IOException ex) {
