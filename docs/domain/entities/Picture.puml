@@ -1,0 +1,26 @@
+@startuml
+class Picture implements ILikeable {
+- id : UUID
+- user : User
+- imagePath : String
+- caption : String
+- comments : List<Comment>
+- likes : List<Like<Picture>>
+
++ getId() : UUID
++ getUser() : User
++ getImagePath() : String
++ getCaption() : String
++ getLikesCount() : int
++ getComments() : List<Comment>
++ getLikes() : List<Like<Picture>>
++ getType() : String
+
++ addComment(comment: Comment) : void
++ addLike(like : Like<Picture>) : void
+
++ deleteComment(comment : Comment) : void
++ deleteLike(like : Like<Picture>) : void
+
+}
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class Like<T extends ILikeable> {
+- id : UUID
+- user : User
+- content : T
+
++ getId() : UUID
++ getUser() : User
++ getContent() : T
+}
+@enduml
