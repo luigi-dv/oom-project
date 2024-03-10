@@ -36,7 +36,7 @@ public class NotificationsUI extends JPanel {
         // Read the current username from users.txt
         String currentUsername = gui.currentUser.getUsername();
 
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "notifications.txt"))) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/infrastructure/persistence/data/", "notifications.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");

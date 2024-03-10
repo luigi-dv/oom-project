@@ -1,8 +1,7 @@
 package src.domain.entities;
 
-import src.domain.interfaces.ILikeable;
-
 import java.util.UUID;
+import src.domain.interfaces.ILikeable;
 
 /**
  * Represents a "Like" entity in the domain, indicating a user's liking of a specific post.

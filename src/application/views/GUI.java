@@ -1,14 +1,13 @@
 package src.application.views;
 
-import src.application.controllers.UIController;
-import src.application.views.interfaces.UIConstants;
+import java.awt.*;
+import javax.swing.*;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
-
-import javax.swing.*;
-import java.awt.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import src.application.controllers.UIController;
+import src.application.views.interfaces.UIConstants;
 
 /**
  * The GUI class represents the main graphical user interface for the Quackstagram application.

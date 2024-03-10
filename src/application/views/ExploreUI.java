@@ -17,6 +17,15 @@ import src.domain.entities.Picture;
 import java.util.List;
 import java.util.UUID;
 
+
+/**
+ * The ExploreUI class represents the user interface for exploring pictures in the application.
+ * It includes features such as displaying a grid of images, viewing details of a selected picture,
+ * and navigating between different screens.
+ *
+ * @authors Melcher Toby, Davila Luigelo, Eliëns Joa, Nijhuis Julian
+ * @version 1.0
+ */
 public class ExploreUI extends JPanel {
 
     private final GUI GUI;
@@ -24,6 +33,12 @@ public class ExploreUI extends JPanel {
 
     private final ExploreController controller;
 
+    /**
+     * Constructs an instance of ExploreUI.
+     *
+     * @param gui  The main graphical user interface.
+     * @param user The current user of the application.
+     */
     public ExploreUI(GUI gui, User user) {
         this.controller = new ExploreController();
         GUI = gui;
@@ -33,6 +48,9 @@ public class ExploreUI extends JPanel {
         initializeUI();
     }
 
+    /**
+     * Initializes the user interface by setting up the layout and calling the necessary methods.
+     */
     private void initializeUI() {
         setLayout(new BorderLayout());
         JPanel mainPanel = createMainContentPanel();
@@ -42,6 +60,11 @@ public class ExploreUI extends JPanel {
 
     }
 
+    /**
+     * Creates the main content panel containing the search bar, image grid, and scroll functionality.
+     *
+     * @return The main content panel.
+     */
     private JPanel createMainContentPanel() {
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
@@ -55,6 +78,9 @@ public class ExploreUI extends JPanel {
         return mainContentPanel;
     }
 
+    /**
+     * Event handler for mouse clicks on images in the grid. Displays the details of the selected picture.
+     */
     MouseAdapter mouseAdapter = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -66,6 +92,12 @@ public class ExploreUI extends JPanel {
         }
     };
 
+    /**
+     * Creates the top panel containing the username and posting time of the selected picture.
+     *
+     * @param picture The picture for which the top panel is created.
+     * @return The top panel.
+     */
     private JPanel createTopPanel(Picture picture) {
         JPanel topPanel = new JPanel(new BorderLayout());
         JButton usernameLabel = new JButton(picture.getUser().getUsername());
@@ -82,6 +114,12 @@ public class ExploreUI extends JPanel {
         return topPanel;
     }
 
+    /**
+     * Creates the bottom panel containing the picture caption and the number of likes.
+     *
+     * @param picture The picture for which the bottom panel is created.
+     * @return The bottom panel.
+     */
     private JPanel createBottomPanel(Picture picture) {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JTextArea bioTextArea = new JTextArea(picture.getCaption());
@@ -92,6 +130,12 @@ public class ExploreUI extends JPanel {
         return bottomPanel;
     }
 
+    /**
+     * Creates a JLabel to display the image of the given picture.
+     *
+     * @param picture The picture to display.
+     * @return The JLabel displaying the image.
+     */
     private JLabel createImageLabel(Picture picture) {
         JLabel imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -103,8 +147,13 @@ public class ExploreUI extends JPanel {
             imageLabel.setText("Image not found");
         }
         return imageLabel;
-    } 
+    }
 
+    /**
+     * Creates a panel with a "Back" button for navigating back to the main content panel.
+     *
+     * @return The panel containing the "Back" button.
+     */
     private JPanel createBackButtonPanel() {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton backButton = new JButton("Back");
@@ -120,6 +169,11 @@ public class ExploreUI extends JPanel {
         return backButtonPanel;
     }
 
+    /**
+     * Displays the details of the selected picture, including the image, username, posting time, caption, and likes.
+     *
+     * @param picture The selected picture.
+     */
     private void displayImage(Picture picture) {
         setLayout(new BorderLayout());
 
