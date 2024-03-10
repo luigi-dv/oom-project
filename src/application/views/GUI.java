@@ -1,6 +1,7 @@
 package src.application.views;
 
 import src.application.controllers.UIController;
+import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 
@@ -19,12 +20,8 @@ import java.nio.file.Path;
 public class GUI extends JFrame {
 
     public Crypter crypter;
-
     public User currentUser;
 
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 500;
-    private static final int NAV_ICON_SIZE = 20; // Corrected static size for bottom icons
     private JPanel navigationPanel; // Panel for the navigation
     private JPanel headerPanel;
     private JLabel headerText;
@@ -56,9 +53,9 @@ public class GUI extends JFrame {
         currentUser = controller.getAuthenticatedUser();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Quackstagram - Register");
-        setSize(WIDTH, HEIGHT);
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         initEncryption();
-        SignInUI panel = new SignInUI(WIDTH, HEIGHT, this);
+        SignInUI panel = new SignInUI(this);
         add(panel);
         navigationPanel = createNavigationPanel();
         headerPanel = createHeaderPanel();
@@ -84,11 +81,11 @@ public class GUI extends JFrame {
         switch (panel) {
             case SIGNIN:
                 setTitle("Quackstagram - Sign In");
-                pane = new SignInUI(WIDTH, HEIGHT, this);
+                pane = new SignInUI(this);
                 break;
             case SIGNUP:
                 setTitle("Quackstagram - Register");
-                pane = new SignUpUI(WIDTH, HEIGHT, this);
+                pane = new SignUpUI(this);
                 break;
             default:
                 break;
@@ -117,33 +114,33 @@ public class GUI extends JFrame {
             switch (panel) {
                 case EXPLORE:
                     setTitle("Explore");
-                    pane = new ExploreUI(WIDTH, HEIGHT, this, currentUser);
+                    pane = new ExploreUI(this, currentUser);
                     setHeaderText("Explore");
                     footer = true;
                     header = true;
                     break;
                 case PROFILE:
                     setTitle("@" + currentUser.getUsername());
-                    pane = new InstagramProfileUI(WIDTH, HEIGHT, this, currentUser);
+                    pane = new InstagramProfileUI(this, currentUser);
                     footer = true;
                     break;
                 case IMAGEUPLOAD:
                     setTitle("Upload Image");
-                    pane = new ImageUploadUI(WIDTH, HEIGHT, this, currentUser);
+                    pane = new ImageUploadUI(this, currentUser);
                     setHeaderText("Upload Image");
                     header = true;
                     footer = true;
                     break;
                 case NOTIFICATIONS:
                     setTitle("Notifications");
-                    pane = new NotificationsUI(WIDTH, HEIGHT, this, currentUser);
+                    pane = new NotificationsUI(this, currentUser);
                     setHeaderText("Notifications");
                     header = true;
                     footer = true;
                     break;
                 case HOME:
                     setTitle("Quakstagram Home");
-                    pane = new QuakstagramHomeUI(WIDTH, HEIGHT, this, currentUser);
+                    pane = new QuakstagramHomeUI(this, currentUser);
                     setHeaderText("Quackstagram");
                     header = true;
                     footer = true;
@@ -187,7 +184,7 @@ public class GUI extends JFrame {
         headerText.setFont(new Font("Arial", Font.BOLD, 16));
         headerText.setForeground(Color.WHITE); // Set the text color to white
         headerPanel.add(headerText);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
+        headerPanel.setPreferredSize(new Dimension(UIConstants.WIDTH, 40)); // Give the header a fixed height
         return headerPanel;
     }
 
@@ -228,7 +225,7 @@ public class GUI extends JFrame {
      */
     private JButton createIconButton(String iconPath, String buttonType) {
         ImageIcon iconOriginal = new ImageIcon(iconPath);
-        Image iconScaled = iconOriginal.getImage().getScaledInstance(NAV_ICON_SIZE, NAV_ICON_SIZE, Image.SCALE_SMOOTH);
+        Image iconScaled = iconOriginal.getImage().getScaledInstance(UIConstants.NAV_ICON_SIZE, UIConstants.NAV_ICON_SIZE, Image.SCALE_SMOOTH);
         JButton button = new JButton(new ImageIcon(iconScaled));
         button.setBorder(BorderFactory.createEmptyBorder());
         button.setContentAreaFilled(false);
