@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.stream.Stream;
+
+import src.application.views.interfaces.IProfile;
+import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.domain.valueobjects.image.RoundedBorder;
 
@@ -19,27 +22,20 @@ import java.awt.event.MouseAdapter;
  */
 public class InstagramProfileUI extends JPanel implements IProfile {
 
-    private final int WIDTH;
-    private final int HEIGHT;
-    private final GUI GUI;
     private final int GRID_IMAGE_SIZE; // Static size for grid images
 
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel; // Panel for the header
     private User currentUser; // User object to store the current user's information
 
-    public InstagramProfileUI(int width, int height, GUI gui, User user) {
+    public InstagramProfileUI(GUI gui, User user) {
         this.currentUser = user;
         // Initialize the user profile
         gui.controller.initializeProfile(user);
+        GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;
 
-        WIDTH = width;
-        HEIGHT = height;
-        GUI = gui;
-        GRID_IMAGE_SIZE = WIDTH / 3;
-
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
+        setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
         contentPanel = new JPanel();
         headerPanel = createHeaderPanel();
