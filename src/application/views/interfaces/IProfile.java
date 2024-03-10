@@ -1,4 +1,4 @@
-package src.application.views;
+package src.application.views.interfaces;
 
 import java.awt.*;
 import javax.swing.*;
