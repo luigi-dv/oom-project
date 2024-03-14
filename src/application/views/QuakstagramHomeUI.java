@@ -1,7 +1,6 @@
 package src.application.views;
 
 import src.application.controllers.UIController;
-import src.application.providers.SessionProvider;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
@@ -85,7 +84,10 @@ public class QuakstagramHomeUI extends JPanel {
     }
 
     private void handleLikeAction(Picture picture) {
-        controller.likePicture(picture);
+        
+        if (!controller.likePicture(picture)){
+            initializeUI();
+        }      
     }
 
     private JPanel createSpacingPanel() {

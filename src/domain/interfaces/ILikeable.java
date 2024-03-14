@@ -13,5 +13,5 @@ public interface ILikeable {
      * @return the type of the likeable entity
      */
     String getType();
-
+    
 }

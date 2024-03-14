@@ -68,6 +68,11 @@ public class Picture implements ILikeable {
         this.id = id;
     }
 
+    public Picture(UUID id, User user) {
+        this.id = id;
+        this.user = user;
+    }
+
     /**
      * Add a comment to the picture
      * @param comment The comment to be added
@@ -145,6 +150,10 @@ public class Picture implements ILikeable {
     @Override
     public String toString() {
         return id.toString() + ":" + user.getUsername() + ":" + imagePath + ":" + caption;
+    }
+
+    public void setLikes(List<Like<Picture>> likes) {
+        this.likes = likes;
     }
 
 }

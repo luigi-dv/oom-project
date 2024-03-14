@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import src.domain.interfaces.ILikeable;
 import src.domain.repositiories.ILikeRepository;
+import src.infrastructure.utilities.file.reader.LikeReader;
 import src.infrastructure.utilities.file.writer.LikeWriter;
 import src.domain.entities.Like;
+import src.domain.entities.Picture;
 
 /**
  * Repository class responsible for handling like data storage and retrieval in the infrastructure layer.
@@ -57,6 +59,7 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
      * @return A list of likes associated with the specified post ID.
      */
     public List<Like<T>> findByPostId(UUID postId) {
-        return null;
+        LikeReader<T> likeReader = new LikeReader<T>();
+        return likeReader.getLikesFromPost(postId);
     }
 }

@@ -1,9 +1,14 @@
 package src.application.services;
 
 
+import src.domain.entities.Comment;
 import src.domain.entities.Like;
+import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.domain.interfaces.ILikeable;
+
+import java.util.List;
+
 import src.application.providers.SessionProvider;
 import src.infrastructure.repositories.LikeRepository;
 
@@ -17,6 +22,8 @@ public class LikeService<T extends ILikeable> {
      */
     private final LikeRepository<T> repository;
     private final SessionProvider sessionProvider;
+    private final LikeRepository<Picture> likeRepositoryPicture;
+    private final LikeRepository<Comment> likeRepositoryComment;
 
     /**
      * Constructs a LikeService instance, initializing the LikeRepository.
@@ -24,6 +31,8 @@ public class LikeService<T extends ILikeable> {
     public LikeService(SessionProvider sessionProvider) {
         this.repository = new LikeRepository<T>();
         this.sessionProvider = sessionProvider;
+        this.likeRepositoryComment = new LikeRepository<>();
+        this.likeRepositoryPicture = new LikeRepository<>();
     }
 
     /**
@@ -31,13 +40,22 @@ public class LikeService<T extends ILikeable> {
      *
      * @param content The post to be liked.
      */
-    public void like(T content) {
+    public boolean like(T content) {
         if (sessionProvider.isAuthenticated()) {
+            User user = sessionProvider.getAuthenticatedUser();
+            List<Like<Picture>> likes = likeRepositoryPicture.findByPostId(content.getId());
+            for (Like<Picture> like : likes) {
+                if (like.getUser().getUsername().equals(user.getUsername())) {
+                    return false;
+                }
+            }
             Like<T> like = new Like<T>(sessionProvider.getAuthenticatedUser(), content);
             repository.save(like);
+            return true;
         } else {
             // Handle not authenticated
             System.out.println("You must be authenticated to like a post.");
+            return false;
         }
     }
 

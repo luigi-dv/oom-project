@@ -51,12 +51,12 @@ public class UIController extends BaseController {
         return pictureService.getAllPictures();
     }
 
-    public void likePicture(Picture picture) {
-        likeServicePicture.like(picture);
+    public boolean likePicture(Picture picture) {
+        return likeServicePicture.like(picture);
     }
 
-    public void likeComment(Comment comment) {
-        likeServiceComment.like(comment);
+    public boolean likeComment(Comment comment) {
+        return likeServiceComment.like(comment);
     }
 }
 

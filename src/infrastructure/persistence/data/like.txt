@@ -1,4 +1,1 @@
-picture:cf7fe443-cea6-424c-8c46-43799b9476d2:luigi:e85c2a7c-c329-495c-bfdc-d1387d96a3fa
-picture:0cff855e-84df-4fa9-9f62-cbdc34883302:luigi:e85c2a7c-c329-495c-bfdc-d1387d96a3fa
-picture:e923fcf0-215b-4431-8b31-476ff6b3f718:luigi:e85c2a7c-c329-495c-bfdc-d1387d96a3fa
-picture:201d8a76-77e7-4c48-9e36-a138d12ded7a:luigi:e85c2a7c-c329-495c-bfdc-d1387d96a3fa
+picture:d18d98b9-dcaa-4c33-b216-8b0a7123d72d:luigi:e85c2a7c-c329-495c-bfdc-d1387d96a3fa
