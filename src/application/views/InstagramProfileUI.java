@@ -2,11 +2,6 @@ package src.application.views;
 
 import java.awt.*;
 import javax.swing.*;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.util.stream.Stream;
 
 import src.application.views.interfaces.IProfile;
 import src.application.views.interfaces.UIConstants;
