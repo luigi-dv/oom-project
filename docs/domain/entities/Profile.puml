@@ -1,0 +1,23 @@
+@startuml
+class Profile{
+- pictures : List<Picture>
+- followingUsers : List<User>
+- followerUser : List<User>
+
++ getPostsCount() : int
++ getFollowerCount() : int
++ getFollowingCount() : int
+
++ getPictures() : List<Picture>
++ getFollowingUsers() : List<User>
++ getFollowerUser() : List<User>
+
++ addPicture(picture : Picture) : void
++ addFollower(user : User) : void
++ addFollowing(user : User) : void
+
++ setPictures(pictures : List<Picture>) : void
++ setFollowingUsers(followingUsers : List<User>) : void
++ setFollowerUser(followerUsers : List<User>) : void
+}
+@enduml

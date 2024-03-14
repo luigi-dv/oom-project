@@ -1,0 +1,18 @@
+@startuml
+class Comment implements ILikeable {
+- id : UUID
+- user : User
+- picture : Picture
+- likes : List<Like<Comment>>
+- text : String
+
++ getId() : UUID
++ getUser() : User
++ getPicture() : Picture
++ getText() : String
++ getLikesCount() : int
++ getType() : String
+
++ addLike(like : Like<Comment>) : void
+}
+@enduml

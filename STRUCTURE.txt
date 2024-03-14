@@ -1,0 +1,29 @@
+Quackgram
+
+├── src/
+│   └── modules/
+│       ├── application/
+│       │   ├── services
+│       │   ├── views
+│       │   └── controllers
+│       │   └── providers
+│       ├── domain/
+│       │   ├── entities
+│       │   ├── aggregate
+│       │   ├── repositories
+│       └── infrastructure/
+│           ├── repositories
+│           ├── utilities
+│           │   ├── filereaders
+│           │   ├── filewriter
+│           ├── persistence/data
+│           │   ├── credentials
+│           │   ├── following
+│           │   ├── notifications
+│           │   └── likes
+│           │   └── posts
+│           │   └── users
+├── resources/
+│   ├── images
+│   └── ...
+└── tests
