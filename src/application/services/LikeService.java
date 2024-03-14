@@ -11,7 +11,7 @@ import src.infrastructure.repositories.LikeRepository;
  * Service class responsible for managing like-related operations in the application.
  */
 public class LikeService<T extends ILikeable> {
-//GPT
+
     /**
      * The repository for handling like data.
      */
