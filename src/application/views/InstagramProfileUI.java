@@ -22,17 +22,16 @@ import java.awt.event.MouseAdapter;
  */
 public class InstagramProfileUI extends JPanel implements IProfile {
 
-    private final int GRID_IMAGE_SIZE; // Static size for grid images
+    private final int GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;; // Static size for grid images
 
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel; // Panel for the header
     private User currentUser; // User object to store the current user's information
 
     public InstagramProfileUI(GUI gui, User user) {
+
         this.currentUser = user;
-        // Initialize the user profile
         gui.controller.initializeProfile(user);
-        GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;
 
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
@@ -93,31 +92,27 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         contentPanel.removeAll(); // Clear existing content
         contentPanel.setLayout(new GridLayout(0, 3, 5, 5)); // Grid layout for image grid
 
-        Path imageDir = Paths.get("resources/images");
-        try (Stream<Path> paths = Files.list(imageDir)) {
-            paths.filter(path -> path.getFileName().toString().startsWith(currentUser.getUsername() + "_"))
-                    .forEach(path -> {
-                        ImageIcon imageIcon = new ImageIcon(new ImageIcon(path.toString()).getImage()
-                                .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
+        // Path imageDir = Paths.get("resources/images/uploaded");
+        System.out.println(currentUser.getProfile().getPictures().size());
+        currentUser.getProfile().getPictures().forEach(picture -> {
+            System.out.println(picture);
+            String filePath = "resources/storage/uploaded/" + picture.getImagePath();
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(filePath).getImage()
+                            .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
 
-                        // Wrap the imageIcon in a rounded JLabel
-                        JLabel roundedImageLabel = new JLabel(imageIcon);
-                        roundedImageLabel.setHorizontalAlignment(JLabel.CENTER);
-                        roundedImageLabel.setBorder(new RoundedBorder(10)); // Adjust the corner radius as needed
+            JLabel roundedImageLabel = new JLabel(imageIcon);
+            roundedImageLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    displayImage(imageIcon); 
+                }
+            });
 
-                        roundedImageLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                displayImage(imageIcon); // Call method to display the clicked image
-                            }
-                        });
-
-                        contentPanel.add(roundedImageLabel);
-                    });
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Handle exception (e.g., show a message or log)
-        }
+            contentPanel.add(roundedImageLabel);
+        });
+        
+                        
+        
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
