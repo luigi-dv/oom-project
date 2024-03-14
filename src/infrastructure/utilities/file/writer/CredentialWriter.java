@@ -3,6 +3,7 @@ package src.infrastructure.utilities.file.writer;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import src.domain.entities.User;
+import src.infrastructure.utilities.Crypter;
 import src.infrastructure.utilities.file.IFile;
 
 /**
@@ -24,8 +25,9 @@ public class CredentialWriter implements IFile {
      */
     public static User writeToFile(User user) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            // Concatenate username, password, and bio with ":" as a separator
-            writer.write(user.getUsername() + ":" + user.getPassword() + ":" + user.getBio());
+            writer.write(user.getUsername() + ":" +
+                    Crypter.StringToEncryptedString(user.getPassword()) + ":" +
+                    user.getBio());
             writer.newLine();
             return user;
         } catch (Exception e) {
