@@ -8,13 +8,14 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.stream.Stream;
 
+import src.application.controllers.SignUpController;
 import src.application.views.interfaces.IProfile;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.domain.valueobjects.image.RoundedBorder;
+import src.infrastructure.utilities.file.writer.CredentialWriter;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
 
 
 /**
@@ -27,9 +28,16 @@ public class InstagramProfileUI extends JPanel implements IProfile {
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel; // Panel for the header
     private User currentUser; // User object to store the current user's information
+    private GUI gui;
+    private boolean popupShown = false;
+    private JDialog dialog;
+    private JTextField bioInput;
+    private SignUpController controller;
 
     public InstagramProfileUI(GUI gui, User user) {
         this.currentUser = user;
+        this.gui = gui;
+        controller = new SignUpController();
         // Initialize the user profile
         gui.controller.initializeProfile(user);
         GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;
@@ -39,6 +47,7 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         setLayout(new BorderLayout());
         contentPanel = new JPanel();
         headerPanel = createHeaderPanel();
+        createPopup();
         initializeUI();
     }
 
@@ -74,6 +83,7 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         JPanel statsPanel = IProfile.createStatsPanel();
         JPanel statsFollowPanel = IProfile.createStatsFollowPanel(currentUser);
         JButton editProfileButton = IProfile.createEditProfileButton();
+        editProfileButton.addActionListener(e -> showPopup());
         statsPanel.add(statsFollowPanel);
         statsPanel.add(editProfileButton);
 
@@ -88,6 +98,58 @@ public class InstagramProfileUI extends JPanel implements IProfile {
 
     }
 
+    private void showPopup(){
+        if(!popupShown){
+            popupShown = !popupShown;
+            dialog.setVisible(popupShown);
+        } else {
+            popupShown = !popupShown;
+            dialog.setVisible(popupShown);
+            gui.currentUser.setBio(bioInput.getText());
+            gui.changeScreen(UI.PROFILE);
+            CredentialWriter.updateCredentials(gui.currentUser);
+        }
+    }
+
+    private void createPopup(){
+        dialog = new JDialog((JFrame)SwingUtilities.getWindowAncestor(this), "Edit profile", true);
+        JPanel panel = new JPanel(new GridLayout(3,2));
+        JLabel bioLabel = new JLabel("New Bio: ");
+        JLabel pfpLabel = new JLabel("Profile Picture");
+        bioInput = new JTextField(gui.currentUser.getBio());
+        JButton pictureButton = createUploadPhotoButton();
+
+        JButton doneButton = new JButton("Done");
+        doneButton.addActionListener(e -> showPopup());
+
+        panel.add(bioLabel);
+        panel.add(bioInput);
+        panel.add(pfpLabel);
+        panel.add(pictureButton);
+        panel.add(new JLabel());
+        panel.add(doneButton);
+
+        dialog.getContentPane().add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+    }
+
+    /**
+     * Creates the button for uploading a profile photo with an action listener.
+     *
+     * @return The upload photo button.
+     */
+    private JButton createUploadPhotoButton() {
+        JButton uploadPhButton = new JButton("Upload Photo");
+
+        uploadPhButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.handleProfilePictureUpload(gui.currentUser.getUsername());
+            }
+        });
+        return uploadPhButton;
+    }
 
     private void initializeImageGrid() {
         contentPanel.removeAll(); // Clear existing content
