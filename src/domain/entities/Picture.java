@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class representing a picture
  */
-public class Picture implements ILikeable {
+public class Picture  implements  ILikeable {
 
     /**
      * The unique identifier for the picture

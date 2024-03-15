@@ -29,6 +29,7 @@ public class QuakstagramHomeUI extends JPanel {
     private JPanel cardPanel;
     private JPanel homePanel;
     private JPanel imageViewPanel;
+    private JLabel likesLabel;
 
     private UIController controller;
     private User user;
@@ -85,8 +86,8 @@ public class QuakstagramHomeUI extends JPanel {
 
     private void handleLikeAction(Picture picture) {
         
-        if (!controller.likePicture(picture)){
-            initializeUI();
+        if (controller.likePicture(picture)){
+            likesLabel.setText(picture.getLikes().size() + " likes");
         }      
     }
 
@@ -166,7 +167,7 @@ public class QuakstagramHomeUI extends JPanel {
         // Crop the image to the fixed size
         JLabel imageLabel = createImageLabel(picture);
         JLabel descriptionLabel = getDescriptionLabel(picture);
-        JLabel likesLabel = createLikesLabel(picture);
+        likesLabel = createLikesLabel(picture);
         JButton likeButton = createLikeButton(picture);
         likeButton.addActionListener(new ActionListener() {
             @Override

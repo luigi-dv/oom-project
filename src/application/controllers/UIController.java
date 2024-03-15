@@ -5,7 +5,6 @@ import src.domain.entities.Picture;
 import src.domain.entities.User;
 
 import java.util.List;
-import java.util.UUID;
 
 import src.application.services.LikeService;
 import src.application.services.PictureService;
@@ -55,8 +54,8 @@ public class UIController extends BaseController {
         return likeServicePicture.like(picture);
     }
 
-    public boolean likeComment(Comment comment) {
-        return likeServiceComment.like(comment);
-    }
+    // public boolean likeComment(Comment comment) {
+    //     return likeServiceComment.like(comment);
+    // }
 }
 
