@@ -1,9 +1,14 @@
 package src.application.services;
 
 
+import src.domain.entities.Comment;
 import src.domain.entities.Like;
+import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.domain.interfaces.ILikeable;
+
+import java.util.List;
+
 import src.application.providers.SessionProvider;
 import src.infrastructure.repositories.LikeRepository;
 
@@ -11,12 +16,11 @@ import src.infrastructure.repositories.LikeRepository;
  * Service class responsible for managing like-related operations in the application.
  */
 public class LikeService<T extends ILikeable> {
-
-    /**
-     * The repository for handling like data.
-     */
+    
     private final LikeRepository<T> repository;
     private final SessionProvider sessionProvider;
+    private final LikeRepository<Picture> likeRepositoryPicture;
+    private final LikeRepository<Comment> likeRepositoryComment;
 
     /**
      * Constructs a LikeService instance, initializing the LikeRepository.
@@ -24,6 +28,8 @@ public class LikeService<T extends ILikeable> {
     public LikeService(SessionProvider sessionProvider) {
         this.repository = new LikeRepository<T>();
         this.sessionProvider = sessionProvider;
+        this.likeRepositoryComment = new LikeRepository<>();
+        this.likeRepositoryPicture = new LikeRepository<>();
     }
 
     /**
@@ -31,13 +37,23 @@ public class LikeService<T extends ILikeable> {
      *
      * @param content The post to be liked.
      */
-    public void like(T content) {
+    public boolean like(Picture content) {
         if (sessionProvider.isAuthenticated()) {
-            Like<T> like = new Like<T>(sessionProvider.getAuthenticatedUser(), content);
-            repository.save(like);
+            User user = sessionProvider.getAuthenticatedUser();
+            List<Like<Picture>> likes = likeRepositoryPicture.findByPostId(content.getId());
+            for (Like<Picture> like : likes) {
+                if (like.getUser().getUsername().equals(user.getUsername())) {
+                    return false;
+                }
+            }
+            Like<Picture> like = new Like<>(user, content);
+            likeRepositoryPicture.save(like);
+            content.addLike(like);
+            return true;    
         } else {
             // Handle not authenticated
             System.out.println("You must be authenticated to like a post.");
+            return false;
         }
     }
 

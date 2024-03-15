@@ -10,7 +10,7 @@ public class Comment implements ILikeable {
     private final UUID id;
     private User user;
     private Picture picture;
-    private String text;
+    private String text; 
     private List<Like<Comment>> likes;
 
     public Comment(User user, Picture picture, String text) {
@@ -75,7 +75,11 @@ public class Comment implements ILikeable {
      * @param comment the comment that was liked
      */
     public void addLike(User user, Comment comment) {
-        this.likes.add(new Like<>(user, comment));
+        addLike(new Like<>(user, comment));
+    }
+
+    public void addLike(Like<Comment> like) {
+        this.likes.add(like);
     }
 
     /**

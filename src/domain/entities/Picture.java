@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class representing a picture
  */
-public class Picture implements ILikeable {
+public class Picture  implements  ILikeable {
 
     /**
      * The unique identifier for the picture
@@ -66,6 +66,11 @@ public class Picture implements ILikeable {
 
     public Picture(UUID id) {
         this.id = id;
+    }
+
+    public Picture(UUID id, User user) {
+        this.id = id;
+        this.user = user;
     }
 
     /**
@@ -145,6 +150,10 @@ public class Picture implements ILikeable {
     @Override
     public String toString() {
         return id.toString() + ":" + user.getUsername() + ":" + imagePath + ":" + caption;
+    }
+
+    public void setLikes(List<Like<Picture>> likes) {
+        this.likes = likes;
     }
 
 }

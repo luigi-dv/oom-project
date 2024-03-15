@@ -78,7 +78,7 @@ public class ImageUploadUI extends JPanel {
 
                 String newFileName = getNewFileName(username, imageId, fileExtension);
 
-                Path destPath = Paths.get("img", "uploaded", newFileName);
+                Path destPath = Paths.get("resources\\storage\\uploaded", newFileName);
                 Files.copy(selectedFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
 
                 // Save the bio and image ID to a text file
@@ -116,6 +116,7 @@ public class ImageUploadUI extends JPanel {
 
                 JOptionPane.showMessageDialog(this, "Image uploaded and preview updated!");
             } catch (IOException ex) {
+                System.out.println(ex.getLocalizedMessage());
                 JOptionPane.showMessageDialog(this, "Error saving image: " + ex.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
             }

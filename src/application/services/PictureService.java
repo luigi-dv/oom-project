@@ -1,7 +1,10 @@
 package src.application.services;
 
+import src.application.providers.SessionProvider;
+import src.domain.entities.Like;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
+import src.infrastructure.repositories.LikeRepository;
 import src.infrastructure.repositories.PictureRepository;
 
 import java.util.List;
@@ -13,12 +16,14 @@ public class PictureService {
      * The picture repository
      */
     private final PictureRepository repository;
+    private final LikeRepository<Picture> likeRepositoryPicture;
 
     /**
      * Constructor for PictureService
      */
     public PictureService() {
         this.repository = new PictureRepository();
+        this.likeRepositoryPicture = new LikeRepository<>();
     }
 
     /**
@@ -60,7 +65,11 @@ public class PictureService {
     }
 
     public List<Picture> getAllPictures() {
-        return repository.findAll();
+        List<Picture> pictures = repository.findAll();
+        for (Picture picture : pictures) {
+            picture.setLikes(likeRepositoryPicture.findByPostId(picture.getId()));
+        }
+        return pictures;
     }
 
     public Picture getPictureById(UUID id) {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import src.domain.entities.Like;
 import src.domain.entities.User;
-import src.domain.entities.Comment;
 import src.domain.entities.Picture;
 import src.domain.interfaces.ILikeable;
 import src.infrastructure.utilities.file.IFile;
@@ -26,7 +25,7 @@ public class LikeReader<T extends ILikeable> implements IFile {
     /**
      * Path to the file storing likes.
      */
-    private static final String FILE_PATH = FILE_PATH_ROOT + "likes.txt";
+    private static final String FILE_PATH = FILE_PATH_ROOT + "like.txt";
 
     /**
      * Checks if the likes file exists.
@@ -49,8 +48,11 @@ public class LikeReader<T extends ILikeable> implements IFile {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("picture" + ":" + stringId) || line.startsWith("comment" + ":" + stringId)) {
-                    likes.add(parseLikeFromLine(line));
+                if (line.startsWith("picture")) {
+                    Like<T> like = parseLikeFromLine(line, stringId);
+                    if (like != null) {
+                        likes.add(like);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -61,6 +63,7 @@ public class LikeReader<T extends ILikeable> implements IFile {
 
         return likes;
     }
+    // line.startsWith("picture" + ":" + stringId)
 
     /**
      * Parses a Like object from a line in the likes file.
@@ -69,24 +72,21 @@ public class LikeReader<T extends ILikeable> implements IFile {
      * @return The Like object parsed from the line.
      */
     @SuppressWarnings("unchecked")
-    private Like<T> parseLikeFromLine(String line) {
+    private Like<T> parseLikeFromLine(String line, String pictureId) {
         String[] parts = line.split(":");
         String stringId = parts[1];
         String username = parts[2];
         String stringContentId = parts[3];
 
+        if (!stringContentId.equals(pictureId)) {
+            return null;
+        }
+
         UUID id = UUID.fromString(stringId);
         UUID contentId = UUID.fromString(stringContentId);
         User user = new User(username);
 
-        // TODO: fix this
-        ILikeable content;
-        if (parts[0].equals("picture")) {
-            content = new Picture(contentId);
-        } else {
-            content = new Comment(contentId);
-        }
-
+        ILikeable content = new Picture(contentId, user);
         return new Like<T>(id, user, (T) content);
     }
 }
