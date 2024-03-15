@@ -12,7 +12,6 @@ import src.infrastructure.utilities.file.writer.CredentialWriter;
 
 import java.awt.event.*;
 
-
 /**
  * Instagram Profile UI
  */
