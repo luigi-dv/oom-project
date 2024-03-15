@@ -91,7 +91,7 @@ public class Crypter {
      * @return the encrypted String
      * @throws Exception
      */
-    public static String StringToEncryptedString(String text) throws Exception{
+    public static String StringToEncryptedString(String text) throws Exception {
         return Base64.getEncoder().encodeToString(encrypt(text, key));
     }
 

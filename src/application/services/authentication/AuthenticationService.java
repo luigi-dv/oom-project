@@ -4,6 +4,7 @@ import src.application.providers.SessionProvider;
 import src.application.services.EncryptService;
 import src.application.services.UserService;
 import src.domain.entities.User;
+import src.infrastructure.utilities.Crypter;
 
 
 /**
@@ -68,10 +69,10 @@ public class AuthenticationService {
      * @return True if the password is valid, false otherwise
      * @implNote This method should be overridden in subclasses to implement secure password validation logic.
      */
-    private boolean validatePassword(User user, String password) {
+    private boolean validatePassword(User user, String password) throws Exception {
         // Implement secure password validation logic here
         // e.g., using a secure hashing algorithm
-        return user.getPassword().equals(password);
+        return user.getPassword().equals(Crypter.StringToEncryptedString(password));
     }
 
     /**
