@@ -24,11 +24,8 @@ public class CredentialWriter implements IFile {
      */
     public static User writeToFile(User user) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            // writer.write(user.getUsername() + ":" +
-            //         Crypter.StringToEncryptedString(user.getPassword()) + ":" +
-            //         user.getBio());
             writer.write(user.getUsername() + ":" +
-                    user.getPassword() + ":" +
+                    Crypter.StringToEncryptedString(user.getPassword()) + ":" +
                     user.getBio());
             writer.newLine();
             return user;
