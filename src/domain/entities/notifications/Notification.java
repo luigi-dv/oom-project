@@ -38,6 +38,10 @@ public abstract class Notification {
         return user;
     }
 
+    public LocalDateTime getTimestamp() {
+        return date;
+    }
+
     @Override
     public String toString() {
         return getType() + ":" + message + ":" + date + ":" + user.getUsername();
