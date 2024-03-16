@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import src.application.controllers.SignUpController;
+import src.application.controllers.UIController;
 import src.application.views.interfaces.IProfile;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
@@ -12,13 +13,12 @@ import src.infrastructure.utilities.file.writer.CredentialWriter;
 
 import java.awt.event.*;
 
-
 /**
  * Instagram Profile UI
  */
 public class InstagramProfileUI extends JPanel implements IProfile {
 
-    private final int GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;; // Static size for grid images
+    private final int GRID_IMAGE_SIZE = UIConstants.WIDTH / 3; // Static size for grid images
 
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private JPanel headerPanel; // Panel for the header
@@ -28,11 +28,13 @@ public class InstagramProfileUI extends JPanel implements IProfile {
     private JDialog dialog;
     private JTextField bioInput;
     private SignUpController controller;
+    private UIController uiController;
 
     public InstagramProfileUI(GUI gui, User user) {
-
+        this.gui = gui;
         this.currentUser = user;
         gui.controller.initializeProfile(user);
+        uiController = gui.controller;
 
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
@@ -97,9 +99,8 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         } else {
             popupShown = !popupShown;
             dialog.setVisible(popupShown);
-            gui.currentUser.setBio(bioInput.getText());
             gui.changeScreen(UI.PROFILE);
-            CredentialWriter.updateCredentials(gui.currentUser);
+            uiController.setUserBio(currentUser, bioInput.getText());
         }
     }
 
