@@ -2,6 +2,7 @@ package src.application.services;
 
 import java.util.List;
 import src.domain.entities.User;
+import src.domain.entities.notifications.FollowNotification;
 import src.domain.aggregate.Follow;
 import src.infrastructure.repositories.FollowRepository;
 
@@ -10,12 +11,14 @@ public class FollowService {
      * The picture repository
      */
     private final FollowRepository repository;
+    private final NotificationService notificationService;
 
     /**
      * Constructor for PictureService
      */
     public FollowService() {
         this.repository = new FollowRepository();
+        this.notificationService = new NotificationService();
     }
 
     /**
@@ -24,6 +27,11 @@ public class FollowService {
      * @param follow The follow to be saved
      */
     public void save(Follow follow) {
+        User user = follow.user();
+        User follower = follow.follower();
+        String message = follower.getUsername() + " followed you";
+        FollowNotification notification = new FollowNotification(user, message);
+        notificationService.writeNotification(notification);
         repository.save(follow);
     }
 

@@ -1,24 +1,29 @@
 package src.application.views;
 
+import src.application.controllers.UIController;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
-import src.infrastructure.utilities.Crypter;
+import src.domain.entities.notifications.Notification;
+
+
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class NotificationsUI extends JPanel {
 
     private final GUI gui;
+    private final UIController controller;
 
     public NotificationsUI(GUI gui, User user) {
         this.gui = gui;
+        this.controller = new UIController();
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
@@ -33,49 +38,35 @@ public class NotificationsUI extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        // Read the current username from users.txt
-        String currentUsername = gui.currentUser.getUsername();
+        List<Notification> notifications = controller.getNotifications(gui.currentUser);
 
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/infrastructure/persistence/data/", "notifications.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts[0].trim().equals(currentUsername)) {
-                    // Format the notification message
-                    String userWhoLiked = parts[1].trim();
-                    String imageId = parts[2].trim();
-                    String timestamp = parts[3].trim();
-                    String notificationMessage = userWhoLiked + " liked your picture - " + getElapsedTime(timestamp)
-                            + " ago";
+        for (Notification notification : notifications) {
 
-                    // Add the notification to the panel
-                    JPanel notificationPanel = new JPanel(new BorderLayout());
-                    notificationPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            System.out.println(notification);
+            JPanel notificationPanel = new JPanel(new BorderLayout());
+            notificationPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-                    JLabel notificationLabel = new JLabel(notificationMessage);
-                    notificationPanel.add(notificationLabel, BorderLayout.CENTER);
+            JLabel notificationLabel = new JLabel(notification.getMessage() + " - " + getElapsedTime(notification.getTimestamp()) + " ago");
+            notificationPanel.add(notificationLabel, BorderLayout.CENTER);
 
-                    // Add profile icon (if available) and timestamp
-                    // ... (Additional UI components if needed)
-
-                    contentPanel.add(notificationPanel);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            contentPanel.add(notificationPanel);
         }
-        // Add panels to frame
+
         add(scrollPane);
     }
 
-    private String getElapsedTime(String timestamp) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime timeOfNotification = LocalDateTime.parse(timestamp, formatter);
+    private String getElapsedTime(LocalDateTime timestamp) {
+
         LocalDateTime currentTime = LocalDateTime.now();
 
-        long daysBetween = ChronoUnit.DAYS.between(timeOfNotification, currentTime);
-        long minutesBetween = ChronoUnit.MINUTES.between(timeOfNotification, currentTime) % 60;
+        long daysBetween = ChronoUnit.DAYS.between(timestamp, currentTime);
+        long minutesBetween = ChronoUnit.MINUTES.between(timestamp, currentTime) % 60;
 
+        StringBuilder timeElapsed = buildTimeElapsedString(daysBetween, minutesBetween);
+        return timeElapsed.toString();
+    }
+
+    private StringBuilder buildTimeElapsedString(long daysBetween, long minutesBetween) {
         StringBuilder timeElapsed = new StringBuilder();
         if (daysBetween > 0) {
             timeElapsed.append(daysBetween).append(" day").append(daysBetween > 1 ? "s" : "");
@@ -86,7 +77,7 @@ public class NotificationsUI extends JPanel {
             }
             timeElapsed.append(minutesBetween).append(" minute").append(minutesBetween > 1 ? "s" : "");
         }
-        return timeElapsed.toString();
+        return timeElapsed;
     }
 }
 

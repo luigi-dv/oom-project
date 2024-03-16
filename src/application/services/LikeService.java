@@ -5,6 +5,7 @@ import src.domain.entities.Comment;
 import src.domain.entities.Like;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
+import src.domain.entities.notifications.PictureLikeNotification;
 import src.domain.interfaces.ILikeable;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class LikeService<T extends ILikeable> {
     private final SessionProvider sessionProvider;
     private final LikeRepository<Picture> likeRepositoryPicture;
     private final LikeRepository<Comment> likeRepositoryComment;
+    private final NotificationService notificationService;
 
     /**
      * Constructs a LikeService instance, initializing the LikeRepository.
@@ -30,6 +32,7 @@ public class LikeService<T extends ILikeable> {
         this.sessionProvider = sessionProvider;
         this.likeRepositoryComment = new LikeRepository<>();
         this.likeRepositoryPicture = new LikeRepository<>();
+        this.notificationService = new NotificationService();
     }
 
     /**
@@ -49,6 +52,11 @@ public class LikeService<T extends ILikeable> {
             Like<Picture> like = new Like<>(user, content);
             likeRepositoryPicture.save(like);
             content.addLike(like);
+
+            String message = user.getUsername() + " liked your picture";
+            PictureLikeNotification notification = new PictureLikeNotification(content.getUser(), message);
+            notificationService.writeNotification(notification);
+
             return true;    
         } else {
             // Handle not authenticated

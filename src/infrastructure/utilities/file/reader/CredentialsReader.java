@@ -65,7 +65,6 @@ public class CredentialsReader implements IFile {
         // Split the line using ":" as a separator
         String[] parts = line.split(":");
 
-        // Assuming the format is "encryptedUsername:bio:encryptedPassword"
         String username = parts[0];
         String password = parts[1];
         String bio = parts[2];
