@@ -9,7 +9,6 @@ import src.application.views.interfaces.IProfile;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.domain.valueobjects.image.RoundedBorder;
-import src.infrastructure.utilities.file.writer.CredentialWriter;
 
 import java.awt.event.*;
 

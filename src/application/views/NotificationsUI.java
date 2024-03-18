@@ -5,14 +5,11 @@ import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
 import src.domain.entities.notifications.Notification;
 
-
-
 import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -20,8 +17,10 @@ public class NotificationsUI extends JPanel {
 
     private final GUI gui;
     private final UIController controller;
+    private final User user;
 
     public NotificationsUI(GUI gui, User user) {
+        this.user = user;
         this.gui = gui;
         this.controller = new UIController();
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
@@ -38,7 +37,7 @@ public class NotificationsUI extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        List<Notification> notifications = controller.getNotifications(gui.currentUser);
+        List<Notification> notifications = controller.getNotifications(user);
 
         for (Notification notification : notifications) {
 
