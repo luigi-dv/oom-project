@@ -12,23 +12,29 @@ import src.domain.entities.notifications.TaggingNotification;
 
 public class NotificationFactory {
     
-    public static Notification createNotification(NotificationType type, String message, User user, LocalDateTime date) {
+    public static Notification createNotification(
+            NotificationType type,
+            User notifierUser,
+            User notifiedUser,
+            String message,
+            LocalDateTime date
+    ) {
         Notification notification;
         switch (type) {
             case COMMENT_LIKE:
-                notification = new CommentLikeNotification(user, message);
+                notification = new CommentLikeNotification(notifierUser, notifiedUser, message);
                 notification.setDate(date);
                 break;
             case TAGGING:
-                notification = new TaggingNotification(user, message);
+                notification = new TaggingNotification(notifierUser, notifiedUser, message);
                 notification.setDate(date);
                 break;
             case FOLLOW:
-                notification = new FollowNotification(user, message);
+                notification = new FollowNotification(notifierUser, notifiedUser, message);
                 notification.setDate(date);
                 break;
             case PICTURE_LIKE:
-                notification = new PictureLikeNotification(user, message);
+                notification = new PictureLikeNotification(notifierUser, notifiedUser, message);
                 notification.setDate(date);
                 break;
             default:

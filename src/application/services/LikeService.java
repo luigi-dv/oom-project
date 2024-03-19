@@ -52,11 +52,9 @@ public class LikeService<T extends ILikeable> {
             Like<Picture> like = new Like<>(user, content);
             likeRepositoryPicture.save(like);
             content.addLike(like);
-
             String message = user.getUsername() + " liked your picture";
-            PictureLikeNotification notification = new PictureLikeNotification(content.getUser(), message);
+            PictureLikeNotification notification = new PictureLikeNotification(user, content.getUser(), message);
             notificationService.writeNotification(notification);
-
             return true;    
         } else {
             // Handle not authenticated
