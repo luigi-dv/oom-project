@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import src.domain.entities.User;
 import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.ui.AvatarImagePanel;
 
 public class ProfileHeaderPanel extends JPanel {
 
@@ -18,14 +19,33 @@ public class ProfileHeaderPanel extends JPanel {
      */
     public ProfileHeaderPanel(User currentUser) {
         this.currentUser = currentUser;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Top, left, bottom, right padding
-        JPanel northPanel = new JPanel(new GridLayout(1, 2));
-        northPanel.add(createProfileImage());
-        northPanel.add(createStatsPanel());
-        add(northPanel, BorderLayout.NORTH);
-        add(new BiographyPanel(currentUser), BorderLayout.CENTER);
-        add(createButtonsPanel(), BorderLayout.SOUTH);
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(createProfileImage(), gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        add(createStatsPanel(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(new BiographyPanel(currentUser), gbc);
+
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        add(createButtonsPanel(), gbc);
     }
 
     /**
@@ -45,13 +65,8 @@ public class ProfileHeaderPanel extends JPanel {
      * Creates the profile image.
      * @return The profile image.
      */
-    private JLabel createProfileImage() {
-        int PROFILE_IMAGE_SIZE = 80;
-        ImageIcon profileIcon = new ImageIcon(new ImageIcon("resources/storage/images/" + currentUser.getUsername() + ".png")
-                .getImage().getScaledInstance(PROFILE_IMAGE_SIZE, PROFILE_IMAGE_SIZE, Image.SCALE_SMOOTH));
-        JLabel profileImage = new JLabel(profileIcon);
-        profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        return profileImage;
+    private JPanel createProfileImage() {
+        return new AvatarImagePanel(currentUser.getProfilePicturePath(), 80, 80);
     }
 
     private JPanel createStatsPanel() {

@@ -1,6 +1,7 @@
 package src.presentation.components.profile;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,8 +18,7 @@ public class PostGridPanel extends JPanel {
 
     private final Router router;
     private final PostGridController controller;
-    private final int GRID_IMAGE_SIZE = UIConstants.WIDTH / 3;
-    private List<JLabel> photoLabels; // each JLabel could display an ImageIcon
+    private int GRID_IMAGE_SIZE = 100; // Adjust as needed
 
     public PostGridPanel(Router router) {
         this.router = router;
@@ -28,42 +28,40 @@ public class PostGridPanel extends JPanel {
 
     private void initializePanel() {
         removeAll(); // Clear existing content
-        setLayout(new BorderLayout()); // Change layout to BorderLayout
+        int numImagesPerRow = 3;
+        int gap = 5; // Gap between images
+        setLayout(new GridLayout(0, numImagesPerRow, gap, gap)); // GridLayout for the grid with numImagesPerRow columns
+        setBackground(Color.WHITE); // Set background color to white
+
         User currentUser = controller.getAuthenticatedUser();
-        JPanel gridPanel = new JPanel(new GridLayout(0, 3, 5, 5)); // Grid layout for image grid
-        addPicturesToPanel(currentUser, gridPanel);
-        JScrollPane scrollPane = new JScrollPane(gridPanel);
-        add(scrollPane, BorderLayout.CENTER); // Add the scroll pane to the center
+        addPicturesToPanel(currentUser);
+
         revalidate();
         repaint();
     }
 
-    private void addPicturesToPanel(User currentUser, JPanel gridPanel) {
-        currentUser.getProfile().getPictures().forEach(picture -> {
+    private void addPicturesToPanel(User currentUser) {
+        List<Picture> pictures = currentUser.getProfile().getPictures();
+
+        for (Picture picture : pictures) {
             JLabel roundedImageLabel = createImageLabel(picture);
-            gridPanel.add(roundedImageLabel);
-        });
+            add(roundedImageLabel);
+        }
     }
 
     private JLabel createImageLabel(Picture picture) {
         String filePath = "resources/storage/uploaded/" + picture.getImagePath();
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(filePath).getImage()
                 .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
-        JLabel roundedImageLabel = new JLabel(imageIcon);
-        roundedImageLabel.addMouseListener(new MouseAdapter() {
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setBorder(new LineBorder(Color.BLACK)); // Set border color to black
+        imageLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 displayImage(imageIcon);
             }
         });
-        return roundedImageLabel;
-    }
-
-    private JScrollPane createScrollPane() {
-        JScrollPane scrollPane = new JScrollPane(this);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        return scrollPane;
+        return imageLabel;
     }
 
     /**
@@ -75,11 +73,10 @@ public class PostGridPanel extends JPanel {
         removeAll(); // Remove existing content
         setLayout(new BorderLayout()); // Change layout for image display
 
-        // Create a rounded JLabel for the image
-        JLabel roundedImageLabel = new JLabel(imageIcon);
-        roundedImageLabel.setHorizontalAlignment(JLabel.CENTER);
-        roundedImageLabel.setBorder(new RoundedBorder(10)); // Adjust the corner radius as needed
-        add(roundedImageLabel, BorderLayout.CENTER);
+        // Create a JLabel for the image
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(imageLabel, BorderLayout.CENTER);
 
         JButton backButton = createBackButton();
         add(backButton, BorderLayout.SOUTH);
@@ -91,10 +88,9 @@ public class PostGridPanel extends JPanel {
     private JButton createBackButton() {
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            router.switchTo("profile");
+            initializePanel();
             backButton.setVisible(false);
         });
         return backButton;
     }
 }
-

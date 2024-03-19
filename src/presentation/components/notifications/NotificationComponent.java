@@ -7,13 +7,9 @@ import src.domain.entities.notifications.Notification;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import src.domain.entities.User;
-import src.domain.entities.notifications.Notification;
-import src.presentation.components.ui.AvatarIcon;
-import src.presentation.components.ui.ScaledIcon;
+import src.presentation.components.ui.AvatarImagePanel;
 
 
 public class NotificationComponent extends JPanel {
@@ -40,7 +36,7 @@ public class NotificationComponent extends JPanel {
         dateLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
         // User image
-        AvatarIcon userImageIcon = new AvatarIcon(notification.getNotifierUser().getProfilePicturePath(), 50,50);
+        AvatarImagePanel userImageIcon = new AvatarImagePanel(notification.getNotifierUser().getProfilePicturePath(), 50,50);
         JLabel userImageLabel = new JLabel();
 
         // Add components to the panel

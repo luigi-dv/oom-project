@@ -8,12 +8,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class AvatarIcon extends JPanel {
+public class AvatarImagePanel extends JPanel {
     private BufferedImage image;
     private final int width;
     private final int height;
 
-    public AvatarIcon(String imagePath, int width, int height) {
+    /**
+     * Constructs an AvatarIcon with the specified image path, width, and height.
+     * @param imagePath The file path of the image to load.
+     * @param width The width of the icon.
+     * @param height The height of the icon.
+     */
+    public AvatarImagePanel(String imagePath, int width, int height) {
         this.width = width;
         this.height = height;
         try {
