@@ -12,8 +12,8 @@ import java.util.List;
 import src.infrastructure.utilities.file.IFile;
 import src.domain.entities.User;
 import src.domain.entities.notifications.Notification;
+import src.domain.entities.notifications.NotificationFactory;
 import src.domain.entities.notifications.NotificationType;
-import src.domain.factorybuilder.NotificationFactory;
 
 public class NotificationReader implements IFile {
 
