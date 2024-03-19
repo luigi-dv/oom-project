@@ -1,6 +1,8 @@
 package src.infrastructure.utilities.file.reader;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,6 +29,27 @@ public class CredentialsReader implements IFile {
      */
     public static boolean doesFileExist() {
         return Files.exists(Path.of(FILE_PATH));
+    }
+
+    /**
+     * Reads all users from the credentials file.
+     * @return A list of all users.
+     */
+    public static List<User> readAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                User user = parseUserFromLine(line);
+                users.add(user);
+            }
+        } catch (IOException e) {
+            handleIOException(e);
+        } catch (Exception e) {
+            handleOtherException(e);
+        }
+        return users;
     }
 
     /**
