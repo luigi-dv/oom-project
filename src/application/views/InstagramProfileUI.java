@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import src.application.controllers.SignUpController;
 import src.application.controllers.UIController;
+import src.application.views.common.HintTextField;
 import src.application.views.interfaces.IProfile;
 import src.application.views.interfaces.UIConstants;
 import src.domain.entities.User;
@@ -108,7 +109,7 @@ public class InstagramProfileUI extends JPanel implements IProfile {
         JPanel panel = new JPanel(new GridLayout(3,2));
         JLabel bioLabel = new JLabel("New Bio: ");
         JLabel pfpLabel = new JLabel("Profile Picture");
-        bioInput = new JTextField(gui.currentUser.getBio());
+        bioInput = new HintTextField(gui.currentUser.getBio());
         JButton pictureButton = createUploadPhotoButton();
 
         JButton doneButton = new JButton("Done");
@@ -155,15 +156,15 @@ public class InstagramProfileUI extends JPanel implements IProfile {
             ImageIcon imageIcon = new ImageIcon(new ImageIcon(filePath).getImage()
                             .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
 
-            JLabel roundedImageLabel = new JLabel(imageIcon);
-            roundedImageLabel.addMouseListener(new MouseAdapter() {
+            JLabel imageLabel = new JLabel(imageIcon);
+            imageLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     displayImage(imageIcon); 
                 }
             });
 
-            contentPanel.add(roundedImageLabel);
+            contentPanel.add(imageLabel);
         });
         
                         
