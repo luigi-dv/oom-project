@@ -1,11 +1,12 @@
 package src.domain.entities;
 
 import src.domain.aggregate.Profile;
+import src.domain.interfaces.ISearchable;
 
 /**
  * Class representing a user
  */
-public class User {
+public class User implements ISearchable {
 
     /**
      * The username of the user

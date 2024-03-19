@@ -1,6 +1,7 @@
 package src.domain.entities;
 
 import src.domain.interfaces.ILikeable;
+import src.domain.interfaces.ISearchable;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Class representing a picture
  */
-public class Picture  implements  ILikeable {
+public class Picture  implements  ILikeable, ISearchable {
 
     /**
      * The unique identifier for the picture
