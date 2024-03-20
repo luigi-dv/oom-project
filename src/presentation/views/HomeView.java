@@ -27,13 +27,13 @@ public class HomeView extends JPanel {
     private final int IMAGE_HEIGHT = 150; // Height for the image posts
     private final Color LIKE_BUTTON_COLOR = new Color(255, 90, 95); // Color for the like button
 
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-    private JPanel homePanel;
-    private JPanel imageViewPanel;
+    private final CardLayout cardLayout;
+    private final JPanel cardPanel;
+    private final JPanel homePanel;
+    private final JPanel imageViewPanel;
     private JLabel likesLabel;
 
-    private UIController controller;
+    private final UIController controller;
     private User user;
 
     private final Router router;

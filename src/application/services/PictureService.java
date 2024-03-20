@@ -1,7 +1,5 @@
 package src.application.services;
 
-import src.application.providers.SessionProvider;
-import src.domain.entities.Like;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.infrastructure.repositories.LikeRepository;

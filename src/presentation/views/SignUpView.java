@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
 import src.presentation.controllers.SignUpController;
@@ -102,9 +103,9 @@ public class SignUpView extends JPanel {
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         // Text fields for username, password, and bio
-        txtUsername = new JTextField("Username");
-        txtPassword = new JTextField("Password");
-        txtBio = new JTextField("Bio");
+        txtUsername = new HintTextField("Username");
+        txtPassword = new HintTextField("Password");
+        txtBio = new HintTextField("Bio");
         txtBio.setForeground(Color.GRAY);
         txtUsername.setForeground(Color.GRAY);
         txtPassword.setForeground(Color.GRAY);

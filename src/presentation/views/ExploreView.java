@@ -1,5 +1,8 @@
 package src.presentation.views;
 
+import src.domain.entities.User;
+import src.domain.interfaces.ISearchable;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
 import src.presentation.controllers.ExploreController;
@@ -16,18 +20,20 @@ import src.presentation.interfaces.UIConstants;
 import src.domain.entities.Picture;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 
 /**
- * The ExploreUI class represents the user interface for exploring pictures in the application.
- * It includes features such as displaying a grid of images, viewing details of a selected picture,
+ * The ExploreUI class represents the user interface for exploring pictures in
+ * the application.
+ * It includes features such as displaying a grid of images, viewing details of
+ * a selected picture,
  * and navigating between different screens.
  *
  * @authors Melcher Toby, Davila Luigelo, Eliëns Joa, Nijhuis Julian
  * @version 1.0
  */
 public class ExploreView extends JPanel {
-    private final int IMAGE_SIZE = UIConstants.WIDTH / 3;; // Size for each image in the grid
+    private final int IMAGE_SIZE = UIConstants.WIDTH / 3; // Size for each image in the grid
 
     private final ExploreController controller;
 
@@ -47,7 +53,8 @@ public class ExploreView extends JPanel {
     }
 
     /**
-     * Initializes the user interface by setting up the layout and calling the necessary methods.
+     * Initializes the user interface by setting up the layout and calling the
+     * necessary methods.
      */
     private void initializeUI() {
         setLayout(new BorderLayout());
@@ -59,7 +66,8 @@ public class ExploreView extends JPanel {
     }
 
     /**
-     * Creates the main content panel containing the search bar, image grid, and scroll functionality.
+     * Creates the main content panel containing the search bar, image grid, and
+     * scroll functionality.
      *
      * @return The main content panel.
      */
@@ -67,8 +75,8 @@ public class ExploreView extends JPanel {
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         List<Picture> pictures = controller.getallPictures();
-        JPanel searchPanel = IExploreUI.createSearchPanel();
-        JPanel imageGridPanel = IExploreUI.createImageGridPanel(pictures, mouseAdapter, IMAGE_SIZE);
+        JPanel searchPanel = createSearchPanel();
+        JPanel imageGridPanel = IExploreUI.createImageGridPanel(pictures, mouseAdapterImage, IMAGE_SIZE);
         JScrollPane scrollPane = IExploreUI.createScrollPane(imageGridPanel);
 
         mainContentPanel.add(searchPanel);
@@ -76,10 +84,59 @@ public class ExploreView extends JPanel {
         return mainContentPanel;
     }
 
+    private void displaySearchResults(List<ISearchable> searchResults) {
+        // Clear existing content
+        removeAll();
+        
+        // Check the type of the first item to decide on the display strategy
+        if (!searchResults.isEmpty()) {
+            if (searchResults.get(0) instanceof User) {
+                List<User> users = searchResults.stream().map(item -> (User) item).collect(Collectors.toList());
+                JPanel userGridPanel = IExploreUI.createUserGridPanel(users, mouseAdapterUser, IMAGE_SIZE);
+                add(userGridPanel, BorderLayout.CENTER);
+            } else if (searchResults.get(0) instanceof Picture) {
+                List<Picture> pictures = searchResults.stream().map(item -> (Picture) item).collect(Collectors.toList());
+                JPanel imageGridPanel = IExploreUI.createImageGridPanel(pictures, mouseAdapterImage, IMAGE_SIZE);
+                JScrollPane scrollPane = IExploreUI.createScrollPane(imageGridPanel);
+                add(scrollPane, BorderLayout.CENTER);
+            }
+        } else {
+            // Handle empty or unrecognized search results
+            JLabel noResultsLabel = new JLabel("No results found");
+            add(noResultsLabel, BorderLayout.CENTER);
+        }
+        
+        // Always add back the search panel at the top
+        add(createSearchPanel(), BorderLayout.NORTH);
+        
+        revalidate();
+        repaint();
+    }
+
+    private JPanel createSearchPanel() {
+        JPanel searchPanel = new JPanel(new BorderLayout());
+
+        JTextField searchField = new HintTextField("Search for Users/Caption/Hashtags...");
+
+        searchPanel.add(searchField, BorderLayout.CENTER);
+        searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, searchField.getPreferredSize().height)); // Limit
+
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(e -> {
+            String query = searchField.getText();
+            List<ISearchable> searchables = controller.search(query);
+            displaySearchResults(searchables);
+        });
+        searchPanel.add(searchButton, BorderLayout.EAST);
+
+        return searchPanel;
+    }
+
     /**
-     * Event handler for mouse clicks on images in the grid. Displays the details of the selected picture.
+     * Event handler for mouse clicks on images in the grid. Displays the details of
+     * the selected picture.
      */
-    MouseAdapter mouseAdapter = new MouseAdapter() {
+    MouseAdapter mouseAdapterImage = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
             JLabel clickedLabel = (JLabel) e.getSource();
@@ -90,8 +147,16 @@ public class ExploreView extends JPanel {
         }
     };
 
+    MouseAdapter mouseAdapterUser = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // TODO: Open the correct profile
+        }
+    };
+
     /**
-     * Creates the top panel containing the username and posting time of the selected picture.
+     * Creates the top panel containing the username and posting time of the
+     * selected picture.
      *
      * @param picture The picture for which the top panel is created.
      * @return The top panel.
@@ -113,7 +178,8 @@ public class ExploreView extends JPanel {
     }
 
     /**
-     * Creates the bottom panel containing the picture caption and the number of likes.
+     * Creates the bottom panel containing the picture caption and the number of
+     * likes.
      *
      * @param picture The picture for which the bottom panel is created.
      * @return The bottom panel.
@@ -148,7 +214,8 @@ public class ExploreView extends JPanel {
     }
 
     /**
-     * Creates a panel with a "Back" button for navigating back to the main content panel.
+     * Creates a panel with a "Back" button for navigating back to the main content
+     * panel.
      *
      * @return The panel containing the "Back" button.
      */
@@ -168,17 +235,16 @@ public class ExploreView extends JPanel {
     }
 
     /**
-     * Displays the details of the selected picture, including the image, username, posting time, caption, and likes.
+     * Displays the details of the selected picture, including the image, username,
+     * posting time, caption, and likes.
      *
      * @param picture The selected picture.
      */
     private void displayImage(Picture picture) {
         setLayout(new BorderLayout());
 
- 
         // TODO: get likes count
         // TODO: Calculate time since posting
-    
 
         // Top panel for username and time since posting
         JPanel topPanel = createTopPanel(picture);
@@ -194,7 +260,7 @@ public class ExploreView extends JPanel {
 
         // Panel for the back button
         JPanel backButtonPanel = createBackButtonPanel();
-       
+
         // Container panel for image and details
         JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(topPanel, BorderLayout.NORTH);
@@ -209,5 +275,3 @@ public class ExploreView extends JPanel {
         repaint();
     }
 }
-
-

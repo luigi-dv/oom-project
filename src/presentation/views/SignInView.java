@@ -3,6 +3,7 @@ package src.presentation.views;
 import src.presentation.Router;
 import src.presentation.controllers.SignInController;
 import src.presentation.interfaces.IAuthenticationUI;
+import src.presentation.components.ui.HintTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,8 +126,8 @@ public class SignInView extends JPanel {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
-        txtUsername = new JTextField("Username");
-        txtPassword = new JTextField("Password");
+        txtUsername = new HintTextField("Username");
+        txtPassword = new HintTextField("Password");
         txtUsername.setForeground(Color.GRAY);
         txtPassword.setForeground(Color.GRAY);
 

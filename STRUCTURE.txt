@@ -5,6 +5,7 @@ Quackgram
 │       ├── application/
 │       │   ├── services
 │       │   ├── views
+│       │   ├── factory
 │       │   └── controllers
 │       │   └── providers
 │       ├── domain/

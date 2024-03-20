@@ -9,10 +9,8 @@ import java.util.List;
 
 import src.domain.entities.Picture;
 import src.domain.entities.User;
-import src.domain.valueobjects.image.RoundedBorder;
 import src.presentation.Router;
 import src.presentation.controllers.profile.PostGridController;
-import src.presentation.interfaces.UIConstants;
 
 public class PostGridPanel extends JPanel {
 

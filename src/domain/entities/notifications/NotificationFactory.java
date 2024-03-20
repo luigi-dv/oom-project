@@ -1,14 +1,8 @@
-package src.domain.factorybuilder;
+package src.domain.entities.notifications;
 
 import java.time.LocalDateTime;
 
 import src.domain.entities.User;
-import src.domain.entities.notifications.CommentLikeNotification;
-import src.domain.entities.notifications.FollowNotification;
-import src.domain.entities.notifications.Notification;
-import src.domain.entities.notifications.NotificationType;
-import src.domain.entities.notifications.PictureLikeNotification;
-import src.domain.entities.notifications.TaggingNotification;
 
 public class NotificationFactory {
     

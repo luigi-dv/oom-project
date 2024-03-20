@@ -1,8 +1,10 @@
 package src.presentation.controllers;
 
 import src.application.services.PictureService;
+import src.application.services.SearchService;
 import src.application.services.StorageService;
 import src.domain.entities.Picture;
+import src.domain.interfaces.ISearchable;
 
 import javax.swing.*;
 import java.util.List;
@@ -12,10 +14,12 @@ public class ExploreController extends BaseController {
 
     private final StorageService storageService;
     private final PictureService pictureService;
+    private final SearchService searchService;
 
     public ExploreController() {
         this.storageService = new StorageService();
         this.pictureService = new PictureService();
+        this.searchService = new SearchService();
     }
 
     /**
@@ -46,4 +50,10 @@ public class ExploreController extends BaseController {
     public Picture getPictureById(UUID id) {
         return pictureService.getPictureById(id);
     }
+
+    public List<ISearchable> search(String query) {
+        return searchService.search(query).getISearchables();
+    }
+
+
 }

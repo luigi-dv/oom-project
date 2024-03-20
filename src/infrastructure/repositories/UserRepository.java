@@ -1,6 +1,8 @@
 package src.infrastructure.repositories;
 
 import java.io.File;
+import java.util.List;
+
 import src.domain.entities.User;
 import src.domain.repositiories.IUserRepository;
 import src.infrastructure.utilities.file.reader.CredentialsReader;
@@ -19,6 +21,10 @@ public class UserRepository implements IUserRepository {
      */
     public User findByUsername(String username) {
         return CredentialsReader.readUserByUsername(username);
+    }
+
+    public List<User> findAll() {
+        return CredentialsReader.readAllUsers();
     }
 
     /**
