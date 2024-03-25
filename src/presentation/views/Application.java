@@ -59,6 +59,7 @@ public class Application extends JFrame {
         SwingUtilities.invokeLater(() -> {
             Application frame = new Application();
             frame.setVisible(true);
+            frame.setResizable(false);
         });
     }
 
