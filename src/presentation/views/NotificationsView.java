@@ -12,8 +12,6 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class NotificationsView extends JPanel {
