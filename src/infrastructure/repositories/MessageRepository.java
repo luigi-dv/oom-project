@@ -1,11 +1,9 @@
 package src.infrastructure.repositories;
 
-import src.domain.entities.User;
 import src.domain.entities.messages.Message;
 import src.infrastructure.utilities.file.reader.MessageReader;
 import src.infrastructure.utilities.file.writer.MessageWriter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

@@ -35,18 +35,18 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
         return likeWriter.writeToFile(like);
     }
 
-    /**
-     * Deletes a like.
-     *
-     * @param uuid The like UUID to be deleted.
-     * @return The deleted like entity.
-     */
-    public Like<T> delete(UUID uuid) {
-        // TODO: Implement search
-        Like<T> e = this.findById(uuid);
-        // Todo Return the object
-        return null;
-    }
+    // /**
+    //  * Deletes a like.
+    //  *
+    //  * @param uuid The like UUID to be deleted.
+    //  * @return The deleted like entity.
+    //  */
+    // public Like<T> delete(UUID uuid) {
+    //     // TODO: Implement search
+    //     Like<T> e = this.findById(uuid);
+    //     // Todo Return the object
+    //     return null;
+    // }
 
     /**
      * Finds all likes associated with a specific post.

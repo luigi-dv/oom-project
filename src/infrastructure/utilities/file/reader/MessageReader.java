@@ -1,6 +1,5 @@
 package src.infrastructure.utilities.file.reader;
 
-import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.domain.entities.messages.Message;
 

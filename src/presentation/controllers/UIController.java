@@ -1,9 +1,7 @@
 package src.presentation.controllers;
 
-import src.domain.entities.Comment;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
-import src.domain.entities.notifications.Notification;
 
 import java.util.List;
 
@@ -11,7 +9,6 @@ import src.application.services.LikeService;
 import src.application.services.PictureService;
 import src.application.services.ProfileService;
 import src.application.services.UserService;
-import src.application.services.NotificationService;
 
 /**
  * The UIController class is responsible for handling the UI logic.
@@ -27,11 +24,8 @@ public class UIController extends BaseController {
 
     private final LikeService<Picture>  likeServicePicture;
 
-    private final LikeService<Comment>  likeServiceComment;
-
     private final UserService userService;
 
-    private final NotificationService notificationService;
 
     /**
      * Constructor for the UIController class.
@@ -39,10 +33,8 @@ public class UIController extends BaseController {
     public UIController() {
         this.profileService = new ProfileService();
         this.pictureService = new PictureService();
-        this.likeServiceComment = new LikeService<>(sessionProvider); // Specify the type argument as Comment
         this.likeServicePicture = new LikeService<>(sessionProvider);
         this.userService = new UserService();
-        this.notificationService = new NotificationService();
     }
 
     /**
@@ -66,11 +58,5 @@ public class UIController extends BaseController {
     public boolean likePicture(Picture picture) {
         return likeServicePicture.like(picture);
     }
-
-
-
-    // public boolean likeComment(Comment comment) {
-    //     return likeServiceComment.like(comment);
-    // }
 }
 

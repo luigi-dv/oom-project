@@ -102,6 +102,7 @@ public class Router {
             views.put(UIViews.EXPLORE, addAuthenticatedLayout(new ExploreView(this)));
             views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
             views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
+            views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
         }
     }
 }

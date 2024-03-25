@@ -1,7 +1,5 @@
 package src.application.services;
 
-
-import src.domain.entities.Comment;
 import src.domain.entities.Like;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
@@ -21,7 +19,6 @@ public class LikeService<T extends ILikeable> {
     private final LikeRepository<T> repository;
     private final SessionProvider sessionProvider;
     private final LikeRepository<Picture> likeRepositoryPicture;
-    private final LikeRepository<Comment> likeRepositoryComment;
     private final NotificationService notificationService;
 
     /**
@@ -30,7 +27,6 @@ public class LikeService<T extends ILikeable> {
     public LikeService(SessionProvider sessionProvider) {
         this.repository = new LikeRepository<T>();
         this.sessionProvider = sessionProvider;
-        this.likeRepositoryComment = new LikeRepository<>();
         this.likeRepositoryPicture = new LikeRepository<>();
         this.notificationService = new NotificationService();
     }

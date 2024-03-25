@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import src.presentation.interfaces.UIConstants;
-
 /**
  * Represents a custom Swing ImageIcon with an SVG icon loaded from a specified file path.
  * The icon is automatically scaled to a predefined size defined in UIConstants.
