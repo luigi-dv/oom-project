@@ -8,24 +8,28 @@ import java.nio.file.Path;
 import src.infrastructure.utilities.Crypter;
 import src.presentation.Router;
 
-public class Main extends JFrame {
+/**
+ * Class to launch the Quackstagram application.
+ */
+public class Application extends JFrame {
 
-    public Crypter crypter; // Crypter object for encryption and decryption
-    private final JPanel mainPanel;
-    private final CardLayout cardLayout;
-
-    private final Router router;
+    public Crypter crypter;
 
     /**
      * Creates the main frame for the Quackstagram application.
      */
-    public Main() {
+    public Application() {
         initEncryption();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 500);
-        cardLayout = new CardLayout();
-        mainPanel = new JPanel(cardLayout);
-        router = new Router(mainPanel);
+        // Set the window title
+        setTitle("Quackstagram");
+        // Set the window layout
+        CardLayout cardLayout = new CardLayout();
+        // Create the main panel with a card layout
+        JPanel mainPanel = new JPanel(cardLayout);
+        // Initialize the router
+        Router router = new Router(mainPanel);
         add(mainPanel, BorderLayout.CENTER);
         router.switchTo("signin");
     }
@@ -53,7 +57,7 @@ public class Main extends JFrame {
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Main frame = new Main();
+            Application frame = new Application();
             frame.setVisible(true);
         });
     }

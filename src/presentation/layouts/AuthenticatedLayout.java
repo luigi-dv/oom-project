@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import src.presentation.Router;
 import src.domain.entities.User;
-import src.presentation.interfaces.UIConstants;
 import src.application.providers.SessionProvider;
 import src.presentation.components.navigation.BottomTabsNavigation;
 

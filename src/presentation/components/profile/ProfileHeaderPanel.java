@@ -78,7 +78,7 @@ public class ProfileHeaderPanel extends JPanel {
      * @return The "Edit Profile" button.
      */
     private JButton createEditProfileButton() {
-        ButtonComponent editProfileButton = new ButtonComponent("Edit Profile", 12, Component.CENTER_ALIGNMENT, "secondary", false);
+        ButtonComponent editProfileButton = new ButtonComponent("Edit Profile", 12, 5, Component.CENTER_ALIGNMENT, "secondary", false);
         editProfileButton.addActionListener(e -> {
             EditProfileDialog editProfileDialog = new EditProfileDialog((JFrame) SwingUtilities.getWindowAncestor(this), currentUser);
             editProfileDialog.setVisible(true);
@@ -91,6 +91,6 @@ public class ProfileHeaderPanel extends JPanel {
      * @return The "Share Profile" button.
      */
     private JButton createShareProfileButton() {
-        return new ButtonComponent("Share Profile", 12, Component.RIGHT_ALIGNMENT, "secondary", false);
+        return new ButtonComponent("Share Profile", 12, 5, Component.RIGHT_ALIGNMENT, "secondary",  false);
     }
 }

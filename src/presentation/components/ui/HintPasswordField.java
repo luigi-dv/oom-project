@@ -1,21 +1,14 @@
-// Code
-
 package src.presentation.components.ui;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.RenderingHints;
+import java.awt.*;
 
 /**
- * The HintTextField class represents a text field with a hint.
+ * The HintPasswordField class represents a password field with a hint.
  * Inspired by StackOverflow Post <a href="https://stackoverflow.com/questions/1738966/java-jtextfield-with-input-hint">...</a>
  */
-public class HintTextField extends JTextField {
-    public HintTextField(String hint) {
+public class HintPasswordField extends JPasswordField {
+    public HintPasswordField(String hint) {
         _hint = hint;
     }
     @Override

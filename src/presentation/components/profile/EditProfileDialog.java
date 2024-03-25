@@ -3,8 +3,8 @@ package src.presentation.components.profile;
 import java.awt.*;
 import javax.swing.*;
 import src.domain.entities.User;
-
 import src.presentation.controllers.profile.EditProfileDialogController;
+
 public class EditProfileDialog extends JDialog {
     private final User currentUser;
     private JTextField bioInput;

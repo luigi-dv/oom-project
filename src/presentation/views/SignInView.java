@@ -1,6 +1,8 @@
 package src.presentation.views;
 
 import src.presentation.Router;
+import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.ui.HintPasswordField;
 import src.presentation.controllers.SignInController;
 import src.presentation.interfaces.IAuthenticationUI;
 import src.presentation.components.ui.HintTextField;
@@ -34,19 +36,17 @@ public class SignInView extends JPanel {
      * Initializes the user interface components.
      */
     private void initializeUI() {
-        JPanel headerPanel = IAuthenticationUI.createHeaderPanel();
         JPanel fieldsPanel = createFieldsPanel();
         JButton signInButton = createSignInButton();
         JPanel registerPanel = createRegisterPanel(signInButton);
 
-        add(headerPanel, BorderLayout.NORTH);
         add(fieldsPanel, BorderLayout.CENTER);
-        add(registerPanel, BorderLayout.SOUTH);
+        //add(registerPanel, BorderLayout.SOUTH);
 
         JButton registerNowButton = createRegisterNowButton();
-        JPanel buttonPanel = createButtonPanel(signInButton, registerNowButton);
+        // JPanel buttonPanel = createButtonPanel(signInButton, registerNowButton);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        // add(buttonPanel, BorderLayout.SOUTH);
         setVisible(true);
     }
 
@@ -99,7 +99,7 @@ public class SignInView extends JPanel {
      * @return The sign-in button.
      */
     private JButton createSignInButton() {
-        JButton signInButton = new JButton("Sign-In");
+        ButtonComponent signInButton = new ButtonComponent("Sign-In", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
         signInButton.addActionListener(e -> {
             try {
                 onSignInClicked(e);
@@ -107,11 +107,6 @@ public class SignInView extends JPanel {
                 exc.printStackTrace();
             }
         });
-        signInButton.setBackground(new Color(255, 90, 95));
-        signInButton.setForeground(Color.BLACK);
-        signInButton.setFocusPainted(false);
-        signInButton.setBorderPainted(false);
-        signInButton.setFont(new Font("Arial", Font.BOLD, 14));
         return signInButton;
     }
 
@@ -121,23 +116,43 @@ public class SignInView extends JPanel {
      * @return The fields panel.
      */
     private JPanel createFieldsPanel() {
-        JPanel fieldsPanel = new JPanel();
-        JPanel photoPanel = IAuthenticationUI.createPhotoPanel();
-        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
-        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        JPanel fieldsPanel = new JPanel(new BorderLayout());
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Create a panel for the text fields
+        JPanel textFieldsPanel = new JPanel();
+        textFieldsPanel.setLayout(new GridLayout(2, 1, 0, 10)); // Two rows, one column
+
+        // Create and customize the text fields
         txtUsername = new HintTextField("Username");
-        txtPassword = new HintTextField("Password");
+        txtPassword = new HintPasswordField("Password");
         txtUsername.setForeground(Color.GRAY);
         txtPassword.setForeground(Color.GRAY);
 
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(photoPanel);
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(txtUsername);
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(txtPassword);
-        fieldsPanel.add(Box.createVerticalStrut(10));
+        // Set the preferred size of text fields
+        Dimension textFieldSize = new Dimension(200, 30); // Adjust the size as needed
+        txtUsername.setPreferredSize(textFieldSize);
+        txtPassword.setPreferredSize(textFieldSize);
+
+        // Add the text fields to the panel
+        textFieldsPanel.add(txtUsername);
+        textFieldsPanel.add(txtPassword);
+
+        // Create a panel for the buttons with GridBagLayout
+        JPanel buttonsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0; // Allow the button to expand horizontally
+        gbc.insets = new Insets(10, 0, 0, 0); // Add padding between the button and the inputs
+
+        // Create the sign-in button
+        JButton signInButton = createSignInButton();
+        buttonsPanel.add(signInButton, gbc);
+
+        // Add the text fields panel and buttons panel to the main panel
+        fieldsPanel.add(textFieldsPanel, BorderLayout.CENTER);
+        fieldsPanel.add(buttonsPanel, BorderLayout.SOUTH);
+
         return fieldsPanel;
     }
 

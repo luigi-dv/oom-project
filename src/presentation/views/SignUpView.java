@@ -34,12 +34,10 @@ public class SignUpView extends JPanel {
      * Initializes the user interface components.
      */
     private void initializeUI() {
-        JPanel headerPanel = IAuthenticationUI.createHeaderPanel();
         JPanel fieldsPanel = createFieldsPanel();
         JPanel registerPanel = createRegisterPanel();
 
         // Adding components to the frame
-        add(headerPanel, BorderLayout.NORTH);
         add(fieldsPanel, BorderLayout.CENTER);
         add(registerPanel, BorderLayout.SOUTH);
     }
@@ -98,7 +96,6 @@ public class SignUpView extends JPanel {
      */
     private JPanel createFieldsPanel() {
         JPanel fieldsPanel = new JPanel();
-        JPanel photoPanel = IAuthenticationUI.createPhotoPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
@@ -111,8 +108,6 @@ public class SignUpView extends JPanel {
         txtPassword.setForeground(Color.GRAY);
 
         // Adding components to the fields panel
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(photoPanel);
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtUsername);
         fieldsPanel.add(Box.createVerticalStrut(10));

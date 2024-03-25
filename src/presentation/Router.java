@@ -3,6 +3,8 @@ package src.presentation;
 import javax.swing.*;
 import java.util.Map;
 import java.util.HashMap;
+
+import src.presentation.layouts.GuestLayout;
 import src.presentation.views.*;
 import src.application.providers.SessionProvider;
 import src.presentation.layouts.AuthenticatedLayout;
@@ -28,8 +30,8 @@ public class Router {
     public Router(JPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.sessionProvider = SessionProvider.getInstance();
-        views.put(SIGNUP_VIEW_NAME, new SignUpView(this));
-        views.put(SIGNIN_VIEW_NAME, new SignInView(this));
+        views.put(SIGNUP_VIEW_NAME, addGuestLayout(new SignUpView(this)));
+        views.put(SIGNIN_VIEW_NAME, addGuestLayout(new SignInView(this)));
     }
 
     /**
@@ -85,6 +87,15 @@ public class Router {
      */
     private AuthenticatedLayout addAuthenticatedLayout(JPanel view) {
         return new AuthenticatedLayout(view, this);
+    }
+
+    /**
+     * Adds the GuestLayout component to the view.
+     * @param view The view to add the GuestLayout component to.
+     * @return The view with the GuestLayout component added.
+     */
+    private GuestLayout addGuestLayout(JPanel view) {
+        return new GuestLayout(view, this);
     }
 
     /**
