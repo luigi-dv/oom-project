@@ -1,9 +1,9 @@
 package src.infrastructure.utilities.file.writer;
 
-import src.infrastructure.utilities.file.IFile;
-
-import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.BufferedWriter;
+import src.domain.entities.Comment;
+import src.infrastructure.utilities.file.IFile;
 
 /**
  * Utility class responsible for writing comments to a file.
@@ -22,7 +22,7 @@ public class CommentWriter implements IFile {
      * @param comment The comment to write to the file.
      * @return The comment that was written to the file.
      */
-    public static src.domain.entities.Comment writeToFile(src.domain.entities.Comment comment) {
+    public static Comment writeToFile(Comment comment) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             writer.write(comment.toString());
             writer.newLine();

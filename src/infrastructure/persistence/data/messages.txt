@@ -1,1 +1,1 @@
-senderUserId:recipientUserId:dateTime:isRead
+messageId:chatId:ownerId:content:timestamp

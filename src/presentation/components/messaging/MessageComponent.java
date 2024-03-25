@@ -7,7 +7,7 @@ import java.util.List;
 import src.domain.entities.messages.Message;
 
 public class MessageComponent extends JPanel {
-    private JTextArea messageArea;
+    private final JTextArea messageArea;
 
     public MessageComponent() {
         setLayout(new BorderLayout());
@@ -21,7 +21,8 @@ public class MessageComponent extends JPanel {
     public void updateMessages(List<Message> messages) {
         StringBuilder sb = new StringBuilder();
         for (Message message : messages) {
-            sb.append(message.getSender()).append(": ").append(message.getContent()).append("\n");
+            String username = message.getWriter().getUsername();
+            sb.append(username).append(": ").append(message.getContent()).append("\n");
         }
         messageArea.setText(sb.toString());
     }

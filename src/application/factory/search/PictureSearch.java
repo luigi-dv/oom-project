@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PictureSearch implements Search {
     
-    private Filter filterPicture;
+    private final Filter filterPicture;
     private List<ISearchable> pictures;
 
     public PictureSearch(Filter filterPicture, List<ISearchable> pictures) {

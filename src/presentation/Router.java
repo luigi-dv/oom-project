@@ -1,17 +1,25 @@
 package src.presentation;
 
+import javax.swing.*;
+import java.util.Map;
+import java.util.HashMap;
+import src.presentation.views.*;
 import src.application.providers.SessionProvider;
 import src.presentation.layouts.AuthenticatedLayout;
-import src.presentation.views.*;
 
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * The Router class manages the switching of views within the application.
+ */
 public class Router {
     private final JPanel mainPanel;
     private final SessionProvider sessionProvider;
     private final Map<String, JPanel> views = new HashMap<>();
+    private final String SIGNUP_VIEW_NAME = "signup";
+    private final String SIGNIN_VIEW_NAME = "signin";
+    private final String HOME_VIEW_NAME = "home";
+    private final String EXPLORE_VIEW_NAME = "explore";
+    private final String NOTIFICATIONS_VIEW_NAME = "notifications";
+    private final String PROFILE_VIEW_NAME = "profile";
 
     /**
      * Creates a new Router with the specified main panel.
@@ -20,8 +28,8 @@ public class Router {
     public Router(JPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.sessionProvider = SessionProvider.getInstance();
-        views.put("signup", new SignUpView(this));
-        views.put("signin", new SignInView(this));
+        views.put(SIGNUP_VIEW_NAME, new SignUpView(this));
+        views.put(SIGNIN_VIEW_NAME, new SignInView(this));
     }
 
     /**
@@ -64,8 +72,8 @@ public class Router {
      * @return True if the view is an authenticated view, false otherwise.
      */
     private boolean isViewAuthenticated(String viewName) {
-        return viewName.equals("home") || viewName.equals("explore") ||
-                viewName.equals("notifications") || viewName.equals("profile");
+        return viewName.equals(HOME_VIEW_NAME) || viewName.equals(EXPLORE_VIEW_NAME) ||
+                viewName.equals(NOTIFICATIONS_VIEW_NAME) || viewName.equals(PROFILE_VIEW_NAME);
     }
 
 
@@ -84,10 +92,10 @@ public class Router {
      */
     private void updateViews() {
         if (sessionProvider.isAuthenticated()) {
-            views.put("home", addAuthenticatedLayout(new HomeView(this)));
-            views.put("explore", addAuthenticatedLayout(new ExploreView(this)));
-            views.put("notifications", addAuthenticatedLayout(new NotificationsView(this)));
-            views.put("profile", addAuthenticatedLayout(new ProfileView(this)));
+            views.put(HOME_VIEW_NAME, addAuthenticatedLayout(new HomeView(this)));
+            views.put(EXPLORE_VIEW_NAME, addAuthenticatedLayout(new ExploreView(this)));
+            views.put(NOTIFICATIONS_VIEW_NAME, addAuthenticatedLayout(new NotificationsView(this)));
+            views.put(PROFILE_VIEW_NAME, addAuthenticatedLayout(new ProfileView(this)));
         }
     }
 }

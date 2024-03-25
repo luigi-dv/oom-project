@@ -44,9 +44,6 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
     public Like<T> delete(UUID uuid) {
         // TODO: Implement search
         Like<T> e = this.findById(uuid);
-        if (e == null) {
-            return null;
-        }
         // Todo Return the object
         return null;
     }
@@ -58,7 +55,7 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
      * @return A list of likes associated with the specified post ID.
      */
     public List<Like<T>> findByPostId(UUID postId) {
-        LikeReader<T> likeReader = new LikeReader<T>();
+        LikeReader<T> likeReader = new LikeReader<>();
         return likeReader.getLikesFromPost(postId);
     }
 }
