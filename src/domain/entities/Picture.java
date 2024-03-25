@@ -42,6 +42,8 @@ public class Picture  implements  ILikeable, ISearchable {
      */
     private List<Like<Picture>> likes;
 
+    private List<HashTag> hashTags;
+
     /**
      * Constructor for Picture when the ID is not known
      * @param imagePath The path to the image file
@@ -59,6 +61,26 @@ public class Picture  implements  ILikeable, ISearchable {
     public Picture(UUID id, User user, String imagePath, String caption) {
         this.user = user;
         this.id = id;
+        this.imagePath = imagePath;
+        this.caption = caption;
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
+
+    }
+
+    public Picture(UUID id, User user, String imagePath, String caption, List<HashTag> hashTags) {
+        this.user = user;
+        this.id = id;
+        this.imagePath = imagePath;
+        this.caption = caption;
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.hashTags = hashTags;
+    }
+
+    public Picture(User user, String imagePath, String caption, List<HashTag> hashTags) {
+        this.user = user;
+        this.id = UUID.randomUUID();
         this.imagePath = imagePath;
         this.caption = caption;
         this.likes = new ArrayList<>();
@@ -146,6 +168,10 @@ public class Picture  implements  ILikeable, ISearchable {
      */
     public String getType() {
         return "picture";
+    }
+
+    public List<HashTag> getHashTags() {
+        return hashTags;
     }
 
     @Override
