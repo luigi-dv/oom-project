@@ -17,16 +17,14 @@ public class BiographyPanel extends JPanel {
 
     private void initializePanel() {
         removeAll(); // Clear existing content
-        JLabel bioTextArea = new JLabel(currentUser.getBio());
-        bioTextArea.setBackground(Color.WHITE);
-        bioTextArea.setFont(new Font("Arial", Font.PLAIN, 14)); // Increase font size for bio
-        add(bioTextArea, BorderLayout.CENTER);
+        JLabel bioLabel = createBioLabel();
+        add(bioLabel, BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding to the bio panel
     }
 
     private JLabel createBioLabel() {
-        JLabel bioLabel = new JLabel("<html><div style='text-align: center;'>" + currentUser.getBio() + "</div></html>",
-                SwingConstants.CENTER);
+        JLabel bioLabel = new JLabel(currentUser.getBio(),
+                SwingConstants.LEFT);
         bioLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         bioLabel.setForeground(Color.BLACK);
         return bioLabel;

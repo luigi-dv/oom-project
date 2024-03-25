@@ -5,7 +5,6 @@ import java.awt.*;
 import src.presentation.Router;
 import src.presentation.controllers.profile.ProfileController;
 import src.presentation.interfaces.UIConstants;
-import src.presentation.layouts.AuthenticatedLayout;
 import src.presentation.components.profile.PostGridPanel;
 import src.presentation.components.profile.ProfileHeaderPanel;
 
