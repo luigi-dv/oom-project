@@ -4,6 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.errors.ErrorComponent;
+import src.presentation.components.errors.SignUpErrorComponent;
+import src.presentation.components.ui.HintPasswordField;
 import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
@@ -17,6 +22,8 @@ public class SignUpView extends JPanel {
     private JTextField txtUsername;
     private JTextField txtPassword;
     private JTextField txtBio;
+    private ErrorComponent errorMessage;
+    private JPanel fieldsJPanel;
     private final SignUpController controller;
 
     private final Router router;
@@ -27,6 +34,7 @@ public class SignUpView extends JPanel {
     public SignUpView(Router router) {
         this.controller = new SignUpController();
         this.router = router;
+        this.errorMessage = new SignUpErrorComponent();
         initializeUI();
     }
 
@@ -34,12 +42,8 @@ public class SignUpView extends JPanel {
      * Initializes the user interface components.
      */
     private void initializeUI() {
-        JPanel fieldsPanel = createFieldsPanel();
-        JPanel registerPanel = createRegisterPanel();
-
-        // Adding components to the frame
-        add(fieldsPanel, BorderLayout.CENTER);
-        add(registerPanel, BorderLayout.SOUTH);
+        fieldsJPanel = createFieldsPanel();
+        add(fieldsJPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -48,13 +52,8 @@ public class SignUpView extends JPanel {
      * @return The sign-in button.
      */
     private JButton createSignInButton() {
-        JButton signInButton = new JButton("Already have an account? Sign In");
-        signInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openSignInUI();
-            }
-        });
+        ButtonComponent signInButton = new ButtonComponent("Sign In", 14, 5, Component.CENTER_ALIGNMENT, "secondary", false);
+        signInButton.addActionListener(e -> openSignInUI());
         return signInButton;
     }
 
@@ -64,14 +63,9 @@ public class SignUpView extends JPanel {
      * @return The register button.
      */
     private JButton createRegisterButton() {
-        JButton registerButton = new JButton("Register");
-        registerButton.addActionListener(this::onRegisterClicked);
-        registerButton.setBackground(new Color(255, 90, 95));
-        registerButton.setForeground(Color.BLACK);
-        registerButton.setFocusPainted(false);
-        registerButton.setBorderPainted(false);
-        registerButton.setFont(new Font("Arial", Font.BOLD, 14));
-        return registerButton;
+        ButtonComponent registerNowButton = new ButtonComponent("Register Now", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
+        registerNowButton.addActionListener(e -> onRegisterClicked(e));
+        return registerNowButton;
     }
 
     /**
@@ -80,12 +74,22 @@ public class SignUpView extends JPanel {
      * @return The register panel.
      */
     private JPanel createRegisterPanel() {
-        JPanel registerPanel = new JPanel(new BorderLayout());
-        registerPanel.setBackground(Color.WHITE);
+        JPanel registerPanel = new JPanel(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0; // Allow the button to expand horizontally
+        gbc.insets = new Insets(10, 0, 0, 0); // Add padding between the button and the inputs
+
         JButton registerButton = createRegisterButton();
-        registerPanel.add(registerButton, BorderLayout.CENTER);
         JButton signInButton = createSignInButton();
-        registerPanel.add(signInButton, BorderLayout.SOUTH);
+
+        gbc.gridy = 0;
+        registerPanel.add(registerButton, gbc);
+        gbc.gridy = 1;
+        registerPanel.add(signInButton, gbc);
+        gbc.gridy = 2;
+        registerPanel.add(errorMessage, gbc);
         return registerPanel;
     }
 
@@ -95,29 +99,40 @@ public class SignUpView extends JPanel {
      * @return The fields panel.
      */
     private JPanel createFieldsPanel() {
-        JPanel fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
-        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        JPanel fieldsPanel = new JPanel(new BorderLayout());
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Text fields for username, password, and bio
+        JPanel textFieldsPanel = new JPanel();
+        textFieldsPanel.setLayout(new GridLayout(3, 1, 0, 10)); // Two rows, one column
+
         txtUsername = new HintTextField("Username");
-        txtPassword = new HintTextField("Password");
+        txtPassword = new HintPasswordField("Password");
         txtBio = new HintTextField("Bio");
-        txtBio.setForeground(Color.GRAY);
         txtUsername.setForeground(Color.GRAY);
         txtPassword.setForeground(Color.GRAY);
+        txtBio.setForeground(Color.GRAY);
 
-        // Adding components to the fields panel
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(txtUsername);
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(txtPassword);
-        fieldsPanel.add(Box.createVerticalStrut(10));
-        fieldsPanel.add(txtBio);
+        Dimension textFieldSize = new Dimension(200, 30); // Adjust the size as needed
+        txtUsername.setPreferredSize(textFieldSize);
+        txtPassword.setPreferredSize(textFieldSize);
+        txtBio.setPreferredSize(textFieldSize);
 
-        // Adding photo upload panel
+        // Add the text fields to the panel
+        textFieldsPanel.add(txtUsername);
+        textFieldsPanel.add(txtPassword);
+        textFieldsPanel.add(txtBio);
+
+        fieldsPanel.add(textFieldsPanel, BorderLayout.NORTH);
+
         JPanel photoUploadPanel = createPhotoUploadPanel();
         fieldsPanel.add(photoUploadPanel);
+        
+
+        JPanel registerPanel = createRegisterPanel();
+        fieldsPanel.add(registerPanel, BorderLayout.SOUTH);
+
+        
+
         return fieldsPanel;
     }
 
@@ -139,13 +154,9 @@ public class SignUpView extends JPanel {
      * @return The upload photo button.
      */
     private JButton createUploadPhotoButton() {
-        JButton uploadPhButton = new JButton("Upload Photo");
-
-        uploadPhButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.handleProfilePictureUpload(txtUsername.getText());
-            }
+        ButtonComponent uploadPhButton = new ButtonComponent("Upload Photo", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
+        uploadPhButton.addActionListener(e -> {
+            controller.handleProfilePictureUpload(txtUsername.getText());
         });
         return uploadPhButton;
     }
@@ -163,16 +174,20 @@ public class SignUpView extends JPanel {
         // Validating user input
         if (username.isEmpty() || password.isEmpty() || bio.isEmpty() ||
                 username.equals("Username") || password.equals("Password") || bio.equals("Bio")) {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage.displayErrorMessage("Please fill out all fields.");
+            fieldsJPanel.revalidate();
+            fieldsJPanel.repaint();
             return;
         } else {
             // Attempting to register the user
             if (!controller.register(username, password, bio)) {
-                JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                // Registration failed, display an error message
+                errorMessage.displayErrorMessage("Username already exists. Please try again.");
+                fieldsJPanel.revalidate();
+                fieldsJPanel.repaint();
             } else {
                 // Successful registration, switch to the profile screen
-                router.switchTo("profile");
+                router.switchTo(UIViews.PROFILE);
             }
         }
     }
@@ -181,6 +196,6 @@ public class SignUpView extends JPanel {
      * Opens the sign-in UI screen.
      */
     private void openSignInUI() {
-        router.switchTo("signin");
+        router.switchTo(UIViews.SIGNIN);
     }
 }

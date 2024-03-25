@@ -2,6 +2,8 @@ package src.presentation.views;
 
 import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.errors.ErrorComponent;
+import src.presentation.components.errors.LoginErrorComponent;
 import src.presentation.components.ui.HintPasswordField;
 import src.presentation.controllers.SignInController;
 import src.presentation.interfaces.IAuthenticationUI;
@@ -19,8 +21,9 @@ import java.awt.event.ActionEvent;
 public class SignInView extends JPanel {
     private JTextField txtUsername;
     private JTextField txtPassword;
+    private ErrorComponent errorMessage;
+    private JPanel fieldsJPanel;
     private final SignInController controller;
-
     private final Router router;
 
     /**
@@ -29,6 +32,7 @@ public class SignInView extends JPanel {
     public SignInView(Router router) {
         this.controller = new SignInController();
         this.router = router;
+        errorMessage = new LoginErrorComponent();
         initializeUI();
     }
 
@@ -36,17 +40,8 @@ public class SignInView extends JPanel {
      * Initializes the user interface components.
      */
     private void initializeUI() {
-        JPanel fieldsPanel = createFieldsPanel();
-        JButton signInButton = createSignInButton();
-        JPanel registerPanel = createRegisterPanel(signInButton);
-
-        add(fieldsPanel, BorderLayout.CENTER);
-        //add(registerPanel, BorderLayout.SOUTH);
-
-        JButton registerNowButton = createRegisterNowButton();
-        // JPanel buttonPanel = createButtonPanel(signInButton, registerNowButton);
-
-        // add(buttonPanel, BorderLayout.SOUTH);
+        fieldsJPanel = createFieldsPanel();
+        add(fieldsJPanel, BorderLayout.CENTER);
         setVisible(true);
     }
 
@@ -71,12 +66,8 @@ public class SignInView extends JPanel {
      * @return The register now button.
      */
     private JButton createRegisterNowButton() {
-        JButton registerNowButton = new JButton("No Account? Register Now");
-        registerNowButton.addActionListener(this::onRegisterNowClicked);
-        registerNowButton.setBackground(Color.WHITE);
-        registerNowButton.setForeground(Color.BLACK);
-        registerNowButton.setFocusPainted(false);
-        registerNowButton.setBorderPainted(false);
+        ButtonComponent registerNowButton = new ButtonComponent("Register Now", 14, 5, Component.CENTER_ALIGNMENT, "secondary", false);
+        registerNowButton.addActionListener(e -> onRegisterNowClicked(e));
         return registerNowButton;
     }
 
@@ -139,6 +130,17 @@ public class SignInView extends JPanel {
         textFieldsPanel.add(txtPassword);
 
         // Create a panel for the buttons with GridBagLayout
+        JPanel buttonsPanel = createButtonPanel();
+
+        // Add the text fields panel and buttons panel to the main panel
+        fieldsPanel.add(textFieldsPanel, BorderLayout.NORTH);
+        fieldsPanel.add(buttonsPanel, BorderLayout.CENTER);
+        
+
+        return fieldsPanel;
+    }
+
+    private JPanel createButtonPanel() {
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -147,13 +149,15 @@ public class SignInView extends JPanel {
 
         // Create the sign-in button
         JButton signInButton = createSignInButton();
+        JButton registerNowButton = createRegisterNowButton();
+        gbc.gridy = 0;
         buttonsPanel.add(signInButton, gbc);
+        gbc.gridy = 1;
+        buttonsPanel.add(registerNowButton, gbc);
 
-        // Add the text fields panel and buttons panel to the main panel
-        fieldsPanel.add(textFieldsPanel, BorderLayout.CENTER);
-        fieldsPanel.add(buttonsPanel, BorderLayout.SOUTH);
-
-        return fieldsPanel;
+        gbc.gridy = 2;
+        buttonsPanel.add(errorMessage, gbc);
+        return buttonsPanel;
     }
 
     /**
@@ -165,8 +169,20 @@ public class SignInView extends JPanel {
     private void onSignInClicked(ActionEvent event) throws Exception {
         String enteredUsername = txtUsername.getText();
         String enteredPassword = txtPassword.getText();
+        System.out.println("Username: " + enteredUsername + ", Password: " + enteredPassword.isEmpty());
+        if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
+            errorMessage.displayErrorMessage("Please enter a username and password.");
+            fieldsJPanel.revalidate();
+            fieldsJPanel.repaint();
+            return;
+        }
+
         if (controller.signIn(enteredUsername, enteredPassword)) {
-            router.switchTo("profile");
+            router.switchTo(UIViews.PROFILE);
+        } else {
+            errorMessage.displayErrorMessage("Invalid username or password.");
+            fieldsJPanel.revalidate();
+            fieldsJPanel.repaint();
         }
     }
 
@@ -176,6 +192,6 @@ public class SignInView extends JPanel {
      * @param event The ActionEvent triggered by the register now button.
      */
     private void onRegisterNowClicked(ActionEvent event) {
-        router.switchTo("signup");
+        router.switchTo(UIViews.SIGNUP);
     }
 }
