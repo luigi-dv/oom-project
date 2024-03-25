@@ -169,7 +169,7 @@ public class ExploreView extends JPanel {
 
         usernameLabel.addActionListener(e -> {
             // TODO: Open the correct profile
-            router.switchTo("profile");
+            router.switchTo(UIViews.PROFILE);
         });
 
         topPanel.add(usernameLabel, BorderLayout.WEST);

@@ -6,6 +6,7 @@ import javax.swing.*;
 import src.presentation.Router;
 import src.presentation.components.buttons.NavigationIconButton;
 import src.presentation.components.ui.ScaledIcon;
+import src.presentation.views.UIViews;
 
 public class InteractionBarNavigation extends JPanel {
     /**
@@ -25,10 +26,10 @@ public class InteractionBarNavigation extends JPanel {
         add(Box.createHorizontalGlue());
 
         // Notification button with heart icon
-        add(new NavigationIconButton("resources/images/icons/heart.png", "notifications", router));
+        add(new NavigationIconButton("resources/images/icons/heart.png", UIViews.NOTIFICATIONS, router));
 
         // Direct Message button with plane icon
-        add(new NavigationIconButton("resources/images/icons/dm.png", "messages", router));
+        add(new NavigationIconButton("resources/images/icons/dm.png", UIViews.DM, router));
     }
 
     /**

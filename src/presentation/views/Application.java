@@ -31,7 +31,7 @@ public class Application extends JFrame {
         // Initialize the router
         Router router = new Router(mainPanel);
         add(mainPanel, BorderLayout.CENTER);
-        router.switchTo("signin");
+        router.switchTo(UIViews.SIGNIN);
     }
 
     /**

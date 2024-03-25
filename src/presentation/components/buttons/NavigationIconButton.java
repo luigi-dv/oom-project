@@ -2,16 +2,17 @@ package src.presentation.components.buttons;
 
 import src.presentation.Router;
 import src.presentation.components.ui.ScaledIcon;
+import src.presentation.views.UIViews;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NavigationIconButton extends JButton {
-    private final String routeName;
+    private final UIViews routeName;
     private final Router router;
 
-    public NavigationIconButton(String iconPath, String routeName, Router router) {
+    public NavigationIconButton(String iconPath, UIViews routeName, Router router) {
         this.routeName = routeName;
         this.router = router;
         setIcon(new ScaledIcon(iconPath, 22, 22));
