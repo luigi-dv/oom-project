@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JTextField;
 
-public abstract class ErrorComponent extends JTextField {
+public class ErrorComponent extends JTextField {
     
     public ErrorComponent(String message) {
         super(message); 
@@ -12,16 +12,27 @@ public abstract class ErrorComponent extends JTextField {
         setOpaque(false);
         setFocusable(false);
         setVisible(false);
-        setForeground(Color.RED); 
-        // add styles
         setBorder(null);
         
+    }
+
+    public ErrorComponent() {
+        this("");
     }
 
     // Use this method to display an error message
     public void displayErrorMessage(String message) {
         setText(message);
         setVisible(true);
+        setForeground(Color.RED); 
+        repaint();
+        revalidate();
+    }
+
+    public void displaySuccessMessage(String message) {
+        setText(message);
+        setVisible(true);
+        setForeground(Color.GREEN);
         repaint();
         revalidate();
     }
