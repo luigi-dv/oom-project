@@ -3,8 +3,10 @@ package src.domain.services.similarity.picture;
 import java.util.List;
 import java.util.ArrayList;
 
+import src.domain.entities.HashTag;
 import src.domain.interfaces.ISearchable;
 import src.domain.services.similarity.Filter;
+import src.infrastructure.utilities.LevenshteinDistance;
 
 public class SimiliarHashTags implements Filter {
 
@@ -15,18 +17,17 @@ public class SimiliarHashTags implements Filter {
         this.hashTag = hashTag;
     }
 
-    // TODO: Implement filterSimiliarHashTags
-    public List<ISearchable> filter(List<ISearchable> pictures) {
-        return new ArrayList<>();
-        // List<Picture> similiarHashTags = new ArrayList<>();
-        // for (Picture picture : pictures) {
-        //     int distance = LevenshteinDistance.calculate(hashTag, picture.getHashTag());
-        //     double similarity = 1 - ((double) distance / Math.max(hashTag.length(), picture.getHashTag().length()));
-        //     if (similarity >= threshold) {
-        //         similiarHashTags.add(picture);
-        //     }
-        // }
-        // return similiarHashTags;
+    public List<ISearchable> filter(List<ISearchable> hashTags) {
+        List<ISearchable> similiarHashTags = new ArrayList<>();
+        for (ISearchable iHashTag : hashTags) {
+            HashTag searchHashTag = (HashTag) iHashTag;
+            int distance = LevenshteinDistance.calculate(this.hashTag, searchHashTag.getName());
+            double similarity = 1 - ((double) distance / Math.max(this.hashTag.length(), searchHashTag.getName().length()));
+            if (similarity >= threshold) {
+                similiarHashTags.add(iHashTag);
+            }
+        }
+        return similiarHashTags;
     }
     
 }

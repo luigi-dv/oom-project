@@ -1,5 +1,7 @@
 package src.presentation.views;
 
+import src.presentation.Router;
+import src.presentation.components.errors.ErrorComponent;
 import src.presentation.controllers.ImageUploadController;
 import src.presentation.interfaces.IImageUploadUI;
 import src.presentation.interfaces.UIConstants;
@@ -16,16 +18,18 @@ import java.nio.file.*;
 public class ImageUploadView extends JPanel {
 
     private JLabel imagePreviewLabel;
-    private JTextArea captionTextArea;
+    private JTextField captionTextArea;
     private JButton uploadButton;
-    private JButton saveButton;
-    // private boolean imageUploaded = false;
+    private JTextField hashTagsTextField;
+    private ErrorComponent errorComponent;
     private final ImageUploadController controller;
     private User user;
+    private JPanel contentPanel;
 
-    public ImageUploadView(User user) {
-        this.user = user;
+    public ImageUploadView(Router router) {
         this.controller = new ImageUploadController();
+        user = controller.getAuthenticatedUser();
+        this.errorComponent = new ErrorComponent("");
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
@@ -34,34 +38,68 @@ public class ImageUploadView extends JPanel {
 
     private void initializeUI() {
         // Main content panel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-
-        // Image preview
-        imagePreviewLabel = IImageUploadUI.createImagePreviewLabel(UIConstants.WIDTH, UIConstants.HEIGHT);
-        contentPanel.add(imagePreviewLabel);
-
-        // Bio text area
-        captionTextArea = IImageUploadUI.createCaptionTextArea();
-
-        JScrollPane bioScrollPane = new JScrollPane(captionTextArea);
-        bioScrollPane.setPreferredSize(new Dimension(UIConstants.WIDTH - 50,  UIConstants.HEIGHT / 6));
-        contentPanel.add(bioScrollPane);
-
-        // Upload button
-        uploadButton = IImageUploadUI.createUploadButton();
-        uploadButton.addActionListener(this::uploadAction);
-        contentPanel.add(uploadButton);
-
-        // Save button (for bio)
-        saveButton = IImageUploadUI.createSaveCaptionButton();
-        saveButton.addActionListener(this::saveBioAction);
-
-        // Add panels to frame
+        contentPanel = createContentPanel();
         add(contentPanel);
     }
 
+    private JPanel createContentPanel() {
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout(10, 10));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+
+        // Image preview
+        JPanel imagePreviewPanel = new JPanel();
+        imagePreviewPanel.setBorder(BorderFactory.createTitledBorder("Image Preview")); // Add a title border
+        imagePreviewLabel = IImageUploadUI.createImagePreviewLabel(UIConstants.WIDTH, UIConstants.HEIGHT);
+        imagePreviewPanel.add(imagePreviewLabel);
+        contentPanel.add(imagePreviewPanel, BorderLayout.NORTH);
+
+        JPanel bioAndHashtagsPanel = new JPanel();
+        bioAndHashtagsPanel.setLayout(new GridLayout(6, 1, 0, 10));
+
+        JLabel bioLabel = new JLabel("Caption:");
+        captionTextArea = IImageUploadUI.createCaptionTextField();
+        bioLabel.setLabelFor(captionTextArea);
+
+        JLabel hashTagsLabel = new JLabel("Hashtags:");
+        hashTagsTextField = IImageUploadUI.createHashTagsTextField();
+        hashTagsLabel.setLabelFor(hashTagsTextField);
+
+        uploadButton = IImageUploadUI.createUploadButton();
+        uploadButton.addActionListener(this::uploadAction);
+
+        bioAndHashtagsPanel.add(bioLabel);
+        bioAndHashtagsPanel.add(captionTextArea);
+        bioAndHashtagsPanel.add(hashTagsLabel);
+        bioAndHashtagsPanel.add(hashTagsTextField);
+        bioAndHashtagsPanel.add(uploadButton);
+        bioAndHashtagsPanel.add(errorComponent);
+
+        contentPanel.add(bioAndHashtagsPanel, BorderLayout.CENTER);
+
+        return contentPanel;
+    }
+
     private void uploadAction(ActionEvent event) {
+
+        if (captionTextArea.getText().isEmpty()) {
+            errorComponent.displayErrorMessage("Please enter a caption");
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            return;
+        }
+
+        if (hashTagsTextField.getText().isEmpty()) {
+            errorComponent.displayErrorMessage("Please enter hashtags");
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            return;
+        }
+
+        handleFileUpload();
+    }
+
+    private void handleFileUpload() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select an image file");
         fileChooser.setAcceptAllFileFilterUsed(false);
@@ -82,7 +120,7 @@ public class ImageUploadView extends JPanel {
                 Files.copy(selectedFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
 
                 // Save the bio and image ID to a text file
-                saveImageInfo(user, newFileName, captionTextArea.getText());
+                saveImageInfo(user, newFileName, captionTextArea.getText(), hashTagsTextField.getText());
 
                 // Load the image from the saved path
                 ImageIcon imageIcon = new ImageIcon(destPath.toString());
@@ -108,17 +146,16 @@ public class ImageUploadView extends JPanel {
 
                 imagePreviewLabel.setIcon(imageIcon);
 
-                // Update the flag to indicate that an image has been uploaded
-                // imageUploaded = true;
-
-                // Change the text of the upload button
-                uploadButton.setText("Upload Another Image");
-
-                JOptionPane.showMessageDialog(this, "Image uploaded and preview updated!");
+                // Clear the error message
+                errorComponent.hideErrorMessage();
+                errorComponent.displaySuccessMessage("Image uploaded successfully");
+                contentPanel.revalidate();
+                contentPanel.repaint();
+                
             } catch (IOException ex) {
-                System.out.println(ex.getLocalizedMessage());
-                JOptionPane.showMessageDialog(this, "Error saving image: " + ex.getMessage(), "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                errorComponent.displayErrorMessage("Error uploading image");
+                contentPanel.revalidate();
+                contentPanel.repaint();
             }
         }
     }
@@ -131,8 +168,8 @@ public class ImageUploadView extends JPanel {
         return user.getProfile().getPostsCount() + 1;
     }
 
-    private void saveImageInfo(User user, String imagePath, String caption) {
-        controller.uploadImage(user, imagePath, caption);
+    private void saveImageInfo(User user, String imagePath, String caption, String hashTags) {
+        controller.uploadImage(user, imagePath, caption, hashTags);
 
     }
 
@@ -143,13 +180,6 @@ public class ImageUploadView extends JPanel {
             return ""; // empty extension
         }
         return name.substring(lastIndexOf + 1);
-    }
-
-    private void saveBioAction(ActionEvent event) {
-        // Here you would handle saving the bio text
-        String bioText = captionTextArea.getText();
-        // For example, save the bio text to a file or database
-        JOptionPane.showMessageDialog(this, "Caption saved: " + bioText);
     }
 }
 
