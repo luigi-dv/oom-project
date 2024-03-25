@@ -92,5 +92,6 @@ public class ProfileHeaderPanel extends JPanel {
      */
     private JButton createShareProfileButton() {
         return new ButtonComponent("Share Profile", 12, 5, Component.RIGHT_ALIGNMENT, "secondary",  false);
+        // #TODO: Implement sharing functionality
     }
 }
