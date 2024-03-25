@@ -3,17 +3,14 @@ package src.presentation.views;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.errors.ErrorComponent;
-import src.presentation.components.errors.SignUpErrorComponent;
 import src.presentation.components.ui.HintPasswordField;
 import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
 import src.presentation.controllers.SignUpController;
-import src.presentation.interfaces.IAuthenticationUI;
 
 /**
  * The SignUpUI class represents the user interface for the sign-up screen.
@@ -34,7 +31,7 @@ public class SignUpView extends JPanel {
     public SignUpView(Router router) {
         this.controller = new SignUpController();
         this.router = router;
-        this.errorMessage = new SignUpErrorComponent();
+        this.errorMessage = new ErrorComponent();
         initializeUI();
     }
 
@@ -73,7 +70,7 @@ public class SignUpView extends JPanel {
      *
      * @return The register panel.
      */
-    private JPanel createRegisterPanel() {
+    private JPanel createButtoPanel() {
         JPanel registerPanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -128,7 +125,7 @@ public class SignUpView extends JPanel {
         fieldsPanel.add(photoUploadPanel);
         
 
-        JPanel registerPanel = createRegisterPanel();
+        JPanel registerPanel = createButtoPanel();
         fieldsPanel.add(registerPanel, BorderLayout.SOUTH);
 
         

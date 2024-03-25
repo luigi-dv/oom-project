@@ -3,10 +3,8 @@ package src.presentation.views;
 import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.errors.ErrorComponent;
-import src.presentation.components.errors.LoginErrorComponent;
 import src.presentation.components.ui.HintPasswordField;
 import src.presentation.controllers.SignInController;
-import src.presentation.interfaces.IAuthenticationUI;
 import src.presentation.components.ui.HintTextField;
 
 import javax.swing.*;
@@ -32,7 +30,7 @@ public class SignInView extends JPanel {
     public SignInView(Router router) {
         this.controller = new SignInController();
         this.router = router;
-        errorMessage = new LoginErrorComponent();
+        errorMessage = new ErrorComponent();
         initializeUI();
     }
 
@@ -46,21 +44,6 @@ public class SignInView extends JPanel {
     }
 
     /**
-     * Creates a panel containing sign-in and register now buttons.
-     *
-     * @param signInButton      The sign-in button.
-     * @param registerNowButton The register now button.
-     * @return The button panel.
-     */
-    private JPanel createButtonPanel(JButton signInButton, JButton registerNowButton) {
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        buttonPanel.setBackground(Color.white);
-        buttonPanel.add(signInButton);
-        buttonPanel.add(registerNowButton);
-        return buttonPanel;
-    }
-
-    /**
      * Creates the register now button.
      *
      * @return The register now button.
@@ -69,19 +52,6 @@ public class SignInView extends JPanel {
         ButtonComponent registerNowButton = new ButtonComponent("Register Now", 14, 5, Component.CENTER_ALIGNMENT, "secondary", false);
         registerNowButton.addActionListener(e -> onRegisterNowClicked(e));
         return registerNowButton;
-    }
-
-    /**
-     * Creates the panel containing the register button.
-     *
-     * @param signInButton The sign-in button.
-     * @return The register panel.
-     */
-    private JPanel createRegisterPanel(JButton signInButton) {
-        JPanel registerPanel = new JPanel(new BorderLayout());
-        registerPanel.setBackground(Color.WHITE);
-        registerPanel.add(signInButton, BorderLayout.CENTER);
-        return registerPanel;
     }
 
     /**
@@ -154,7 +124,6 @@ public class SignInView extends JPanel {
         buttonsPanel.add(signInButton, gbc);
         gbc.gridy = 1;
         buttonsPanel.add(registerNowButton, gbc);
-
         gbc.gridy = 2;
         buttonsPanel.add(errorMessage, gbc);
         return buttonsPanel;
