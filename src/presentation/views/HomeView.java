@@ -41,6 +41,7 @@ public class HomeView extends JPanel {
     public HomeView(Router router) {
         this.router = router;
         controller = new UIController();
+        user = controller.getAuthenticatedUser();
         
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
