@@ -28,16 +28,13 @@ public class ProfileView extends JPanel {
         setSize(UIConstants.WIDTH, UIConstants.HEIGHT);
         setMinimumSize(new Dimension(UIConstants.WIDTH, UIConstants.HEIGHT));
         setLayout(new BorderLayout());
-
         createComponent();
     }
 
     public void createComponent() {
-
         // Create an instance of ProfileHeaderPanel
-        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(controller.getAuthenticatedUser());
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(controller.getAuthenticatedUser(), router);
         add(profileHeaderPanel, BorderLayout.NORTH);
-
         // Create an instance of PostGrid
         PostGridPanel postGridPanel = new PostGridPanel(router);
         JScrollPane scrollPane = new JScrollPane(postGridPanel);

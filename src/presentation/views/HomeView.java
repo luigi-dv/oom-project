@@ -1,7 +1,6 @@
 package src.presentation.views;
 
 import src.presentation.Router;
-import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.navigation.InteractionBarNavigation;
 import src.presentation.components.profile.ProfileHeaderPanel;
 import src.presentation.controllers.UIController;
@@ -235,7 +234,7 @@ public class HomeView extends JPanel {
     private JPanel createUserPanel(User user) {
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new GridLayout(1, 2));
-        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user);
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user, router);
         userPanel.add(profileHeaderPanel, BorderLayout.NORTH);
         return userPanel;
     }
