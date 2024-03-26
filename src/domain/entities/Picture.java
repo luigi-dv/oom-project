@@ -1,6 +1,7 @@
 package src.domain.entities;
 
 import src.domain.interfaces.ILikeable;
+import src.domain.interfaces.ISearchable;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Class representing a picture
  */
-public class Picture  implements  ILikeable {
+public class Picture  implements  ILikeable, ISearchable {
 
     /**
      * The unique identifier for the picture
@@ -41,6 +42,8 @@ public class Picture  implements  ILikeable {
      */
     private List<Like<Picture>> likes;
 
+    private List<HashTag> hashTags;
+
     /**
      * Constructor for Picture when the ID is not known
      * @param imagePath The path to the image file
@@ -58,6 +61,26 @@ public class Picture  implements  ILikeable {
     public Picture(UUID id, User user, String imagePath, String caption) {
         this.user = user;
         this.id = id;
+        this.imagePath = imagePath;
+        this.caption = caption;
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
+
+    }
+
+    public Picture(UUID id, User user, String imagePath, String caption, List<HashTag> hashTags) {
+        this.user = user;
+        this.id = id;
+        this.imagePath = imagePath;
+        this.caption = caption;
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.hashTags = hashTags;
+    }
+
+    public Picture(User user, String imagePath, String caption, List<HashTag> hashTags) {
+        this.user = user;
+        this.id = UUID.randomUUID();
         this.imagePath = imagePath;
         this.caption = caption;
         this.likes = new ArrayList<>();
@@ -145,6 +168,10 @@ public class Picture  implements  ILikeable {
      */
     public String getType() {
         return "picture";
+    }
+
+    public List<HashTag> getHashTags() {
+        return hashTags;
     }
 
     @Override

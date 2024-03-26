@@ -5,7 +5,9 @@ import src.domain.aggregate.Follow;
 
 import java.util.List;
 
-
+/**
+ * The interface defining operations for managing follows in a repository.
+ */
 public interface IFollowRepository {
     /**
      * Finds the followers by the username of the user aggregate property.

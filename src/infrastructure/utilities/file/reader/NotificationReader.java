@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.List;
 import src.infrastructure.utilities.file.IFile;
 import src.domain.entities.User;
 import src.domain.entities.notifications.Notification;
+import src.domain.entities.notifications.NotificationFactory;
 import src.domain.entities.notifications.NotificationType;
-import src.domain.factorybuilder.NotificationFactory;
 
 public class NotificationReader implements IFile {
 
@@ -48,17 +47,25 @@ public class NotificationReader implements IFile {
         String[] parts = line.split(";");
 
         String typeString = parts[0];
-        String message = parts[1];
-        String date = parts[2];
-        String username = parts[3];
+        String notifierUsername = parts[1];
+        String notifiedUsername = parts[2];
+        String message = parts[3];
+        String date = parts[4];
 
-        if (!username.equals(user.getUsername())) {
+        if (!notifiedUsername.equals(user.getUsername())) {
             return null;
         }
 
         LocalDateTime dateTime = LocalDateTime.parse(date);
         NotificationType type = NotificationType.fromString(typeString);
-        return NotificationFactory.createNotification(type, message,  new User(username), dateTime);
+        assert type != null;
+        return NotificationFactory.createNotification(
+                type,
+                new User(notifierUsername),
+                new User(notifiedUsername),
+                message,
+                dateTime
+        );
     }
 
     private static void handleIOException(IOException e) {

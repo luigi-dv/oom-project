@@ -1,5 +1,7 @@
 package src.application.services;
 
+import java.util.List;
+
 import src.application.providers.SessionProvider;
 import src.domain.entities.User;
 import src.infrastructure.repositories.UserRepository;
@@ -25,6 +27,15 @@ public class UserService {
     public UserService() {
         this.userRepository = new UserRepository();
         this.sessionProvider = SessionProvider.getInstance();
+    }
+
+    /**
+     * Retrieves all users.
+     *
+     * @return A list of all users.
+     */
+    public List<User> getUsers() {
+        return this.userRepository.findAll();
     }
 
     /**

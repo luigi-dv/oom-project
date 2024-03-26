@@ -18,5 +18,4 @@ public class NotificationWriter implements IFile {
             e.printStackTrace();
         }
     }
-    
 }

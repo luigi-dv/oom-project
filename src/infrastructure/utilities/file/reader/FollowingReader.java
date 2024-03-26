@@ -17,7 +17,7 @@ public class FollowingReader implements IFile {
     /**
      * Path to the file storing follower and following information.
      */
-    private static final String FILE_PATH = FILE_PATH_ROOT + "following.txt";
+    private static final String FILE_PATH = FILE_PATH_ROOT + "follow.txt";
 
     /**
      * Retrieves the list of followers for a specific user.
