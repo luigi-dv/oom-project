@@ -64,14 +64,5 @@ public class UIController extends BaseController {
     public boolean likePicture(Picture picture) {
         return likeServicePicture.like(picture);
     }
-
-    public boolean isFollowing(User user, User follower) {
-        return followService.isFollowing(user, follower);
-    }
-
-    public void followUser(User user, User follower) {
-        Follow follow = new Follow(follower, user, LocalDateTime.now());
-        followService.save(follow);
-    }
 }
 

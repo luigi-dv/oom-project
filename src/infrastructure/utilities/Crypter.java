@@ -46,7 +46,7 @@ public class Crypter {
 
     /**
      * Set the {@link Crypter#key key}
-     * @param key
+     * @param key the key
      */
     public void setKey(SecretKey key){
         Crypter.key = key;
@@ -63,7 +63,7 @@ public class Crypter {
     /**
      * Generate a secret key to {@link Crypter#encrypt(String, SecretKey) encrypt} and {@link Crypter#decrypt(byte[], SecretKey) decrypt} the String and bytes
      * @return the {@link SecretKey}
-     * @throws Exception
+     * @throws Exception if the {@link KeyGenerator} can't be found
      */
     private SecretKey generateSecretKey() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");

@@ -48,7 +48,6 @@ public class FollowService {
             }
         }
         return false;
-
     }
 
     /**

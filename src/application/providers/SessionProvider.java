@@ -16,7 +16,7 @@ public class SessionProvider {
     /**
      * Private constructor to prevent external instantiation.
      */
-    private SessionProvider() {
+    public SessionProvider() {
     }
 
     private static class InstanceHolder {

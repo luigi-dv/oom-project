@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import src.domain.entities.User;
 import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.buttons.FollowButton;
 import src.presentation.components.ui.AvatarImagePanel;
+import src.presentation.controllers.profile.ProfileHeaderPanelController;
 
 public class ProfileHeaderPanel extends JPanel {
 
@@ -12,6 +14,7 @@ public class ProfileHeaderPanel extends JPanel {
      * The current user.
      */
     private final User currentUser;
+    private final ProfileHeaderPanelController controller;
 
     /**
      * Constructor for the ProfileHeaderPanel.
@@ -19,6 +22,8 @@ public class ProfileHeaderPanel extends JPanel {
      */
     public ProfileHeaderPanel(User currentUser) {
         this.currentUser = currentUser;
+        this.controller = new ProfileHeaderPanelController();
+
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -55,9 +60,15 @@ public class ProfileHeaderPanel extends JPanel {
     private JPanel createButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-        buttonsPanel.add(createEditProfileButton(), BorderLayout.WEST);
-        buttonsPanel.add(Box.createHorizontalStrut(10)); // Add a 10-pixel gap
-        buttonsPanel.add(createShareProfileButton(), BorderLayout.EAST);
+        if(!controller.isAuthenticatedUser(currentUser)) {
+            buttonsPanel.add(new FollowButton(controller.isFollowing(currentUser, controller.getAuthenticatedUser()), currentUser, controller.getAuthenticatedUser()));
+            buttonsPanel.add(Box.createHorizontalStrut(10)); // Add a 10-pixel gap
+        }
+        else{
+            buttonsPanel.add(createEditProfileButton(), BorderLayout.WEST);
+            buttonsPanel.add(Box.createHorizontalStrut(10)); // Add a 10-pixel gap
+            buttonsPanel.add(createShareProfileButton(), BorderLayout.EAST);
+        }
         return buttonsPanel;
     }
 
@@ -69,6 +80,10 @@ public class ProfileHeaderPanel extends JPanel {
         return new AvatarImagePanel(currentUser.getProfilePicturePath(), 80, 80);
     }
 
+    /**
+     * Creates the stats panel.
+     * @return The stats panel.
+     */
     private JPanel createStatsPanel() {
         return new StatsPanel();
     }

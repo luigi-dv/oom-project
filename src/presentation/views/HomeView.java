@@ -3,6 +3,7 @@ package src.presentation.views;
 import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.navigation.InteractionBarNavigation;
+import src.presentation.components.profile.ProfileHeaderPanel;
 import src.presentation.controllers.UIController;
 import src.presentation.interfaces.UIConstants;
 import src.domain.entities.Picture;
@@ -172,6 +173,7 @@ public class HomeView extends JPanel {
         JLabel descriptionLabel = getDescriptionLabel(picture);
         likesLabel = createLikesLabel(picture);
         JButton likeButton = createLikeButton(picture);
+        // TODO: Refactor to controller
         likeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,6 +197,7 @@ public class HomeView extends JPanel {
         JLabel fullSizeImageLabel = new JLabel();
         fullSizeImageLabel.setHorizontalAlignment(JLabel.CENTER);
         fullSizeImageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         try {
             ImageIcon imageIcon = createCroppedImageIcon(picture);
             fullSizeImageLabel.setIcon(imageIcon);
@@ -202,17 +205,7 @@ public class HomeView extends JPanel {
             fullSizeImageLabel.setText("Image not found");
         }
 
-        JButton followButton = new ButtonComponent("Follow", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
-        if (controller.isFollowing(user, picture.getUser())) {
-            followButton.setText("Following");
-            followButton.setEnabled(false);
-        }
-        followButton.addActionListener(e -> {
-            controller.followUser(user, picture.getUser());
-            followButton.setText("Following");
-            followButton.setEnabled(false);
-        });
-        JPanel userPanel = createUserPanel(followButton);
+        JPanel userPanel = createUserPanel(picture.getUser());
 
         // Container panel for image and overlay
         JPanel imageContainerPanel = new JPanel(new BorderLayout());
@@ -239,16 +232,11 @@ public class HomeView extends JPanel {
 
     
 
-    private JPanel createUserPanel(JButton followButton) {
+    private JPanel createUserPanel(User user) {
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new GridLayout(1, 2));
-        JLabel userNameLabel = new JLabel(this.user.getUsername());
-        userNameLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        userNameLabel.setForeground(Color.BLACK); 
-        userNameLabel.setHorizontalAlignment(JLabel.CENTER);
-        userNameLabel.setVerticalAlignment(JLabel.TOP);
-        userPanel.add(userNameLabel);
-        userPanel.add(followButton);
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user);
+        userPanel.add(profileHeaderPanel, BorderLayout.NORTH);
         return userPanel;
     }
 
