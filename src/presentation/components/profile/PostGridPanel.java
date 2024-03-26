@@ -72,7 +72,7 @@ public class PostGridPanel extends JPanel {
     /**
      * Displays the full-size image when a grid image is clicked
      *
-     * @param imageIcon The image icon to display
+     * @param picture The image icon to display
      */
     private void displayImage(Picture picture) {
         removeAll(); // Remove existing content
@@ -101,7 +101,7 @@ public class PostGridPanel extends JPanel {
     }
 
     private JButton createBackButton() {
-        JButton backButton = new JButton("Back");
+        ButtonComponent backButton = new ButtonComponent("Back", 14, 10, Component.CENTER_ALIGNMENT, "primary", true);
         backButton.addActionListener(e -> {
             initializePanel();
             backButton.setVisible(false);

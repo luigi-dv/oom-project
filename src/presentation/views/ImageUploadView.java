@@ -116,7 +116,7 @@ public class ImageUploadView extends JPanel {
 
                 String newFileName = getNewFileName(username, imageId, fileExtension);
 
-                Path destPath = Paths.get("resources\\storage\\uploaded", newFileName);
+                Path destPath = Paths.get("resources/storage/uploaded", newFileName);
                 Files.copy(selectedFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
 
                 // Save the bio and image ID to a text file
@@ -153,7 +153,8 @@ public class ImageUploadView extends JPanel {
                 contentPanel.repaint();
                 
             } catch (IOException ex) {
-                errorComponent.displayErrorMessage("Error uploading image");
+                errorComponent.displayErrorMessage(ex.getMessage());
+
                 contentPanel.revalidate();
                 contentPanel.repaint();
             }
