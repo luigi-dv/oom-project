@@ -37,7 +37,7 @@ public class EditProfileDialog extends JDialog {
         JPanel panel = new JPanel(new GridLayout(4, 2, 5, 10)); // Increased rows to 4
         JLabel bioLabel = new JLabel("New Bio: ");
         JLabel pfpLabel = new JLabel("Profile Picture");
-        bioInput = new HintTextField(currentUser.getBio());
+        bioInput = new HintTextField("New Bio");
         JButton pictureButton = createUploadPhotoButton();
     
         ButtonComponent doneButton = new ButtonComponent("Done", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);

@@ -6,8 +6,6 @@ import src.presentation.controllers.NotificationController;
 import src.presentation.interfaces.UIConstants;
 import src.domain.entities.notifications.Notification;
 
-
-
 import javax.swing.*;
 
 import java.awt.BorderLayout;
