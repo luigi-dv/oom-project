@@ -7,9 +7,9 @@ import src.application.factory.UserSearchFactory;
 import src.application.factory.search.Search;
 import src.domain.interfaces.ISearchable;
 import src.domain.services.similarity.Filter;
-import src.domain.services.similarity.picture.SimilarCaption;
-import src.domain.services.similarity.picture.SimiliarHashTags;
 import src.domain.services.similarity.user.SimilarUserName;
+import src.infrastructure.picture.SimilarCaption;
+import src.infrastructure.picture.SimiliarHashTags;
 
 public class SearchService {
 
