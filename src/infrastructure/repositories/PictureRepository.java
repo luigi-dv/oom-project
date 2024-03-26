@@ -85,7 +85,7 @@ public class PictureRepository implements IPictureRepository {
      * @return True if the picture was successfully deleted, false otherwise.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public boolean delete(UUID id) {
-        return false;
+    public void delete(Picture picture) {
+        PictureWriter.deleteFromFile(picture);
     }
 }

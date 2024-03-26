@@ -73,4 +73,8 @@ public class PictureService {
     public Picture getPictureById(UUID id) {
         return repository.findById(id);
     }
+
+    public void deletePicture(Picture picture) {
+        repository.delete(picture);
+    }
 }

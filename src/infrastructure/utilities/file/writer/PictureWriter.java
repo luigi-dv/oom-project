@@ -30,7 +30,7 @@ public class PictureWriter implements IFile {
         }
     }
 
-    public static void deleteFromFile(Picture picture) throws FileNotFoundException {
+    public static void deleteFromFile(Picture picture) {
         String stringId = picture.getId().toString();
         StringBuilder out = new StringBuilder();
 
@@ -41,6 +41,9 @@ public class PictureWriter implements IFile {
                     out.append(line).append("\n");
                 }
             }
+        } catch (FileNotFoundException e) {
+            // TODO: Catch exception
+            e.printStackTrace();
         } catch (Exception e) {
             // TODO: Catch exception
             e.printStackTrace();
@@ -51,7 +54,11 @@ public class PictureWriter implements IFile {
     private static void rewriteFile(String updatedContent) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             writer.write(updatedContent);
-        } catch (IOException e) {
+        }  catch (FileNotFoundException e) {
+            // TODO: Catch exception
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO: Catch exception
             e.printStackTrace();
         }
     }

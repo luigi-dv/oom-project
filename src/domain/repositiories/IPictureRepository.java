@@ -45,7 +45,7 @@ public interface IPictureRepository {
      * Deletes a picture by its unique identifier.
      *
      * @param id The unique identifier of the picture to be deleted.
-     * @return True if the picture was successfully deleted, false otherwise.
+     * @return The picture that was deleted.
      */
-    boolean delete(UUID id);
+    void delete(Picture picture);
 }

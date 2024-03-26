@@ -10,6 +10,7 @@ import java.util.List;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.presentation.Router;
+import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.controllers.profile.PostGridController;
 
 public class PostGridPanel extends JPanel {
@@ -48,18 +49,24 @@ public class PostGridPanel extends JPanel {
     }
 
     private JLabel createImageLabel(Picture picture) {
-        String filePath = "resources/storage/uploaded/" + picture.getImagePath();
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon(filePath).getImage()
-                .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
+        
+        ImageIcon imageIcon = createImageIcon(picture);
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setBorder(new LineBorder(Color.BLACK)); // Set border color to black
         imageLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                displayImage(imageIcon);
+                displayImage(picture);
             }
         });
         return imageLabel;
+    }
+
+    private ImageIcon createImageIcon(Picture picture) {
+        String filePath = "resources/storage/uploaded/" + picture.getImagePath();
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(filePath).getImage()
+                .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
+        return imageIcon;
     }
 
     /**
@@ -67,16 +74,26 @@ public class PostGridPanel extends JPanel {
      *
      * @param imageIcon The image icon to display
      */
-    private void displayImage(ImageIcon imageIcon) {
+    private void displayImage(Picture picture) {
         removeAll(); // Remove existing content
         setLayout(new BorderLayout()); // Change layout for image display
-
+        ImageIcon imageIcon = createImageIcon(picture);
+        JButton backButton = createBackButton();
+        // create delete button to delete the picture
+        ButtonComponent deleteButton = new ButtonComponent("Delete", 14, 10, Component.CENTER_ALIGNMENT, "danger", true);
+        deleteButton.setMaximumSize(new Dimension(30, 30));
+        deleteButton.addActionListener(e -> {
+            controller.deletePicture(picture);
+            backButton.doClick();
+            revalidate();
+            repaint();
+        });
+        add(deleteButton, BorderLayout.NORTH);
         // Create a JLabel for the image
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
-        JButton backButton = createBackButton();
         add(backButton, BorderLayout.SOUTH);
 
         revalidate();
