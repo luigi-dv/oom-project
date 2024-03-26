@@ -8,11 +8,9 @@ public abstract class Notification {
 
     private NotificationType type;
     private final User notifiedUser;
-
     private final User notifierUser;
     private String message;
     private LocalDateTime date;
-    private User user;
 
     public Notification(NotificationType type, String message, User notifierUser, User notifiedUser) {
         this.type = type;
@@ -60,7 +58,7 @@ public abstract class Notification {
 
     @Override
     public String toString() {
-        return getType() + ":" + message + ":" + date + ":" + user.getUsername();
+        return getType() + ";" + notifierUser.getUsername() + ";" + notifiedUser.getUsername() + ";" + message + ";" + date;
     }
     
 }

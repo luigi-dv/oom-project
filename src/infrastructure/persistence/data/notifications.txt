@@ -1,10 +1,4 @@
-PICTURE_LIKE;toby;luigi;liked your picture;2024-03-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2024-02-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2024-01-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-06-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
-PICTURE_LIKE;toby;luigi;liked your picture;2023-05-15T21:20:50.642576600
+FOLLOW;toby;luigi;luigi followed you;2024-03-26T11:44:52.822925100
+FOLLOW;toby;luigi;luigi followed you;2024-03-26T11:46:54.359709200
+FOLLOW;luigi;toby;toby followed you;2024-03-26T11:49:46.268216
+PICTURE_LIKE;toby;luigi;toby liked your picture;2024-03-26T11:50:45.697883700

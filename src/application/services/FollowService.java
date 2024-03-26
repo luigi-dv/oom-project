@@ -3,6 +3,7 @@ package src.application.services;
 import java.util.List;
 import src.domain.entities.User;
 import src.domain.entities.notifications.FollowNotification;
+import src.domain.entities.notifications.Notification;
 import src.domain.aggregate.Follow;
 import src.infrastructure.repositories.FollowRepository;
 
@@ -30,9 +31,24 @@ public class FollowService {
         User user = follow.user();
         User follower = follow.follower();
         String message = follower.getUsername() + " followed you";
-        FollowNotification notification = new FollowNotification(user, follower, message);
+        System.out.println(user + " " +  follower);
+        Notification notification = new FollowNotification(user, follower, message);
         notificationService.writeNotification(notification);
         repository.save(follow);
+    }
+
+    public boolean isFollowing(User user, User follower) {
+        if (user.getUsername().equals(follower.getUsername())) {
+            return true;
+        }
+        List<User> followers = getFollowersFromUser(user);
+        for (User u : followers) {
+            if (u.getUsername().equals(follower.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     /**

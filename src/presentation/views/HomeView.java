@@ -1,13 +1,13 @@
 package src.presentation.views;
 
 import src.presentation.Router;
+import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.navigation.InteractionBarNavigation;
 import src.presentation.controllers.UIController;
 import src.presentation.interfaces.UIConstants;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.event.MouseAdapter;
@@ -17,8 +17,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -93,7 +91,6 @@ public class HomeView extends JPanel {
     }
 
     private void handleLikeAction(Picture picture) {
-        
         if (controller.likePicture(picture)){
             likesLabel.setText(picture.getLikes().size() + " likes");
         }      
@@ -150,11 +147,9 @@ public class HomeView extends JPanel {
 
     private ImageIcon createCroppedImageIcon(Picture picture) throws IOException {
         String imagePath = "resources/storage/uploaded/" + picture.getImagePath();
-        BufferedImage originalImage = ImageIO.read(new File(imagePath));
-        BufferedImage croppedImage = originalImage.getSubimage(0, 0,
-                Math.min(originalImage.getWidth(), IMAGE_WIDTH),
-                Math.min(originalImage.getHeight(), IMAGE_HEIGHT));
-        return new ImageIcon(croppedImage);
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(imagePath).getImage()
+                .getScaledInstance(UIConstants.IMAGE_SIZE + 200,UIConstants.IMAGE_SIZE + 200, Image.SCALE_SMOOTH));
+        return imageIcon;
     }
 
     private JLabel createNameLabel(Picture picture) {
@@ -195,10 +190,11 @@ public class HomeView extends JPanel {
 
     private void displayImage(Picture picture) {
         imageViewPanel.removeAll(); // Clear previous content
-        // Display the image
+
+        // Full-size image label with border
         JLabel fullSizeImageLabel = new JLabel();
         fullSizeImageLabel.setHorizontalAlignment(JLabel.CENTER);
-
+        fullSizeImageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         try {
             ImageIcon imageIcon = createCroppedImageIcon(picture);
             fullSizeImageLabel.setIcon(imageIcon);
@@ -206,42 +202,63 @@ public class HomeView extends JPanel {
             fullSizeImageLabel.setText("Image not found");
         }
 
-        JPanel userPanel = createUserPanel();
-        JButton likeButton = createLikeButton(picture);
-        likeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleLikeAction(picture); // Update this line
-                refreshDisplayImage(picture); // Refresh the view
-            }
+        JButton followButton = new ButtonComponent("Follow", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
+        if (controller.isFollowing(user, picture.getUser())) {
+            followButton.setText("Following");
+            followButton.setEnabled(false);
+        }
+        followButton.addActionListener(e -> {
+            controller.followUser(user, picture.getUser());
+            followButton.setText("Following");
+            followButton.setEnabled(false);
         });
+        JPanel userPanel = createUserPanel(followButton);
 
-        // Information panel at the bottom
+        // Container panel for image and overlay
+        JPanel imageContainerPanel = new JPanel(new BorderLayout());
+       
+
+        JButton likeButton = createLikeButton(picture);
+        likeButton.addActionListener(e -> {
+            handleLikeAction(picture);
+            refreshDisplayImage(picture); // Refresh the view
+        });
         JPanel infoPanel = createInfoPanel(picture, likeButton);
-        imageViewPanel.add(fullSizeImageLabel, BorderLayout.CENTER);
+
+        imageContainerPanel.add(userPanel, BorderLayout.NORTH);
+        imageContainerPanel.add(fullSizeImageLabel, BorderLayout.CENTER);
+        imageContainerPanel.add(infoPanel, BorderLayout.SOUTH);
+
+
+        imageViewPanel.add(imageContainerPanel, BorderLayout.CENTER);
         imageViewPanel.add(infoPanel, BorderLayout.SOUTH);
-        imageViewPanel.add(userPanel, BorderLayout.NORTH);
         imageViewPanel.revalidate();
         imageViewPanel.repaint();
         cardLayout.show(cardPanel, "ImageView"); // Switch to the image view
+    }
+
+    
+
+    private JPanel createUserPanel(JButton followButton) {
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new GridLayout(1, 2));
+        JLabel userNameLabel = new JLabel(this.user.getUsername());
+        userNameLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        userNameLabel.setForeground(Color.BLACK); 
+        userNameLabel.setHorizontalAlignment(JLabel.CENTER);
+        userNameLabel.setVerticalAlignment(JLabel.TOP);
+        userPanel.add(userNameLabel);
+        userPanel.add(followButton);
+        return userPanel;
     }
 
     private JPanel createInfoPanel(Picture picture, JButton likeButton) {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(new JLabel(picture.getCaption())); // Description
-        infoPanel.add(new JLabel(picture.getLikes().size() + "")); // Likes
+        infoPanel.add(new JLabel(picture.getLikes().size() + " likes")); // Likes
         infoPanel.add(likeButton);
         return infoPanel;
-    }
-
-    private JPanel createUserPanel() {
-        JPanel userPanel = new JPanel();
-        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
-        JLabel userName = new JLabel(this.user.getUsername());
-        userName.setFont(new Font("Arial", Font.BOLD, 18));
-        userPanel.add(userName);// User Name
-        return userPanel;
     }
 
     private void refreshDisplayImage(Picture picture) {
