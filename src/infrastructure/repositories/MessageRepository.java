@@ -1,13 +1,15 @@
 package src.infrastructure.repositories;
 
+import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
+import src.domain.repositiories.IMessageRepository;
 import src.infrastructure.utilities.file.reader.MessageReader;
 import src.infrastructure.utilities.file.writer.MessageWriter;
 
 import java.util.List;
 import java.util.UUID;
 
-public class MessageRepository {
+public class MessageRepository implements IMessageRepository {
 
     /**
      * Finds and retrieves a Message by its unique identifier.
@@ -25,7 +27,7 @@ public class MessageRepository {
      * @param chatId The chat Unique Identifier.
      * @return A list of messages from the chat
      */
-    public List<Message> getByChatId(UUID chatId) {
+    public List<Message> findByChatId(UUID chatId) {
         if (MessageReader.doesFileExist()) {
             return MessageReader.getByChatId(chatId);
         }
@@ -47,5 +49,14 @@ public class MessageRepository {
         return null;
     }
 
-
+    /**
+     * Deletes a message.
+     *
+     * @param message The message UUID to be deleted.
+     */
+    public void delete(Message message) {
+        if (MessageReader.doesFileExist()) {
+            MessageWriter.deleteFromFile(message);
+        }
+    }
 }

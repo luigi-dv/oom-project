@@ -31,16 +31,11 @@ public class PictureWriter implements IFile {
     }
 
     public static void deleteFromFile(Picture picture) {
-        String stringId = picture.getId().toString();
+        UUID id = picture.getId();
         StringBuilder out = new StringBuilder();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.startsWith(stringId)) {
-                    out.append(line).append("\n");
-                }
-            }
+            IWriter.deleteById(id, reader);
         } catch (FileNotFoundException e) {
             // TODO: Catch exception
             e.printStackTrace();
