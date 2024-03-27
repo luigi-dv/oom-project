@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import src.presentation.components.buttons.ButtonComponent;
+import src.presentation.components.pictures.PictureComponentListener;
 import src.presentation.components.pictures.PictureDisplayComponent;
+import src.presentation.components.search.UserSearchListener;
 import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
@@ -31,7 +33,7 @@ import java.util.stream.Collectors;
  * @authors Melcher Toby, Davila Luigelo, Eliëns Joa, Nijhuis Julian
  * @version 1.0
  */
-public class ExploreView extends JPanel {
+public class ExploreView extends JPanel implements UserSearchListener {
     private final int IMAGE_SIZE = UIConstants.WIDTH / 3; // Size for each image in the grid
 
     private final ExploreController controller;
@@ -74,6 +76,7 @@ public class ExploreView extends JPanel {
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         List<Picture> pictures = controller.getallPictures();
+        
         JPanel searchPanel = createSearchPanel();
         JPanel imageGridPanel = IExploreUI.createImageGridPanel(pictures, mouseAdapterImage, IMAGE_SIZE);
         JScrollPane scrollPane = IExploreUI.createScrollPane(imageGridPanel);
@@ -91,7 +94,7 @@ public class ExploreView extends JPanel {
         if (!searchResults.isEmpty()) {
             if (searchResults.get(0) instanceof User) {
                 List<User> users = searchResults.stream().map(item -> (User) item).collect(Collectors.toList());
-                JPanel userGridPanel = IExploreUI.createUserGridPanel(users, mouseAdapterUser, IMAGE_SIZE);
+                JPanel userGridPanel = IExploreUI.createUserGridPanel(users, mouseAdapterUser, IMAGE_SIZE, this);
                 add(userGridPanel, BorderLayout.CENTER);
             } else if (searchResults.get(0) instanceof Picture) {
                 List<Picture> pictures = searchResults.stream().map(item -> (Picture) item).collect(Collectors.toList());
@@ -148,9 +151,18 @@ public class ExploreView extends JPanel {
     MouseAdapter mouseAdapterUser = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            // TODO: Open the correct profile
+            // router.switchTo(UIViews.PROFILE, user);
         }
     };
+
+    @Override
+    public void displayUserDetails(JPanel picture, User user) {
+        JPanel  panel = new ProfileView(router, user);
+        removeAll();
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
 
     /**
      * Creates a panel with a "Back" button for navigating back to the main content
@@ -183,9 +195,10 @@ public class ExploreView extends JPanel {
         setLayout(new BorderLayout());
         JPanel panel = new PictureDisplayComponent(picture);
         JButton backPanel = createBackButtonPanel();
-        // #TODO: Add the back button to the bottom of the panel
         add(panel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
+
+    
 }

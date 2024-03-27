@@ -5,6 +5,7 @@ import javax.swing.*;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 import src.presentation.components.search.UserSearchComponent;
+import src.presentation.views.ExploreView;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -36,12 +37,13 @@ public interface IExploreUI {
         return imageGridPanel;
     }
 
-    static JPanel createUserGridPanel(List<User> users, MouseAdapter mouseAdapter, int imageSize) {
+    static JPanel createUserGridPanel(List<User> users, MouseAdapter mouseAdapter, int imageSize, ExploreView exploreView) {
         JPanel userGridPanel = new JPanel(new GridLayout()); // 3 columns, auto rows
 
         for (User user : users) {
-            JPanel userPanel = new UserSearchComponent(user, mouseAdapter);
-            userPanel.addMouseListener(mouseAdapter);
+            UserSearchComponent userPanel = new UserSearchComponent(user, mouseAdapter);
+            userPanel.setUserSearchListener(exploreView);
+            // userPanel.addMouseListener(mouseAdapter);
             userGridPanel.add(userPanel);
         }
 

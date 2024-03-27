@@ -1,4 +1,4 @@
-package src.infrastructure.picture;
+package src.domain.services.similarity.picture;
 
 import java.util.ArrayList;
 import java.util.List;

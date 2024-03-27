@@ -7,6 +7,7 @@ import java.util.HashMap;
 import src.presentation.layouts.GuestLayout;
 import src.presentation.views.*;
 import src.application.providers.SessionProvider;
+import src.domain.entities.User;
 import src.presentation.layouts.AuthenticatedLayout;
 
 /**

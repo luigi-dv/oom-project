@@ -12,8 +12,8 @@ public class PictureController extends BaseController {
         this.likeServicePicture = new LikeService<>(sessionProvider);
     }
 
-    public void likePicture(Picture picture) {
-        likeServicePicture.like(picture);
+    public boolean likePicture(Picture picture) {
+        return likeServicePicture.like(picture);
     }
 
 

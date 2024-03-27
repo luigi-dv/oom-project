@@ -28,6 +28,7 @@ public class PictureComponent extends JPanel {
     protected final Picture picture;
     private final PictureController pictureController;
     private PictureComponentListener listener;
+    private JLabel likeLabel;
 
     public PictureComponent(Picture picture, boolean initialize) {
         this.picture = picture;
@@ -41,7 +42,7 @@ public class PictureComponent extends JPanel {
         this.listener = listener;
     }
 
-    public void initializePanel() {
+    private void initializePanel() {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
         itemPanel.setBackground(Color.WHITE); // Set the background color for the item panel
@@ -89,7 +90,11 @@ public class PictureComponent extends JPanel {
     }
 
     protected void handleLikeAction(Picture picture) {
-        pictureController.likePicture(picture);
+        if (pictureController.likePicture(picture)) {
+            likeLabel.setText(picture.getLikes().size() + " likes");
+        } else {
+            System.out.println("Failed to like picture");
+        };
     }
 
     protected void refreshDisplayImage(Picture picture) {
@@ -114,7 +119,8 @@ public class PictureComponent extends JPanel {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(new JLabel(picture.getCaption())); // Description
-        infoPanel.add(new JLabel(picture.getLikes().size() + " likes")); // Likes
+        likeLabel = new JLabel(picture.getLikes().size() + " likes");
+        infoPanel.add(likeLabel); // Likes
         infoPanel.add(likeButton);
         return infoPanel;
     }

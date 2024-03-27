@@ -17,6 +17,7 @@ public class UserSearchComponent extends JPanel {
 
     private final User user;
     private final MouseAdapter mouseAdapter;
+    private UserSearchListener listener;
 
     public UserSearchComponent(User user, MouseAdapter mouseAdapter) {
         super();
@@ -24,6 +25,10 @@ public class UserSearchComponent extends JPanel {
         this.mouseAdapter = mouseAdapter;
         initializePanel();
     }
+
+        public void setUserSearchListener(UserSearchListener listener) {
+            this.listener = listener;
+        }
 
     public void initializePanel() {
         removeAll();
@@ -38,7 +43,12 @@ public class UserSearchComponent extends JPanel {
         JPanel imagePanel = new AvatarImagePanel(user.getProfilePicturePath(), 50, 50);
         JLabel usernameLabel = new JLabel(user.getUsername());
     
-        addMouseListener(mouseAdapter);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                listener.displayUserDetails(UserSearchComponent.this, user);
+            }
+        });
     
         add(imagePanel);
         add(usernameLabel);

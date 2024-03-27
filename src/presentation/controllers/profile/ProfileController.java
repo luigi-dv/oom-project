@@ -48,4 +48,5 @@ public class ProfileController extends BaseController {
         user.setBio(bio);
         userService.updateUser(user);
     }
+
 }
