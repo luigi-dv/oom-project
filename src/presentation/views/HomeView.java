@@ -92,4 +92,28 @@ public class HomeView extends JPanel implements PictureComponentListener {
         imageViewPanel.revalidate();
         imageViewPanel.repaint();
     }
+
+    
+
+    private JPanel createUserPanel(User user) {
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new GridLayout(1, 2));
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user, router);
+        userPanel.add(profileHeaderPanel, BorderLayout.NORTH);
+        return userPanel;
+    }
+
+    private JPanel createInfoPanel(Picture picture, JButton likeButton) {
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.add(new JLabel(picture.getCaption())); // Description
+        infoPanel.add(new JLabel(picture.getLikes().size() + " likes")); // Likes
+        infoPanel.add(likeButton);
+        return infoPanel;
+    }
+
+    private void refreshDisplayImage(Picture picture) {
+        displayImage(picture);
+    }
+
 }

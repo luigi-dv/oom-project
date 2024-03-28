@@ -29,7 +29,7 @@ public class InteractionBarNavigation extends JPanel {
         add(new NavigationIconButton("resources/images/icons/heart.png", UIViews.NOTIFICATIONS, router));
 
         // Direct Message button with plane icon
-        add(new NavigationIconButton("resources/images/icons/dm.png", UIViews.DM, router));
+        add(new NavigationIconButton("resources/images/icons/dm.png", UIViews.CHATS, router));
     }
 
     /**

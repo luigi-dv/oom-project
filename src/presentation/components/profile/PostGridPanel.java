@@ -17,9 +17,7 @@ public class PostGridPanel extends JPanel {
 
     private final Router router;
     private final PostGridController controller;
-    private int GRID_IMAGE_SIZE = 100; 
-    private final User user;
-
+    private int GRID_IMAGE_SIZE = 100; // Adjust as needed
     public PostGridPanel(Router router) {
         this.router = router;
         this.controller = new PostGridController();

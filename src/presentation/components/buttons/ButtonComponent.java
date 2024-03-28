@@ -56,6 +56,6 @@ public class ButtonComponent extends JButton {
      * @return The text color
      */
     private Color getTextColor(String type, boolean darkMode) {
-        return darkMode || Objects.equals(type, "primary") ? Color.WHITE : Color.BLACK;
+        return darkMode || Objects.equals(type, "primary") || Objects.equals(type, "danger") ? Color.WHITE : Color.BLACK;
     }
 }
