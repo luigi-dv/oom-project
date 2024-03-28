@@ -31,7 +31,6 @@ public class FollowService {
         User user = follow.user();
         User follower = follow.follower();
         String message = follower.getUsername() + " followed you";
-        System.out.println(user + " " +  follower);
         Notification notification = new FollowNotification(user, follower, message);
         notificationService.writeNotification(notification);
         repository.save(follow);
