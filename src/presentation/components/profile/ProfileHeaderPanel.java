@@ -2,26 +2,34 @@ package src.presentation.components.profile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.UUID;
+
 import src.domain.entities.User;
+import src.domain.entities.messages.Chat;
+import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.buttons.FollowButton;
 import src.presentation.components.ui.AvatarImagePanel;
 import src.presentation.controllers.profile.ProfileHeaderPanelController;
+import src.presentation.interfaces.IChatsListener;
+import src.presentation.views.ChatView;
 
-public class ProfileHeaderPanel extends JPanel {
+public class ProfileHeaderPanel extends JPanel implements IChatsListener {
 
     /**
      * The current user.
      */
     private final User currentUser;
+    private final Router router;
     private final ProfileHeaderPanelController controller;
 
     /**
      * Constructor for the ProfileHeaderPanel.
      * @param currentUser The current user.
      */
-    public ProfileHeaderPanel(User currentUser) {
+    public ProfileHeaderPanel(User currentUser, Router router) {
         this.currentUser = currentUser;
+        this.router = router;
         this.controller = new ProfileHeaderPanelController();
 
         setLayout(new GridBagLayout());
@@ -63,12 +71,8 @@ public class ProfileHeaderPanel extends JPanel {
         if(!controller.isAuthenticatedUser(currentUser)) {
             buttonsPanel.add(new FollowButton(controller.isFollowing(currentUser, controller.getAuthenticatedUser()), currentUser, controller.getAuthenticatedUser()));
             buttonsPanel.add(Box.createHorizontalStrut(10));
-            ButtonComponent messageButton = new ButtonComponent("Message", 12, 5, Component.RIGHT_ALIGNMENT, "primary", false);
-            messageButton.addActionListener(e -> {
-                controller.saveChat(currentUser, controller.getAuthenticatedUser());
-            });
+            ButtonComponent messageButton = createMessageButton();
             buttonsPanel.add(messageButton);
-
         }
         else{
             buttonsPanel.add(createEditProfileButton(), BorderLayout.WEST);
@@ -76,6 +80,19 @@ public class ProfileHeaderPanel extends JPanel {
             buttonsPanel.add(createShareProfileButton(), BorderLayout.EAST);
         }
         return buttonsPanel;
+    }
+
+
+    /**
+     * Creates the message Button.
+     */
+    private ButtonComponent createMessageButton() {
+        ButtonComponent messageButton = new ButtonComponent("Message", 12, 5, Component.RIGHT_ALIGNMENT, "primary", false);
+        messageButton.addActionListener(e -> {
+            Chat chat = controller.startChat(currentUser, controller.getAuthenticatedUser());
+            displayChat(chat.getId());
+        });
+        return messageButton;
     }
 
     /**
@@ -114,5 +131,26 @@ public class ProfileHeaderPanel extends JPanel {
     private JButton createShareProfileButton() {
         return new ButtonComponent("Share Profile", 12, 5, Component.RIGHT_ALIGNMENT, "secondary",  false);
         // #TODO: Implement sharing functionality
+    }
+
+    /**
+     * Displays the chat with the specified ID.
+     * @param chatId The ID of the chat to display.
+     */
+    @Override
+    public void displayChat(UUID chatId) {
+        JPanel panel = new ChatView(chatId, router);
+        removeAll();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        add(panel, gbc);
+        revalidate();
+        repaint();
     }
 }

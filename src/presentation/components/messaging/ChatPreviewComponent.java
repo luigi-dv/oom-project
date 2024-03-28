@@ -80,7 +80,7 @@ public class ChatPreviewComponent extends JPanel {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                listener.displayChat(ChatPreviewComponent.this, chat.getId());
+                listener.displayChat(chat.getId());
             }
 
             @Override

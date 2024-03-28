@@ -20,7 +20,6 @@ public class ChatWriter {
      * @return The chat with the saved content.
      */
     public static Chat writeToFile(Chat chat) {
-        
         String jsonMessage = chat.toJsonString();
         appendToJsonArray(jsonMessage);
         return chat;

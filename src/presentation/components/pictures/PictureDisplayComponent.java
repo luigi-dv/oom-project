@@ -6,12 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import src.domain.entities.Picture;
+import src.presentation.Router;
 
 public class PictureDisplayComponent extends PictureComponent {
 
-
-    public PictureDisplayComponent(Picture picture) {
-        super(picture, false);
+    public PictureDisplayComponent(Router router, Picture picture) {
+        super(router, picture, false);
         initializePanel();
 
     }

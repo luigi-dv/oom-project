@@ -19,18 +19,21 @@ import java.awt.event.MouseEvent;
 
 import src.domain.entities.Picture;
 import src.domain.entities.User;
+import src.presentation.Router;
 import src.presentation.components.profile.ProfileHeaderPanel;
 import src.presentation.controllers.PictureController;
 import src.presentation.interfaces.UIConstants;
 
 public class PictureComponent extends JPanel {
 
+    protected final Router router;
     protected final Picture picture;
     private final PictureController pictureController;
     private PictureComponentListener listener;
     private JLabel likeLabel;
 
-    public PictureComponent(Picture picture, boolean initialize) {
+    public PictureComponent(Router router, Picture picture, boolean initialize) {
+        this.router = router;
         this.picture = picture;
         this.pictureController = new PictureController();
         if (initialize) {
@@ -73,7 +76,7 @@ public class PictureComponent extends JPanel {
     }
 
     protected void displayImage(Picture picture) {
-        listener.displayImage(new PictureDisplayComponent(picture));   
+        listener.displayImage(new PictureDisplayComponent(router, picture));
     }
 
     protected JLabel createImageLabel(Picture picture) {
@@ -110,7 +113,7 @@ public class PictureComponent extends JPanel {
     protected JPanel createUserPanel(User user) {
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new GridLayout(1, 2));
-        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user);
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user, router);
         userPanel.add(profileHeaderPanel, BorderLayout.NORTH);
         return userPanel;
     }

@@ -48,7 +48,7 @@ public class ProfileView extends JPanel {
     public void createComponent() {
 
         // Create an instance of ProfileHeaderPanel
-        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user);
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user, router);
         add(profileHeaderPanel, BorderLayout.NORTH);
 
         // Create an instance of PostGrid

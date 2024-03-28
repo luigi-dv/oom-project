@@ -127,7 +127,10 @@ public class ChatView extends JPanel implements IChatListener {
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
     }
 
-    // Listener for new message
+    /**
+     * Called when a new message is received in a chat.
+     * @param chatId The ID of the chat.
+     */
     @Override
     public void onNewMessage(UUID chatId) {
         if (chat.getId().equals(chatId)) {

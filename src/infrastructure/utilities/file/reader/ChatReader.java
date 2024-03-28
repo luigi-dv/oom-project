@@ -42,6 +42,34 @@ public class ChatReader {
         return null;
     }
 
+    /**
+     * Finds and retrieves a Picture by its unique identifier.
+     * @param userA The username of the first user.
+     * @param userB The username of the second user.
+     * @return The Picture with the specified ID or null if not found.
+     */
+    public static Chat findByUsers(String userA, String userB) {
+        try {
+            String jsonContent = loadJsonFromFile(FILE_PATH);
+            List<Chat> allChats = parseJson(jsonContent);
+            for (Chat chat : allChats) {
+                if (chat.getUserA().getUsername().equals(userA) && chat.getUserB().getUsername().equals(userB) ||
+                    chat.getUserA().getUsername().equals(userB) && chat.getUserB().getUsername().equals(userA)
+                ){
+                    return chat;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Parses a JSON string into a list of Chat objects.
+     * @param jsonString The JSON string to parse.
+     * @return A list of Chat objects parsed from the JSON string.
+     */
     private static List<Chat> parseJson(String jsonString) {
         List<Chat> chats = new ArrayList<>();
     

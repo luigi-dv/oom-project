@@ -9,13 +9,14 @@ import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
 import src.presentation.controllers.ChatsController;
 import src.presentation.components.messaging.ChatPreviewComponent;
+import src.presentation.interfaces.IChatListener;
 import src.presentation.interfaces.IChatsListener;
 import src.presentation.interfaces.UIConstants;
 
 /**
  * A view that displays a list of chats.
  */
-public class ChatsView extends JPanel implements IChatsListener{
+public class ChatsView extends JPanel implements IChatsListener, IChatListener {
     private final Router router;
 
     private final List<Chat> chats;
@@ -88,11 +89,10 @@ public class ChatsView extends JPanel implements IChatsListener{
 
     /**
      * Displays the chat with the specified ID.
-     * @param chat The panel to display the chat in.
      * @param chatId The ID of the chat to display.
      */
     @Override
-    public void displayChat(JPanel chat, UUID chatId) {
+    public void displayChat(UUID chatId) {
         JPanel panel = new ChatView(chatId, router);
         removeAll();
         add(panel, BorderLayout.CENTER);

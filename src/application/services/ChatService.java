@@ -3,6 +3,7 @@ package src.application.services;
 import java.util.List;
 import java.util.UUID;
 import src.application.providers.SessionProvider;
+import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
 import src.infrastructure.repositories.ChatRepository;
@@ -46,13 +47,23 @@ public class ChatService {
     }
 
     /**
+     * Retrieves a chat between two users if it exists. If it does not exist, it creates a new chat.
+     * @param userA The first user.
+     * @param userB The second user.
+     * @return The chat between the two users or null if it does not exist.
+     */
+    public Chat getChatBetweenUsers(User userA, User userB) {
+        if(repository.getChatBetweenUsers(userA, userB) != null)
+            return repository.getChatBetweenUsers(userA, userB);
+        else{
+            Chat chat = new Chat(userA, userB);
+            return repository.saveChat(chat);
+        }
+    }
+    /**
      * Retrieve the last message of a chat.
      */
     public Message getLastMessage(Chat chat) {
         return messageRepository.getLastMessage(chat.getId());
-    }
-
-    public void saveChat(Chat chat) {
-        repository.saveChat(chat);
     }
 }
