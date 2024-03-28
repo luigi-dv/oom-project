@@ -25,7 +25,7 @@ public class Chat {
     /**
      * The messages in the chat.
      */
-    private final List<Message> messages;
+    private List<Message> messages;
 
     /**
      * Constructor for new Chat
@@ -37,6 +37,18 @@ public class Chat {
         this.user1 = user1;
         this.user2 = user2;
         this.messages = new ArrayList<>();
+    }
+
+    /**
+     * Constructor for existing Chat
+     * @param id The unique identifier for the chat
+     * @param user1 The first user in the chat
+     * @param user2 The second user in the chat
+     */
+    public Chat(UUID id, User user1, User user2) {
+        this.id = id;
+        this.user1 = user1;
+        this.user2 = user2;
     }
 
     /**
@@ -91,5 +103,21 @@ public class Chat {
      */
     public List<Message> getMessages() {
         return messages;
+    }
+
+    /**
+     * Sets the messages in the chat.
+     * @param messages The messages in the chat
+     */
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    /**
+     * Gets the most recent message in the chat.
+     * @return The most recent message in the chat
+     */
+    public Message getMostRecentMessage() {
+        return messages.get(messages.size() - 1);
     }
 }

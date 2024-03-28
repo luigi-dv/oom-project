@@ -1,5 +1,8 @@
 package src.application.services;
 
+import src.application.providers.SessionProvider;
+import src.domain.entities.User;
+import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
 import src.infrastructure.repositories.MessageRepository;
 
@@ -29,7 +32,7 @@ public class MessageService {
      * @return A list of messages from the chat
      */
     public List<Message> getChatMessages(UUID chatId) {
-        return repository.getByChatId(chatId);
+        return repository.findByChatId(chatId);
     }
 
     /**
