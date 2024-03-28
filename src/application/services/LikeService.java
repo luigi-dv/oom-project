@@ -54,7 +54,6 @@ public class LikeService<T extends ILikeable> {
             return true;    
         } else {
             // Handle not authenticated
-            System.out.println("You must be authenticated to like a post.");
             return false;
         }
     }
@@ -75,7 +74,7 @@ public class LikeService<T extends ILikeable> {
             }
         } else {
             // Handle not authenticated
-            System.out.println("You must be authenticated to like a post.");
+            throw new IllegalArgumentException("You must be authenticated to like a post.");
         }
     }
 }

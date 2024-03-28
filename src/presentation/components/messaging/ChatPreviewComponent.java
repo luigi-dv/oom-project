@@ -111,7 +111,6 @@ public class ChatPreviewComponent extends JPanel {
     private JPanel createAvatarPanel() {
         JPanel avatarPanel = new JPanel(new BorderLayout());
         avatarPanel.setBackground(Color.WHITE);
-        System.out.println(user.getProfilePicturePath());
         AvatarImagePanel avatarImagePanel = new AvatarImagePanel(user.getProfilePicturePath(), 50, 50);
         avatarPanel.add(avatarImagePanel, BorderLayout.CENTER);
         avatarPanel.setMaximumSize(new Dimension(50, 50));

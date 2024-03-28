@@ -88,7 +88,6 @@ public class ExploreView extends JPanel implements IUserSearchListener {
     private void displaySearchResults(List<ISearchable> searchResults) {
         // Clear existing content
         removeAll();
-        System.out.println(searchResults.size());
         // Check the type of the first item to decide on the display strategy
         if (!searchResults.isEmpty()) {
             if (searchResults.get(0) instanceof User) {

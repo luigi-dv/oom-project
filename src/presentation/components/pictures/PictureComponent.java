@@ -140,7 +140,7 @@ public class PictureComponent extends JPanel {
         if (pictureController.likePicture(picture)) {
             likeLabel.setText(picture.getLikes().size() + " likes");
         } else {
-            System.out.println("Failed to like picture");
+            throw new IllegalArgumentException("Failed to like picture.");
         };
     }
 

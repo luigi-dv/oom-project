@@ -63,7 +63,6 @@ public interface IProfileUI {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         statsPanel.setBackground(new Color(249, 249, 249));
-        System.out.println("Number of posts for this user" + user.getProfile().getPostsCount());
         statsPanel.add(createStatLabel(Integer.toString(user.getProfile().getPostsCount()), "post"));
         statsPanel.add(createStatLabel(Integer.toString(user.getProfile().getFollowersCount()), "followers"));
         statsPanel.add(createStatLabel(Integer.toString(user.getProfile().getFollowingCount()), "following"));
