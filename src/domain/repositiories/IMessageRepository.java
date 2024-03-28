@@ -22,13 +22,6 @@ public interface IMessageRepository {
     Message save(Message message);
 
     /**
-     * Deletes a message.
-     *
-     * @param message The message UUID to be deleted.
-     */
-    void delete(Message message);
-
-    /**
      * Finds all message associated with a specific Chat.
      *
      * @param chatId The unique identifier of the Chat.

@@ -48,15 +48,4 @@ public class MessageRepository implements IMessageRepository {
         // TODO: Not found logging catching
         return null;
     }
-
-    /**
-     * Deletes a message.
-     *
-     * @param message The message UUID to be deleted.
-     */
-    public void delete(Message message) {
-        if (MessageReader.doesFileExist()) {
-            MessageWriter.deleteFromFile(message);
-        }
-    }
 }

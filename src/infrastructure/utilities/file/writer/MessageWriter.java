@@ -1,34 +1,35 @@
 package src.infrastructure.utilities.file.writer;
 
 import java.io.*;
-import java.util.UUID;
+
 import src.domain.entities.messages.Message;
+import src.infrastructure.utilities.Crypter;
+
 import static src.infrastructure.utilities.file.IFile.FILE_PATH_ROOT;
 
+/**
+ * A utility class for writing messages to a JSON file.
+ */
 public class MessageWriter {
     protected static final String FILE_PATH = FILE_PATH_ROOT + "messages.json";
 
+    /**
+     * Writes the message to the messages file.
+     * @param message The message to be saved.
+     * @return The message with the saved content.
+     */
     public static Message writeToFile(Message message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(message.toString());
+            message.setContent(Crypter.StringToEncryptedString(message.getContent()));
+            String jsonMessage = message.toJsonString();
+            writer.write(jsonMessage);
             writer.newLine();
             return message;
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public static void deleteFromFile(Message message) {
-        UUID id = message.getId();
-        try(BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            IWriter.deleteById(id, reader);
-        } catch (FileNotFoundException e) {
-            // TODO: Catch exception
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO: Catch exception
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
