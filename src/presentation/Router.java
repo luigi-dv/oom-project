@@ -7,6 +7,7 @@ import java.util.HashMap;
 import src.presentation.layouts.GuestLayout;
 import src.presentation.views.*;
 import src.application.providers.SessionProvider;
+import src.domain.entities.User;
 import src.presentation.layouts.AuthenticatedLayout;
 
 /**
@@ -38,6 +39,28 @@ public class Router {
             mainPanel.add(newPanel);
             mainPanel.revalidate();
             mainPanel.repaint();
+        }
+    }
+
+    private void loadView(UIViews viewName) {
+        switch (viewName) {
+            case HOME:
+                updateHome();
+                break;
+            case EXPLORE:
+                updateExplore();
+                break;
+            case NOTIFICATIONS:
+                updateNotifications();
+                break;
+            case PROFILE:
+                updateProfile();
+                break;
+            case IMAGEUPLOAD:
+                updateImageUpload();
+                break;
+            default:
+                break;
         }
     }
 
@@ -112,4 +135,38 @@ public class Router {
             views.put(UIViews.CHATS, addAuthenticatedLayout(new ChatsView(this)));
         }
     }
+
+    private void updateHome() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.HOME, addAuthenticatedLayout(new HomeView(this)));
+        }
+    }
+
+    private void updateExplore() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.EXPLORE, addAuthenticatedLayout(new ExploreView(this)));
+        }
+    }
+
+    private void updateNotifications() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
+        }
+    }
+
+    private void updateProfile() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
+        }
+    }
+
+    private void updateImageUpload() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
+        }
+    }
+
+
 }
+
+

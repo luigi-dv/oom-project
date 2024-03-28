@@ -1,13 +1,10 @@
 package src.presentation.controllers;
 
-import src.domain.aggregate.Follow;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import src.application.services.FollowService;
 import src.application.services.LikeService;
 import src.application.services.PictureService;
 import src.application.services.ProfileService;
@@ -29,9 +26,6 @@ public class UIController extends BaseController {
 
     private final UserService userService;
 
-    private final FollowService followService;
-
-
     /**
      * Constructor for the UIController class.
      */
@@ -40,7 +34,6 @@ public class UIController extends BaseController {
         this.pictureService = new PictureService();
         this.likeServicePicture = new LikeService<>(sessionProvider);
         this.userService = new UserService();
-        this.followService = new FollowService();
     }
 
     /**

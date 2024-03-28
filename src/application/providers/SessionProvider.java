@@ -4,7 +4,8 @@ import src.domain.entities.User;
 
 /**
  * Singleton class responsible for managing user sessions.
- * This class provides functionality to authenticate users, retrieve authenticated users, check authentication status, and clear sessions.
+ * This class provides functionality to authenticate users, retrieve
+ * authenticated users, check authentication status, and clear sessions.
  */
 public class SessionProvider {
 
@@ -13,14 +14,12 @@ public class SessionProvider {
      */
     private User authenticatedUser;
 
+    private static SessionProvider instance;
+
     /**
      * Private constructor to prevent external instantiation.
      */
-    public SessionProvider() {
-    }
-
-    private static class InstanceHolder {
-        private static final SessionProvider instance = new SessionProvider();
+    private SessionProvider() {
     }
 
     /**
@@ -29,7 +28,10 @@ public class SessionProvider {
      * @return The singleton instance of SessionProvider.
      */
     public static SessionProvider getInstance() {
-        return InstanceHolder.instance;
+        if (instance == null) {
+            instance = new SessionProvider();
+        }
+        return instance;
     }
 
     /**

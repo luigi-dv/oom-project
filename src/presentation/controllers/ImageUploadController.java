@@ -31,7 +31,7 @@ public class ImageUploadController extends BaseController{
         }
         
         hashTagService.saveHashTags(hashTagList);
-        pictureService.savePicture(new Picture(user, imagePath, caption));
+        pictureService.savePicture(picture);
     }
 
 }

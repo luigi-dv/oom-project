@@ -183,4 +183,8 @@ public class Picture  implements  ILikeable, ISearchable {
         this.likes = likes;
     }
 
+    public void setHashTags(List<HashTag> hashTags) {
+        this.hashTags = hashTags;
+    }
+
 }

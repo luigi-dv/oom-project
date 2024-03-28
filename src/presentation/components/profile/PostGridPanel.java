@@ -21,8 +21,17 @@ public class PostGridPanel extends JPanel {
     public PostGridPanel(Router router) {
         this.router = router;
         this.controller = new PostGridController();
+        this.user = controller.getAuthenticatedUser();
         initializePanel();
     }
+
+    public PostGridPanel(Router router, User user) {
+        this.router = router;
+        this.controller = new PostGridController();
+        this.user = user;
+        initializePanel();
+    }
+
 
     private void initializePanel() {
         removeAll(); // Clear existing content
@@ -31,8 +40,8 @@ public class PostGridPanel extends JPanel {
         setLayout(new GridLayout(0, numImagesPerRow, gap, gap)); // GridLayout for the grid with numImagesPerRow columns
         setBackground(Color.WHITE); // Set background color to white
 
-        User currentUser = controller.getAuthenticatedUser();
-        addPicturesToPanel(currentUser);
+        controller.initializeProfile(user);
+        addPicturesToPanel(user);
 
         revalidate();
         repaint();
@@ -79,15 +88,20 @@ public class PostGridPanel extends JPanel {
         ImageIcon imageIcon = createImageIcon(picture);
         JButton backButton = createBackButton();
         // create delete button to delete the picture
-        ButtonComponent deleteButton = new ButtonComponent("Delete", 14, 10, Component.CENTER_ALIGNMENT, "danger", true);
-        deleteButton.setMaximumSize(new Dimension(30, 30));
-        deleteButton.addActionListener(e -> {
-            controller.deletePicture(picture);
-            backButton.doClick();
-            revalidate();
-            repaint();
-        });
-        add(deleteButton, BorderLayout.NORTH);
+
+        if(controller.isAuthenticatedUser(user)) {
+            ButtonComponent deleteButton = new ButtonComponent("Delete", 14, 10, Component.CENTER_ALIGNMENT, "danger", true);
+            deleteButton.setMaximumSize(new Dimension(30, 30));
+            deleteButton.addActionListener(e -> {
+                controller.deletePicture(picture);
+                backButton.doClick();
+                revalidate();
+                repaint();
+            });
+            add(deleteButton, BorderLayout.NORTH);
+        }
+        
+       
         // Create a JLabel for the image
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(JLabel.CENTER);

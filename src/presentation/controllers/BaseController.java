@@ -27,4 +27,8 @@ public class BaseController {
         // Retrieve the authenticated user from the session provider.
         return sessionProvider.getAuthenticatedUser();
     }
+
+    public boolean isAuthenticatedUser(User user) {
+        return sessionProvider.getAuthenticatedUser().getUsername().equals(user.getUsername());
+    }
 }

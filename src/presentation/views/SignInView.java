@@ -138,7 +138,6 @@ public class SignInView extends JPanel {
     private void onSignInClicked(ActionEvent event) throws Exception {
         String enteredUsername = txtUsername.getText();
         String enteredPassword = txtPassword.getText();
-        System.out.println("Username: " + enteredUsername + ", Password: " + enteredPassword.isEmpty());
         if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
             errorMessage.displayErrorMessage("Please enter a username and password.");
             fieldsJPanel.revalidate();
