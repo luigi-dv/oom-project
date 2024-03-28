@@ -11,7 +11,6 @@ import src.presentation.controllers.ChatsController;
 import src.presentation.components.messaging.ChatPreviewComponent;
 import src.presentation.interfaces.IChatListener;
 import src.presentation.interfaces.IChatsListener;
-import src.presentation.interfaces.UIConstants;
 
 /**
  * A view that displays a list of chats.

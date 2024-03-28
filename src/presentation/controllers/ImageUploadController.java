@@ -9,6 +9,9 @@ import src.domain.entities.HashTag;
 import src.domain.entities.Picture;
 import src.domain.entities.User;
 
+/**
+ * Controller class for the image upload functionality.
+ */
 public class ImageUploadController extends BaseController{
 
     private final PictureService pictureService;
@@ -19,6 +22,13 @@ public class ImageUploadController extends BaseController{
         this.hashTagService = new HashTagService();
     }
 
+    /**
+     * Uploads an image to the system.
+     * @param user The user uploading the image
+     * @param imagePath The path to the image file
+     * @param caption The caption for the image
+     * @param hashTags The hashtags for the image
+     */
     public void uploadImage(User user, String imagePath, String caption, String hashTags) {
         Picture picture = new Picture(user, imagePath, caption);
         String[] hashTagArray = hashTags.split(" ");

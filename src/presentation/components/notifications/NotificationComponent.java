@@ -2,8 +2,6 @@ package src.presentation.components.notifications;
 
 import src.domain.entities.notifications.Notification;
 
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -12,6 +10,9 @@ import java.time.temporal.ChronoUnit;
 import src.presentation.components.ui.AvatarImagePanel;
 
 
+/**
+ * A component that displays a notification.
+ */
 public class NotificationComponent extends JPanel {
 
     private final Notification notification;

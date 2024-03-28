@@ -2,19 +2,16 @@ package src.presentation.components.profile;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.UUID;
 
 import src.domain.entities.User;
-import src.domain.entities.messages.Chat;
 import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.buttons.FollowButton;
 import src.presentation.components.ui.AvatarImagePanel;
 import src.presentation.controllers.profile.ProfileHeaderPanelController;
-import src.presentation.interfaces.IChatsListener;
-import src.presentation.views.ChatView;
+import src.presentation.views.UIViews;
 
-public class ProfileHeaderPanel extends JPanel implements IChatsListener {
+public class ProfileHeaderPanel extends JPanel {
 
     /**
      * The current user.
@@ -89,8 +86,8 @@ public class ProfileHeaderPanel extends JPanel implements IChatsListener {
     private ButtonComponent createMessageButton() {
         ButtonComponent messageButton = new ButtonComponent("Message", 12, 5, Component.RIGHT_ALIGNMENT, "primary", false);
         messageButton.addActionListener(e -> {
-            Chat chat = controller.startChat(currentUser, controller.getAuthenticatedUser());
-            displayChat(chat.getId());
+            controller.startChat(currentUser, controller.getAuthenticatedUser());
+            router.switchTo(UIViews.CHATS);
         });
         return messageButton;
     }
@@ -131,26 +128,5 @@ public class ProfileHeaderPanel extends JPanel implements IChatsListener {
     private JButton createShareProfileButton() {
         return new ButtonComponent("Share Profile", 12, 5, Component.RIGHT_ALIGNMENT, "secondary",  false);
         // #TODO: Implement sharing functionality
-    }
-
-    /**
-     * Displays the chat with the specified ID.
-     * @param chatId The ID of the chat to display.
-     */
-    @Override
-    public void displayChat(UUID chatId) {
-        JPanel panel = new ChatView(chatId, router);
-        removeAll();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.gridheight = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        add(panel, gbc);
-        revalidate();
-        repaint();
     }
 }

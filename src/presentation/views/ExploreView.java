@@ -193,7 +193,8 @@ public class ExploreView extends JPanel implements IUserSearchListener {
         removeAll();
         setLayout(new BorderLayout());
         JPanel panel = new PictureDisplayComponent(router, picture);
-        JButton backPanel = createBackButtonPanel();
+        // JButton backPanel = createBackButtonPanel();
+        // TODO: Add back button
         add(panel, BorderLayout.CENTER);
         revalidate();
         repaint();

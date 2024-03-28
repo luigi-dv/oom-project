@@ -1,6 +1,5 @@
 package src.presentation.interfaces;
 
-import javax.swing.*;
 import java.util.UUID;
 
 /**

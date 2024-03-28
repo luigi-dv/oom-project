@@ -5,7 +5,6 @@ import src.application.services.ChatService;
 import src.application.services.FollowService;
 import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
-import src.presentation.controllers.ChatController;
 
 public class ProfileHeaderPanelController {
 

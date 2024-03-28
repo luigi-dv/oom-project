@@ -10,12 +10,19 @@ import javax.swing.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controller class for the explore functionality.
+ */
 public class ExploreController extends BaseController {
 
+    // Services
     private final StorageService storageService;
     private final PictureService pictureService;
     private final SearchService searchService;
 
+    /**
+     * Creates a new ExploreController.
+     */
     public ExploreController() {
         this.storageService = new StorageService();
         this.pictureService = new PictureService();
@@ -43,14 +50,31 @@ public class ExploreController extends BaseController {
         // ...
     }
 
+    /**
+     * Gets all pictures.
+     *
+     * @return The list of all pictures.
+     */
     public List<Picture> getallPictures() {
         return pictureService.getAllPictures();
     }
 
+    /**
+     * Gets a picture by its unique identifier.
+     *
+     * @param id The unique identifier of the picture.
+     * @return The picture.
+     */
     public Picture getPictureById(UUID id) {
         return pictureService.getPictureById(id);
     }
 
+    /**
+     * Searches for pictures based on the provided query.
+     *
+     * @param query The search query.
+     * @return The list of pictures that match the query.
+     */
     public List<ISearchable> search(String query) {
         return searchService.search(query).getISearchables();
     }
