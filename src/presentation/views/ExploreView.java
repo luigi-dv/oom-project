@@ -9,9 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import src.presentation.components.buttons.ButtonComponent;
-import src.presentation.components.pictures.PictureComponentListener;
 import src.presentation.components.pictures.PictureDisplayComponent;
-import src.presentation.components.search.UserSearchListener;
+import src.presentation.interfaces.IUserSearchListener;
 import src.presentation.components.ui.HintTextField;
 
 import src.presentation.Router;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
  * @authors Melcher Toby, Davila Luigelo, Eliëns Joa, Nijhuis Julian
  * @version 1.0
  */
-public class ExploreView extends JPanel implements UserSearchListener {
+public class ExploreView extends JPanel implements IUserSearchListener {
     private final int IMAGE_SIZE = UIConstants.WIDTH / 3; // Size for each image in the grid
 
     private final ExploreController controller;
@@ -157,7 +156,7 @@ public class ExploreView extends JPanel implements UserSearchListener {
 
     @Override
     public void displayUserDetails(JPanel picture, User user) {
-        JPanel  panel = new ProfileView(router, user);
+        JPanel panel = new ProfileView(router, user);
         removeAll();
         add(panel, BorderLayout.CENTER);
         revalidate();

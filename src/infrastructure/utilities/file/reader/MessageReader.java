@@ -73,6 +73,31 @@ public class MessageReader {
     }
 
     /**
+     * Retrieves the last message from a chat.
+     *
+     * @param chatId The chat unique identifier.
+     * @return The last message from the chat.
+     */
+    public static Message getLastMessage(UUID chatId) {
+        try {
+            String jsonContent = loadJsonFromFile(FILE_PATH);
+            List<Message> allMessages = parseJson(jsonContent);
+            Message lastMessage = null;
+            for (Message message : allMessages) {
+                if (message.getChatId().equals(chatId)) {
+                    if (lastMessage == null || message.getTimestamp().isAfter(lastMessage.getTimestamp())) {
+                        lastMessage = message;
+                    }
+                }
+            }
+            return lastMessage;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Loads a JSON string from a file.
      *
      * @param filePath The path to the file to load the JSON string from.

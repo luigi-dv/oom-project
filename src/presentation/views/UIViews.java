@@ -8,7 +8,9 @@ public enum UIViews {
     NOTIFICATIONS("notifications"),
     IMAGEUPLOAD("imageupload"),
     HOME("home"),
-    DM("dm");
+    CHATS("chats"),
+    SINGLE_CHAT("singlechat");
+
 
     private final String viewName;
 

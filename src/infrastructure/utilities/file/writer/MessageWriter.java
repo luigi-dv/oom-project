@@ -19,11 +19,39 @@ public class MessageWriter {
      * @return The message with the saved content.
      */
     public static Message writeToFile(Message message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try {
+            // Open the file in read mode and read all the content
+            StringBuilder contentBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    contentBuilder.append(line);
+                }
+            }
+
+            // Check if the last character is a closing square bracket
+            if (!contentBuilder.isEmpty() && contentBuilder.charAt(contentBuilder.length() - 1) == ']') {
+                // If it is, remove it
+                contentBuilder.setLength(contentBuilder.length() - 1);
+            }
+
+            // If the file is not empty, append a comma to the end of the file
+            if (!contentBuilder.isEmpty()) {
+                contentBuilder.append(",");
+            }
+
+            // Append the new message to the end of the file
             message.setContent(Crypter.StringToEncryptedString(message.getContent()));
-            String jsonMessage = message.toJsonString();
-            writer.write(jsonMessage);
-            writer.newLine();
+            contentBuilder.append(message.toJsonString());
+
+            // Append a closing square bracket to the end of the file
+            contentBuilder.append("]");
+
+            // Write the updated content to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+                writer.write(contentBuilder.toString());
+            }
+
             return message;
         } catch (IOException e) {
             e.printStackTrace();

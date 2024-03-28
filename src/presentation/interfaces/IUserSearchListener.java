@@ -1,9 +1,9 @@
-package src.presentation.components.search;
+package src.presentation.interfaces;
 
 import javax.swing.JPanel;
 
 import src.domain.entities.User;
 
-public interface UserSearchListener {
+public interface IUserSearchListener {
     void displayUserDetails(JPanel panel, User user);
 }

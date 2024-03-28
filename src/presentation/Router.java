@@ -4,10 +4,9 @@ import javax.swing.*;
 import java.util.Map;
 import java.util.HashMap;
 
-import src.presentation.layouts.GuestLayout;
 import src.presentation.views.*;
+import src.presentation.layouts.GuestLayout;
 import src.application.providers.SessionProvider;
-import src.domain.entities.User;
 import src.presentation.layouts.AuthenticatedLayout;
 
 /**
@@ -36,8 +35,6 @@ public class Router {
     public void switchTo(UIViews viewName) {
         
         JPanel newPanel = getView(viewName);
-        // Update the views based on the current session
-        // updateViews();
         loadView(viewName);
         
         if (newPanel != null) {
@@ -48,6 +45,10 @@ public class Router {
         }
     }
 
+    /**
+     * Load View.
+     * @param viewName The name of the view to load.
+     */
     private void loadView(UIViews viewName) {
         switch (viewName) {
             case HOME:
@@ -65,8 +66,8 @@ public class Router {
             case IMAGEUPLOAD:
                 updateImageUpload();
                 break;
-            case DM:
-                updateDirectMessage();
+            case CHATS:
+                updateChats();
                 break;
             default:
                 break;
@@ -78,7 +79,7 @@ public class Router {
      * @param viewName The name of the view to return.
      * @return The view with the specified name.
      */
-    public JPanel getView(UIViews viewName) {
+    private JPanel getView(UIViews viewName) {
         // Check if the view is already cached
         JPanel view = views.get(viewName);
 
@@ -131,43 +132,61 @@ public class Router {
             views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
             views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
             views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
-            views.put(UIViews.DM, addAuthenticatedLayout(new ChatsView(this)));
+            views.put(UIViews.CHATS, addAuthenticatedLayout(new ChatsView(this)));
         }
     }
 
+    /**
+     * Updates the home view.
+     */
     private void updateHome() {
         if (sessionProvider.isAuthenticated()) {
             views.put(UIViews.HOME, addAuthenticatedLayout(new HomeView(this)));
         }
     }
 
+    /**
+     * Updates the explore view.
+     */
     private void updateExplore() {
         if (sessionProvider.isAuthenticated()) {
             views.put(UIViews.EXPLORE, addAuthenticatedLayout(new ExploreView(this)));
         }
     }
 
+    /**
+     * Updates the notifications view.
+     */
     private void updateNotifications() {
         if (sessionProvider.isAuthenticated()) {
             views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
         }
     }
 
+    /**
+     * Updates the profile view.
+     */
     private void updateProfile() {
         if (sessionProvider.isAuthenticated()) {
             views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
         }
     }
 
+    /**
+     * Updates the image upload view.
+     */
     private void updateImageUpload() {
         if (sessionProvider.isAuthenticated()) {
             views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
         }
     }
 
-    private void updateDirectMessage() {
+    /**
+     * Updates the chats view.
+     */
+    private void updateChats() {
         if (sessionProvider.isAuthenticated()) {
-            views.put(UIViews.DM, addAuthenticatedLayout(new ChatsView(this)));
+            views.put(UIViews.CHATS, addAuthenticatedLayout(new ChatsView(this)));
         }
     }
 }

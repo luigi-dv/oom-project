@@ -4,11 +4,11 @@ import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
 import src.presentation.components.ui.AvatarImagePanel;
+import src.presentation.interfaces.IChatsListener;
 import src.presentation.interfaces.UIConstants;
 import src.presentation.utils.TimeAgoFormatter;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,21 +20,29 @@ public class ChatPreviewComponent extends JPanel {
     private final Chat chat;
     private final User user;
     private final Message preview;
+    private IChatsListener listener;
 
     /**
      * Creates a new ChatPreviewComponent.
      *
      * @param chat The chat to display a preview of.
      */
-    public ChatPreviewComponent(User authenticatedUser, Chat chat) {
+    public ChatPreviewComponent(User authenticatedUser, Chat chat, Message lastMessage) {
         this.chat = chat;
         // Select the user that is not the authenticated user
         this.user = chat.getOtherUser(authenticatedUser);
-        System.out.println("User: " + user.getUsername());
         // Get the most recent message in the chat
-        this.preview = chat.getMostRecentMessage();
+        this.preview = lastMessage;
         initializePanel();
         addMouseListener();
+    }
+
+    /**
+     * Sets the user search listener.
+     * @param listener The listener to set.
+     */
+    public void setChatLister(IChatsListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -68,6 +76,11 @@ public class ChatPreviewComponent extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackgroundAndChildren(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                listener.displayChat(ChatPreviewComponent.this, chat.getId());
             }
 
             @Override
