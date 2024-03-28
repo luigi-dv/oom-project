@@ -3,20 +3,15 @@ package src.presentation.controllers.profile;
 import src.application.providers.SessionProvider;
 import src.application.services.FollowService;
 import src.domain.entities.User;
-import src.presentation.Router;
-import src.presentation.views.UIViews;
 
 public class ProfileHeaderPanelController {
 
     private final SessionProvider sessionProvider;
     private final FollowService followService;
 
-    private final Router router;
-
-    public ProfileHeaderPanelController(Router router) {
+    public ProfileHeaderPanelController() {
         this.sessionProvider = SessionProvider.getInstance();
         this.followService = new FollowService();
-        this.router = router;
     }
 
     /**
@@ -44,13 +39,5 @@ public class ProfileHeaderPanelController {
      */
     public Boolean isFollowing(User user, User follower) {
         return followService.isFollowing(user, follower);
-    }
-
-    /**
-     * Logout the user, clearing the session
-     */
-    public void logout() {
-        sessionProvider.clearSession();
-        router.switchTo(UIViews.SIGNIN);
     }
 }

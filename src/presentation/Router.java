@@ -25,7 +25,8 @@ public class Router {
     public Router(JPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.sessionProvider = SessionProvider.getInstance();
-        this.addGuestViews();
+        views.put(UIViews.SIGNUP, addGuestLayout(new SignUpView(this)));
+        views.put(UIViews.SIGNIN, addGuestLayout(new SignInView(this)));
     }
 
     /**
@@ -33,7 +34,12 @@ public class Router {
      * @param viewName The name of the view to switch to.
      */
     public void switchTo(UIViews viewName) {
+        
         JPanel newPanel = getView(viewName);
+        // Update the views based on the current session
+        // updateViews();
+        loadView(viewName);
+        
         if (newPanel != null) {
             mainPanel.removeAll();
             mainPanel.add(newPanel);
@@ -77,10 +83,8 @@ public class Router {
         if (view == null || sessionProvider.isAuthenticated() != isViewAuthenticated(viewName)) {
             updateViews();
             view = views.get(viewName); // Update the view reference after updating views
-        } else {
-            views.clear();
-            this.addGuestViews();
         }
+
         return view;
     }
 
@@ -92,14 +96,6 @@ public class Router {
     private boolean isViewAuthenticated(UIViews viewName) {
         return viewName == UIViews.HOME || viewName == UIViews.EXPLORE ||
                 viewName == UIViews.NOTIFICATIONS || viewName == UIViews.PROFILE;
-    }
-
-    /**
-     * Adds the guest views to the views map.
-     */
-    private void addGuestViews() {
-        views.put(UIViews.SIGNIN, addGuestLayout(new SignInView(this)));
-        views.put(UIViews.SIGNUP, addGuestLayout(new SignUpView(this)));
     }
 
 
@@ -132,7 +128,6 @@ public class Router {
             views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
             views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
             views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
-            views.put(UIViews.CHATS, addAuthenticatedLayout(new ChatsView(this)));
         }
     }
 
