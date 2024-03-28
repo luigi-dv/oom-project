@@ -28,7 +28,7 @@ public class SignUpService extends AuthenticationService {
      * @param file     The file representing the user's profile picture to be saved.
      * @param username The username of the user for whom the profile picture is being saved.
      */
-    public void saveProfilePicture(File file, String username) {
-        repository.saveProfilePicture(file, username);
+    public boolean saveProfilePicture(File file, String username) {
+        return repository.saveProfilePicture(file, username);
     }
 }
