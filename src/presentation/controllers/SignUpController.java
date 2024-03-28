@@ -30,7 +30,7 @@ public class SignUpController extends BaseController {
      *
      * @param username The username of the user for whom the profile picture is being uploaded.
      */
-    public void handleProfilePictureUpload(String username) {
+    public boolean handleProfilePictureUpload(String username) {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif");
         fileChooser.setFileFilter(filter);
@@ -39,7 +39,9 @@ public class SignUpController extends BaseController {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            signUpService.saveProfilePicture(selectedFile, username);
+            return signUpService.saveProfilePicture(selectedFile, username);
+        } else {
+            return false;
         }
     }
 

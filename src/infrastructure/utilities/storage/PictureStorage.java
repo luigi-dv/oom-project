@@ -24,13 +24,15 @@ public class PictureStorage {
      * @param file     The file representing the image to save.
      * @param username The username associated with the profile picture.
      */
-    public static void saveProfilePicture(File file, String username) {
+    public static boolean saveProfilePicture(File file, String username) {
         try {
             BufferedImage image = ImageIO.read(file);
             File outputFile = new File(PROFILE_PHOTO_STORAGE_PATH + username + ".png");
             ImageIO.write(image, "png", outputFile);
+            return true;
         } catch (IOException e) {
             handleImageIOException(e);
+            return false;
         }
     }
 
