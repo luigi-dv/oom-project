@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import src.domain.interfaces.ILikeable;
 import src.domain.repositiories.ILikeRepository;
+import src.infrastructure.utilities.file.reader.LikeReader;
 import src.infrastructure.utilities.file.writer.LikeWriter;
 import src.domain.entities.Like;
 
@@ -42,10 +43,8 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
      */
     public Like<T> delete(UUID uuid) {
         // TODO: Implement search
+        @SuppressWarnings("unused")
         Like<T> e = this.findById(uuid);
-        if (e != null) {
-            
-        }
         // Todo Return the object
         return null;
     }
@@ -57,6 +56,7 @@ public class LikeRepository<T extends ILikeable> implements ILikeRepository<T> {
      * @return A list of likes associated with the specified post ID.
      */
     public List<Like<T>> findByPostId(UUID postId) {
-        return null;
+        LikeReader<T> likeReader = new LikeReader<>();
+        return likeReader.getLikesFromPost(postId);
     }
 }

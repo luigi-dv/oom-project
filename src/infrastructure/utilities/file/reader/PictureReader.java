@@ -123,7 +123,7 @@ public class PictureReader implements IFile {
     private static Picture parsePictureFromUser(String line, String username) {
         String[] parts = line.split(":");
         String getUsername = parts[1];
-        if (getUsername.equals(username)) {
+        if (!getUsername.equals(username)) {
             return null;
         }
         String stringId = parts[0];

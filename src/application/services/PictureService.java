@@ -2,6 +2,8 @@ package src.application.services;
 
 import src.domain.entities.Picture;
 import src.domain.entities.User;
+import src.infrastructure.repositories.HashTagRepository;
+import src.infrastructure.repositories.LikeRepository;
 import src.infrastructure.repositories.PictureRepository;
 
 import java.util.List;
@@ -13,12 +15,16 @@ public class PictureService {
      * The picture repository
      */
     private final PictureRepository repository;
+    private final LikeRepository<Picture> likeRepositoryPicture;
+    private final HashTagRepository hashTagRepository;
 
     /**
      * Constructor for PictureService
      */
     public PictureService() {
         this.repository = new PictureRepository();
+        this.hashTagRepository = new HashTagRepository();
+        this.likeRepositoryPicture = new LikeRepository<>();
     }
 
     /**
@@ -60,10 +66,19 @@ public class PictureService {
     }
 
     public List<Picture> getAllPictures() {
-        return repository.findAll();
+        List<Picture> pictures = repository.findAll();
+        for (Picture picture : pictures) {
+            picture.setLikes(likeRepositoryPicture.findByPostId(picture.getId()));
+            picture.setHashTags(hashTagRepository.getHashTagsByPictureId(picture.getId()));
+        }
+        return pictures;
     }
 
     public Picture getPictureById(UUID id) {
         return repository.findById(id);
+    }
+
+    public void deletePicture(Picture picture) {
+        repository.delete(picture);
     }
 }

@@ -1,7 +1,6 @@
 package src.infrastructure.utilities.file.writer;
 
-import java.io.FileWriter;
-import java.io.BufferedWriter;
+import java.io.*;
 import src.domain.entities.User;
 import src.infrastructure.utilities.Crypter;
 import src.infrastructure.utilities.file.IFile;
@@ -44,7 +43,33 @@ public class CredentialWriter implements IFile {
      * @return The updated User entity.
      */
     public static User updateCredentials(User user) {
-        // TODO: Implement update credentials (search line with the username, update the line, save the file)
+        File inputFile = new File(FILE_PATH);
+        File tempFile = new File("temp.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(user.getUsername())) {
+                    line = user.toString();
+                }
+                writer.write(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        // Rename the temporary file to the original file
+        if (!inputFile.delete()) {
+            System.err.println("Could not delete original file");
+            return null;
+        }
+        if (!tempFile.renameTo(inputFile)) {
+            System.err.println("Could not rename temporary file");
+        }
+
         return null;
     }
 

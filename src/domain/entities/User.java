@@ -1,11 +1,12 @@
 package src.domain.entities;
 
 import src.domain.aggregate.Profile;
+import src.domain.interfaces.ISearchable;
 
 /**
  * Class representing a user
  */
-public class User {
+public class User implements ISearchable {
 
     /**
      * The username of the user
@@ -23,6 +24,11 @@ public class User {
     private String password;
 
     /**
+     * The profile picture of the user
+     */
+    private String profilePicturePath;
+
+    /**
      * The profile of the user
      */
     private Profile profile;
@@ -38,6 +44,7 @@ public class User {
         this.username = username;
         this.bio = bio;
         this.password = password;
+        this.profilePicturePath = "resources/storage/images/" + username + ".png";
         this.profile = new Profile();
     }
 
@@ -48,6 +55,7 @@ public class User {
      */
     public User(String username) {
         this.username = username;
+        this.profilePicturePath = "resources/storage/images/" + username + ".png";
     }
 
     /**
@@ -77,21 +85,6 @@ public class User {
         this.bio = bio;
     }
 
-    /**
-     * Set the user's password
-     *
-     * @return String
-     */
-    @Override
-    public String toString() {
-//        try {
-//            return Crypter.StringToEncryptedString(username) + ":" + Crypter.StringToEncryptedString(password) + ":" + Crypter.StringToEncryptedString(bio);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        return username + ":" + password + ":" + bio;
-    }
-
 
     /**
      * Get the user's encrypted password
@@ -99,8 +92,14 @@ public class User {
      * @return String
      */
     public String getPassword() {
-        // TODO: (Alert) - User Domain Service to return encrypted password
         return password;
+    }
+
+    /**
+     * Get the user's Profile Picture
+     */
+    public String getProfilePicturePath() {
+        return profilePicturePath;
     }
 
     /**
@@ -117,6 +116,12 @@ public class User {
      */
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+
+    @Override
+    public String toString() {
+        return username + ":" + password + ":" + bio;
     }
 
 }

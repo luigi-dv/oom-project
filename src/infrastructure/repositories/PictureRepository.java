@@ -81,11 +81,11 @@ public class PictureRepository implements IPictureRepository {
     /**
      * Deletes a picture by its unique identifier.
      *
-     * @param id The unique identifier of the picture to be deleted.
+     * @param picture The picture to be deleted.
      * @return True if the picture was successfully deleted, false otherwise.
      * @implNote This method is a placeholder for the actual implementation.
      */
-    public boolean delete(UUID id) {
-        return false;
+    public void delete(Picture picture) {
+        PictureWriter.deleteFromFile(picture);
     }
 }

@@ -1,0 +1,11 @@
+<buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <variables>
+
+    </variables>
+    <build-profile instance="instance_id"/>
+    <footer>
+        <copyright>Cheapo Software Solution | BCS1430 G31</copyright>
+        <link href="https://gitlab.maastrichtuniversity.nl/bcs130_groupx_2024/quackstagram.git">Repository</link>
+    </footer>
+</buildprofiles>
