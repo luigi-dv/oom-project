@@ -48,4 +48,16 @@ public class MessageRepository implements IMessageRepository {
         // TODO: Not found logging catching
         return null;
     }
+
+    /**
+     * Retrieves the last message from a chat.
+     * @param chatId The chat unique identifier.
+     * @return The last message from the chat.
+     */
+    public Message getLastMessage(UUID chatId) {
+        if (MessageReader.doesFileExist()) {
+            return MessageReader.getLastMessage(chatId);
+        }
+        return null;
+    }
 }

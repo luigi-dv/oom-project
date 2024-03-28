@@ -2,47 +2,42 @@ package src.presentation.components.messaging;
 
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.List;
 import src.domain.entities.messages.Message;
+import src.presentation.interfaces.UIConstants;
 
 public class MessageComponent extends JPanel {
-    private final JTextArea messageArea;
+    private final JLabel messageLabel;
+    private final boolean isOwnMessage;
 
-    public MessageComponent() {
+    public MessageComponent(Message message, boolean isOwnMessage) {
         setLayout(new BorderLayout());
-        messageArea = new JTextArea();
-        messageArea.setEditable(false);
-        JScrollPane messageScrollPane = new JScrollPane(messageArea);
-        add(messageScrollPane, BorderLayout.CENTER);
+        this.isOwnMessage = isOwnMessage;
+        // Create a JLabel to display the message content
+        messageLabel = new JLabel(message.getContent());
+        messageLabel.setMaximumSize(new Dimension(UIConstants.WIDTH - 50, Integer.MAX_VALUE));
+        setMessage();
     }
 
-    // Method to update message display
-    public void updateMessages(List<Message> messages) {
-        StringBuilder sb = new StringBuilder();
-        for (Message message : messages) {
-            String username = message.getOwner().getUsername();
-            sb.append(username).append(": ").append(message.getContent()).append("\n");
+    /**
+     * Set the message style based on whether it is the user's own message or not.
+     */
+    public void setMessage() {
+        if (isOwnMessage) {
+            setBackground(new Color(14, 122, 254));
+            messageLabel.setBackground(new Color(14, 122, 254));
+            messageLabel.setForeground(Color.WHITE);
+            setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 1, true), new EmptyBorder(5, 5, 5, 5)));
+        } else {
+            setBackground(new Color(216,216,216));
+            messageLabel.setBackground(new Color(216,216,216));
+            messageLabel.setForeground(Color.BLACK);
+            setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 1, true), new EmptyBorder(5, 5, 5, 5)));
         }
-        messageArea.setText(sb.toString());
-    }
-
-    // Method to add a new message
-    public void addMessage(String sender, String content) {
-        String currentText = messageArea.getText();
-        String newText = currentText + sender + ": " + content + "\n";
-        messageArea.setText(newText);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Message Component");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add(new MessageComponent());
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
+        // Add the JLabel to the MessageComponent
+        add(messageLabel, BorderLayout.CENTER);
     }
 }

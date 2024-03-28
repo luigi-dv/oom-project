@@ -25,7 +25,7 @@ public class ChatService {
     }
 
     /**
-     * Initializes a new instance of the MessageService class.
+     * Retrieves a chat by its unique identifier. It also retrieves all messages for the chat.
      * @param chatId The chat unique identifier.
      * @return The chat with the specified ID or null if not found.
      */
@@ -43,5 +43,12 @@ public class ChatService {
     public List<Chat> getUserChats() {
         String username = sessionProvider.getAuthenticatedUser().getUsername();
         return repository.getUserChats(username);
+    }
+
+    /**
+     * Retrieve the last message of a chat.
+     */
+    public Message getLastMessage(Chat chat) {
+        return messageRepository.getLastMessage(chat.getId());
     }
 }

@@ -7,16 +7,20 @@ import src.application.providers.SessionProvider;
 import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
 import src.application.services.ChatService;
+import src.domain.entities.messages.Message;
+import src.presentation.Router;
 
 
 public class ChatsController {
+    private final Router router;
     private final ChatService chatService;
     private final SessionProvider sessionProvider;
 
     /**
      * Initializes a new instance of the ChatsController class.
      */
-    public ChatsController() {
+    public ChatsController(Router router) {
+        this.router = router;
         this.chatService = new ChatService();
         this.sessionProvider = SessionProvider.getInstance();
     }
@@ -36,6 +40,13 @@ public class ChatsController {
      */
     public Chat getChat(UUID chatId) {
         return chatService.getChat(chatId);
+    }
+
+    /**
+     * Retrieve the last message of a chat.
+     */
+    public Message getLastMessage(Chat chat) {
+        return chatService.getLastMessage(chat);
     }
 
     /**

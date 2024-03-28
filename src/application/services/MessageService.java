@@ -50,7 +50,14 @@ public class MessageService {
      * @param message The message to be saved.
      * @return The saved message.
      */
-    public Message saveMessage(Message message) {
-        return repository.save(message);
+    public Message saveMessage(Message message) throws Exception {
+        User authenticatedUser = SessionProvider.getInstance().getAuthenticatedUser();
+        if(message.getOwner().getUsername() == authenticatedUser.getUsername()) {
+            return repository.save(message);
+        }
+        else {
+            throw new Exception("User not authenticated");
+        }
+
     }
 }

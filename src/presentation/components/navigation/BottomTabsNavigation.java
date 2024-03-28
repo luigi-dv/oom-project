@@ -3,6 +3,7 @@ package src.presentation.components.navigation;
 import src.domain.entities.User;
 import src.presentation.Router;
 import src.presentation.components.buttons.NavigationIconButton;
+import src.presentation.interfaces.UIConstants;
 import src.presentation.views.UIViews;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class BottomTabsNavigation extends JPanel {
         setBackground(new Color(249, 249, 249));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setMaximumSize(new Dimension(UIConstants.WIDTH, 50));
         add(new NavigationIconButton("resources/images/icons/home.png", UIViews.HOME, router));
         add(Box.createHorizontalGlue());
         add(new NavigationIconButton("resources/images/icons/search.png", UIViews.EXPLORE, router));

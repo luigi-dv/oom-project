@@ -29,7 +29,7 @@ public class SerializeMessage {
      */
     private static void appendField(StringBuilder builder, String key, String value, boolean first) {
         if (!first) {
-            builder.append(",");
+            builder.append(", ");
         }
         builder.append("\"").append(key).append("\":\"").append(value).append("\"");
     }
