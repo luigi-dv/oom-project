@@ -62,7 +62,13 @@ public class ProfileHeaderPanel extends JPanel {
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
         if(!controller.isAuthenticatedUser(currentUser)) {
             buttonsPanel.add(new FollowButton(controller.isFollowing(currentUser, controller.getAuthenticatedUser()), currentUser, controller.getAuthenticatedUser()));
-            buttonsPanel.add(Box.createHorizontalStrut(10)); // Add a 10-pixel gap
+            buttonsPanel.add(Box.createHorizontalStrut(10));
+            ButtonComponent messageButton = new ButtonComponent("Message", 12, 5, Component.RIGHT_ALIGNMENT, "primary", false);
+            messageButton.addActionListener(e -> {
+                controller.saveChat(currentUser, controller.getAuthenticatedUser());
+            });
+            buttonsPanel.add(messageButton);
+
         }
         else{
             buttonsPanel.add(createEditProfileButton(), BorderLayout.WEST);

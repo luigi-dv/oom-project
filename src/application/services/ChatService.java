@@ -51,4 +51,8 @@ public class ChatService {
     public Message getLastMessage(Chat chat) {
         return messageRepository.getLastMessage(chat.getId());
     }
+
+    public void saveChat(Chat chat) {
+        repository.saveChat(chat);
+    }
 }

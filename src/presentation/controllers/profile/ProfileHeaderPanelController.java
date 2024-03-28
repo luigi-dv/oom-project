@@ -1,17 +1,22 @@
 package src.presentation.controllers.profile;
 
 import src.application.providers.SessionProvider;
+import src.application.services.ChatService;
 import src.application.services.FollowService;
 import src.domain.entities.User;
+import src.domain.entities.messages.Chat;
+import src.presentation.controllers.ChatController;
 
 public class ProfileHeaderPanelController {
 
     private final SessionProvider sessionProvider;
     private final FollowService followService;
+    private final ChatService chatService;
 
     public ProfileHeaderPanelController() {
         this.sessionProvider = SessionProvider.getInstance();
         this.followService = new FollowService();
+        this.chatService = new ChatService();
     }
 
     /**
@@ -39,5 +44,14 @@ public class ProfileHeaderPanelController {
      */
     public Boolean isFollowing(User user, User follower) {
         return followService.isFollowing(user, follower);
+    }
+
+    /**
+     * Start a chat with the user
+     * @param user The user to start a chat with
+     */
+    public void saveChat(User userA, User userB) {
+        Chat chat = new Chat(userA, userB);
+        chatService.saveChat(chat);
     }
 }

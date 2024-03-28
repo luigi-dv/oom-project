@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.ArrayList;
 import src.domain.entities.messages.Chat;
 import src.infrastructure.utilities.file.reader.ChatReader;
+import src.infrastructure.utilities.file.writer.ChatWriter;
 
 /**
  * A repository for chat entities.
@@ -35,5 +36,13 @@ public class ChatRepository {
             chat = ChatReader.findById(chatId);
         }
         return chat;
+    }
+
+    /**
+     * Saves a chat.
+     * @param chat The chat to be saved.
+     */
+    public void saveChat(Chat chat){
+        ChatWriter.writeToFile(chat);
     }
 }

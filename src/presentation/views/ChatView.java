@@ -102,7 +102,7 @@ public class ChatView extends JPanel implements IChatListener {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.setPreferredSize(new Dimension(UIConstants.WIDTH, 70));
-        bottomPanel.setMaximumSize(new Dimension(UIConstants.WIDTH, 70));
+        // bottomPanel.setMaximumSize(new Dimension(UIConstants.WIDTH, 70));
         bottomPanel.add(chatInputComponent, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
@@ -123,6 +123,7 @@ public class ChatView extends JPanel implements IChatListener {
         }
         messagesPanel.revalidate();
         messagesPanel.repaint();
+  
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
     }
 
