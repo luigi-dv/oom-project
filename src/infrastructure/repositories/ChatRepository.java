@@ -1,13 +1,14 @@
 package src.infrastructure.repositories;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 import src.domain.entities.messages.Chat;
-import src.domain.entities.messages.Message;
 import src.infrastructure.utilities.file.reader.ChatReader;
 
-
+/**
+ * A repository for chat entities.
+ */
 public class ChatRepository {
 
     /**

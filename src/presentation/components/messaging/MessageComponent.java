@@ -21,7 +21,7 @@ public class MessageComponent extends JPanel {
     public void updateMessages(List<Message> messages) {
         StringBuilder sb = new StringBuilder();
         for (Message message : messages) {
-            String username = message.getWriter().getUsername();
+            String username = message.getOwner().getUsername();
             sb.append(username).append(": ").append(message.getContent()).append("\n");
         }
         messageArea.setText(sb.toString());

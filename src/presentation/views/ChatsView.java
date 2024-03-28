@@ -4,6 +4,7 @@ import src.domain.entities.messages.Chat;
 import src.presentation.Router;
 import src.presentation.components.messaging.ChatPreviewComponent;
 import src.presentation.controllers.ChatsController;
+import src.presentation.interfaces.UIConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class ChatsView extends JPanel {
     private final List<Chat> chats;
 
     private final ChatsController controller;
-    private final JList<ChatPreviewComponent> chatsList;
+    private final JScrollPane chatsList;
 
     /**
      * Creates a new ChatsView.
@@ -28,10 +29,8 @@ public class ChatsView extends JPanel {
         this.controller = new ChatsController();
         this.chats = getChats();
         this.chatsList = createChatsList();
-        JScrollPane scrollPane = new JScrollPane(chatsList); // Wrap the JList in a JScrollPane
-        setLayout(new BorderLayout()); // Use BorderLayout for the JPanel
         add(createTitlePanel(), BorderLayout.PAGE_START); // Add title panel at the top
-        add(scrollPane, BorderLayout.CENTER); // Add scrollable chat list in the center
+        add(chatsList); // Add scrollable chat list in the center
     }
 
     /**
@@ -42,26 +41,33 @@ public class ChatsView extends JPanel {
         return controller.getUserChats();
     }
 
-    private JList<ChatPreviewComponent> createChatsList() {
-        DefaultListModel<ChatPreviewComponent> model = new DefaultListModel<>();
-        if(!chats.isEmpty()) {
-            System.out.println("Chats: " + chats.size());
+    /**
+     * Creates a JList of ChatPreviewComponents.
+     * @return A JList of ChatPreviewComponents.
+     */
+    private JScrollPane createChatsList() {
+        JPanel previewsPanel = new JPanel();
+        previewsPanel.setLayout(new BoxLayout(previewsPanel, BoxLayout.Y_AXIS));
+
+        if (!chats.isEmpty()) {
             for (Chat chat : chats) {
                 chat.setMessages(controller.getChat(chat.getId()).getMessages());
-                ChatPreviewComponent chatPreview = new ChatPreviewComponent(chat);
-                model.addElement(chatPreview);
+                ChatPreviewComponent chatPreview = new ChatPreviewComponent(controller.getAuthenticatedUser(), chat);
+                chatPreview.setAlignmentX(Component.LEFT_ALIGNMENT); // Align chat preview components to the left
+                previewsPanel.add(chatPreview);
             }
-            JList<ChatPreviewComponent> chatsList = new JList<>(model);
-            chatsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            chatsList.setLayoutOrientation(JList.VERTICAL);
-            chatsList.setVisibleRowCount(-1);
-        }
-        else{
+        } else {
             JLabel noChatsLabel = new JLabel("No chats available.");
-            add(noChatsLabel, BorderLayout.CENTER);
+            noChatsLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align label to the left
+            previewsPanel.add(noChatsLabel);
         }
 
-        return chatsList;
+        // Wrap the previewsPanel in a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(previewsPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        return scrollPane;
     }
 
 

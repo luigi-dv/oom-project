@@ -2,18 +2,23 @@ package src.presentation.controllers;
 
 import java.util.List;
 import java.util.UUID;
+
+import src.application.providers.SessionProvider;
+import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
 import src.application.services.ChatService;
 
 
 public class ChatsController {
     private final ChatService chatService;
+    private final SessionProvider sessionProvider;
 
     /**
      * Initializes a new instance of the ChatsController class.
      */
     public ChatsController() {
         this.chatService = new ChatService();
+        this.sessionProvider = SessionProvider.getInstance();
     }
 
     /**
@@ -31,5 +36,13 @@ public class ChatsController {
      */
     public Chat getChat(UUID chatId) {
         return chatService.getChat(chatId);
+    }
+
+    /**
+     * Retrieves the authenticated user.
+     * @return The authenticated user.
+     */
+    public User getAuthenticatedUser() {
+        return sessionProvider.getAuthenticatedUser();
     }
 }

@@ -1,6 +1,8 @@
 package src.domain.entities.messages;
 
 import src.domain.entities.User;
+import src.domain.services.messages.SerializeChat;
+import src.domain.services.messages.SerializeMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,11 @@ public class Chat {
     /**
      * The first user in the chat.
      */
-    private final User user1;
+    private final User userA;
     /**
      * The second user in the chat.
      */
-    private final User user2;
+    private final User userB;
 
     /**
      * The messages in the chat.
@@ -29,39 +31,39 @@ public class Chat {
 
     /**
      * Constructor for new Chat
-     * @param user1 The first user in the chat
-     * @param user2 The second user in the chat
+     * @param userA The first user in the chat
+     * @param userB The second user in the chat
      */
-    public Chat(User user1, User user2) {
+    public Chat(User userA, User userB) {
         this.id = UUID.randomUUID();
-        this.user1 = user1;
-        this.user2 = user2;
+        this.userA = userA;
+        this.userB = userB;
         this.messages = new ArrayList<>();
     }
 
     /**
      * Constructor for existing Chat
      * @param id The unique identifier for the chat
-     * @param user1 The first user in the chat
-     * @param user2 The second user in the chat
+     * @param userA The first user in the chat
+     * @param userB The second user in the chat
      */
-    public Chat(UUID id, User user1, User user2) {
+    public Chat(UUID id, User userA, User userB) {
         this.id = id;
-        this.user1 = user1;
-        this.user2 = user2;
+        this.userA = userA;
+        this.userB = userB;
     }
 
     /**
      * Constructor for existing Chat
      * @param id The unique identifier for the chat
-     * @param user1 The first user in the chat
-     * @param user2 The second user in the chat
+     * @param userA The first user in the chat
+     * @param userB The second user in the chat
      * @param messages The messages in the chat
      */
-    public Chat(UUID id, User user1, User user2, List<Message> messages) {
+    public Chat(UUID id, User userA, User userB, List<Message> messages) {
         this.id = id;
-        this.user1 = user1;
-        this.user2 = user2;
+        this.userA = userA;
+        this.userB = userB;
         this.messages = messages;
     }
 
@@ -77,16 +79,29 @@ public class Chat {
      * Gets the first user in the chat.
      * @return The first user in the chat
      */
-    public User getUser1() {
-        return user1;
+    public User getUserA() {
+        return userA;
     }
 
     /**
      * Gets the second user in the chat.
      * @return The second user in the chat
      */
-    public User getUser2() {
-        return user2;
+    public User getUserB() {
+        return userB;
+    }
+
+    /**
+     * Gets the other user in the chat.
+     * @param user The user to get the other user for
+     * @return The other user in the chat
+     */
+    public User getOtherUser(User user) {
+        if (user.getUsername().equals(userA.getUsername())) {
+            return userB;
+        } else {
+            return userA;
+        }
     }
 
     /**
@@ -119,5 +134,14 @@ public class Chat {
      */
     public Message getMostRecentMessage() {
         return messages.get(messages.size() - 1);
+    }
+
+
+    /**
+     * Converts the chat to a JSON string.
+     * @return The chat as a JSON string
+     */
+    public String toJsonString() {
+        return SerializeChat.toJsonString(this);
     }
 }
