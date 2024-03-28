@@ -70,7 +70,7 @@ public class HomeView extends JPanel implements PictureComponentListener {
     private void populateContentPanel(JPanel panel, List<Picture> pictures) {
 
         for (Picture picture : pictures) {
-            PictureComponent itemPanel = new PictureComponent(picture, true);
+            PictureComponent itemPanel = new PictureComponent(router, picture, true);
             itemPanel.setListener(this);
             JPanel spacingPanel = createSpacingPanel();
             panel.add(itemPanel);

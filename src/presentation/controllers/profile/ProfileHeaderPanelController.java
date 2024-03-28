@@ -5,7 +5,6 @@ import src.application.services.ChatService;
 import src.application.services.FollowService;
 import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
-import src.presentation.controllers.ChatController;
 
 public class ProfileHeaderPanelController {
 
@@ -47,11 +46,11 @@ public class ProfileHeaderPanelController {
     }
 
     /**
-     * Start a chat with the user
-     * @param user The user to start a chat with
+     * Retrieve the chat between two users or create a new one if it doesn't exist.
+     * @param userA The user to start a chat with
+     * @param userB The user to start a chat with
      */
-    public void saveChat(User userA, User userB) {
-        Chat chat = new Chat(userA, userB);
-        chatService.saveChat(chat);
+    public Chat startChat(User userA, User userB) {
+        return chatService.getChatBetweenUsers(userA, userB);
     }
 }

@@ -19,18 +19,45 @@ import java.awt.event.MouseEvent;
 
 import src.domain.entities.Picture;
 import src.domain.entities.User;
+import src.presentation.Router;
 import src.presentation.components.profile.ProfileHeaderPanel;
 import src.presentation.controllers.PictureController;
 import src.presentation.interfaces.UIConstants;
 
+/**
+ * A component that displays a picture.
+ */
 public class PictureComponent extends JPanel {
 
+    /**
+     * The router.
+     */
+    protected final Router router;
+    /**
+     * The picture.
+     */
     protected final Picture picture;
+    /**
+     * The picture controller.
+     */
     private final PictureController pictureController;
+    /**
+     * The listener.
+     */
     private PictureComponentListener listener;
+    /**
+     * The like label.
+     */
     private JLabel likeLabel;
 
-    public PictureComponent(Picture picture, boolean initialize) {
+    /**
+     * Creates a new PictureComponent.
+     * @param router The router.
+     * @param picture The picture.
+     * @param initialize Whether to initialize the panel.
+     */
+    public PictureComponent(Router router, Picture picture, boolean initialize) {
+        this.router = router;
         this.picture = picture;
         this.pictureController = new PictureController();
         if (initialize) {
@@ -38,10 +65,17 @@ public class PictureComponent extends JPanel {
         }
     }
 
+    /**
+     * Sets the listener.
+     * @param listener The listener to set.
+     */
     public void setListener(PictureComponentListener listener) {
         this.listener = listener;
     }
 
+    /**
+     * Initializes the panel.
+     */
     private void initializePanel() {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
@@ -72,10 +106,19 @@ public class PictureComponent extends JPanel {
     
     }
 
+    /**
+     * Displays the image.
+     * @param picture The picture to display.
+     */
     protected void displayImage(Picture picture) {
-        listener.displayImage(new PictureDisplayComponent(picture));   
+        listener.displayImage(new PictureDisplayComponent(router, picture));
     }
 
+    /**
+     * Creates an image label.
+     * @param picture The picture to create the label for.
+     * @return The image label.
+     */
     protected JLabel createImageLabel(Picture picture) {
         JLabel imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -89,6 +132,10 @@ public class PictureComponent extends JPanel {
         return imageLabel;
     }
 
+    /**
+     * Handles the like action.
+     * @param picture The picture to like.
+     */
     protected void handleLikeAction(Picture picture) {
         if (pictureController.likePicture(picture)) {
             likeLabel.setText(picture.getLikes().size() + " likes");
@@ -97,24 +144,44 @@ public class PictureComponent extends JPanel {
         };
     }
 
+    /**
+     * Refreshes the display image.
+     * @param picture The picture to refresh the display image for.
+     */
     protected void refreshDisplayImage(Picture picture) {
         
     }
 
+    /**
+     * Creates a name label.
+     * @param picture The picture to create the label for.
+     * @return The name label.
+     */
     protected JLabel createNameLabel(Picture picture) {
         JLabel nameLabel = new JLabel(picture.getUser().getUsername());
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         return nameLabel;
     }
 
+    /**
+     * Creates a user panel.
+     * @param user The user to create the panel for.
+     * @return The user panel.
+     */
     protected JPanel createUserPanel(User user) {
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new GridLayout(1, 2));
-        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user);
+        ProfileHeaderPanel profileHeaderPanel = new ProfileHeaderPanel(user, router);
         userPanel.add(profileHeaderPanel, BorderLayout.NORTH);
         return userPanel;
     }
 
+    /**
+     * Creates an info panel.
+     * @param picture The picture to create the panel for.
+     * @param likeButton The like button.
+     * @return The info panel.
+     */
     protected JPanel createInfoPanel(Picture picture, JButton likeButton) {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -125,6 +192,12 @@ public class PictureComponent extends JPanel {
         return infoPanel;
     }
 
+    /**
+     * Creates a cropped image icon.
+     * @param picture The picture to create the icon for.
+     * @return The cropped image icon.
+     * @throws IOException If an error occurs while creating the icon.
+     */
     protected ImageIcon createCroppedImageIcon(Picture picture) throws IOException {
         String imagePath = "resources/storage/uploaded/" + picture.getImagePath();
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(imagePath).getImage()
@@ -132,6 +205,11 @@ public class PictureComponent extends JPanel {
         return imageIcon;
     }
 
+    /**
+     * Creates a like button.
+     * @param picture The picture to create the button for.
+     * @return The like button.
+     */
     protected JButton createLikeButton(Picture picture) {
         JButton likeButton = new JButton("❤");
         likeButton.setAlignmentX(Component.LEFT_ALIGNMENT);

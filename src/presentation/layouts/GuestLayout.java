@@ -3,7 +3,6 @@ package src.presentation.layouts;
 import java.awt.*;
 import javax.swing.*;
 import src.presentation.Router;
-import src.presentation.interfaces.UIConstants;
 
 
 public class GuestLayout extends JPanel {
@@ -41,20 +40,20 @@ public class GuestLayout extends JPanel {
         // Bottom: add(photoPanel, gbc);
     }
 
-    /**
-     * Creates a panel containing the header of the layout.
-     * @return The header panel.
-     */
-    private static JPanel createHeaderPanel() {
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel("Quackstagram 🐥");
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(UIConstants.WIDTH, 40));
-        return headerPanel;
-    }
+    // /**
+    //  * Creates a panel containing the header of the layout.
+    //  * @return The header panel.
+    //  */
+    // private static JPanel createHeaderPanel() {
+    //     JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    //     headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
+    //     JLabel lblRegister = new JLabel("Quackstagram 🐥");
+    //     lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
+    //     lblRegister.setForeground(Color.WHITE); // Set the text color to white
+    //     headerPanel.add(lblRegister);
+    //     headerPanel.setPreferredSize(new Dimension(UIConstants.WIDTH, 40));
+    //     return headerPanel;
+    // }
 
     /**
      * Creates a panel containing the photo of the layout.

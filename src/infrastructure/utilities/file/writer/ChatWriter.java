@@ -1,6 +1,8 @@
 package src.infrastructure.utilities.file.writer;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import src.domain.entities.messages.Chat;
@@ -18,14 +20,43 @@ public class ChatWriter {
      * @return The chat with the saved content.
      */
     public static Chat writeToFile(Chat chat) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            String jsonMessage = chat.toJsonString();
-            writer.write(jsonMessage);
-            writer.newLine();
-            return chat;
+        String jsonMessage = chat.toJsonString();
+        appendToJsonArray(jsonMessage);
+        return chat;
+    }
+    
+    private static boolean appendToJsonArray(String newJson) {
+        StringBuilder jsonContent = new StringBuilder();
+        try {
+            // Read existing content
+            BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line.trim());
+            }
+            reader.close();
+
+            // Remove the last closing bracket
+            if (jsonContent.length() > 0 && jsonContent.charAt(jsonContent.length() - 1) == ']') {
+                jsonContent.deleteCharAt(jsonContent.length() - 1);
+                // If not the first object, append a comma
+                if (jsonContent.length() > 1) {
+                    jsonContent.append(",");
+                }
+            }
+
+            // Append the new JSON object and close the array
+            jsonContent.append(newJson).append("]");
+
+            // Overwrite the file with the updated content
+            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false));
+            writer.write(jsonContent.toString());
+            writer.close();
+
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
     }
 }

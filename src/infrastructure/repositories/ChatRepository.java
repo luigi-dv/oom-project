@@ -3,6 +3,8 @@ package src.infrastructure.repositories;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
+
+import src.domain.entities.User;
 import src.domain.entities.messages.Chat;
 import src.infrastructure.utilities.file.reader.ChatReader;
 import src.infrastructure.utilities.file.writer.ChatWriter;
@@ -39,10 +41,23 @@ public class ChatRepository {
     }
 
     /**
+     * Retrieves a chat between two users if it exists.
+     * @param userA The first user.
+     * @param userB The second user.
+     */
+    public Chat getChatBetweenUsers(User userA, User userB) {
+        Chat chat = null;
+        if (ChatReader.doesFileExist()) {
+            chat = ChatReader.findByUsers(userA.getUsername(), userB.getUsername());
+        }
+        return chat;
+    }
+
+    /**
      * Saves a chat.
      * @param chat The chat to be saved.
      */
-    public void saveChat(Chat chat){
-        ChatWriter.writeToFile(chat);
+    public Chat saveChat(Chat chat){
+        return ChatWriter.writeToFile(chat);
     }
 }

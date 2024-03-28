@@ -11,7 +11,6 @@ import src.presentation.interfaces.UIConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A component that allows the user to input messages into a chat.

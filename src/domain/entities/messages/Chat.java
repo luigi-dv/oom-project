@@ -2,7 +2,6 @@ package src.domain.entities.messages;
 
 import src.domain.entities.User;
 import src.domain.services.messages.SerializeChat;
-import src.domain.services.messages.SerializeMessage;
 
 import java.util.ArrayList;
 import java.util.List;

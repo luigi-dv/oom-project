@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Class to check the integrity of messages stored in a file
+ */
 public class MessagesIntegrity {
     public boolean checkIntegrity(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

@@ -1,6 +1,5 @@
 package src.infrastructure.repositories;
 
-import src.domain.entities.messages.Chat;
 import src.domain.entities.messages.Message;
 import src.domain.repositiories.IMessageRepository;
 import src.infrastructure.utilities.file.reader.MessageReader;

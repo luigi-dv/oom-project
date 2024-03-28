@@ -6,16 +6,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import src.domain.entities.Picture;
+import src.presentation.Router;
 
+/**
+ * A component that displays a picture in big.
+ */
 public class PictureDisplayComponent extends PictureComponent {
 
-
-    public PictureDisplayComponent(Picture picture) {
-        super(picture, false);
+    /**
+     * Creates a new PictureDisplayComponent.
+     * @param router The router.
+     * @param picture The picture.
+     */
+    public PictureDisplayComponent(Router router, Picture picture) {
+        super(router, picture, false);
         initializePanel();
 
     }
 
+    /**
+     * Initializes the panel.
+     */
     public void initializePanel() {
         JPanel imageContainerPanel = new JPanel(new BorderLayout());
 

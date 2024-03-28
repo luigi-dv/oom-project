@@ -22,6 +22,7 @@ public class AvatarImagePanel extends JPanel {
     public AvatarImagePanel(String imagePath, int width, int height) {
         this.width = width;
         this.height = height;
+        // System.out.println(imagePath);
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {

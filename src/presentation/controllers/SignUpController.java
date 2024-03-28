@@ -59,7 +59,6 @@ public class SignUpController extends BaseController {
         } else {
             User newUser = new User(username, password, bio);
             signUpService.registerUser(newUser);
-            //TODO: Check if the user profile have already upload photo - handleProfilePictureUpload(username);
             return true;
         }
     }

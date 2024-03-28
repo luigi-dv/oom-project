@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
+/**
+ * Represents a comment on a picture
+ */
 public class Comment implements ILikeable {
     private final UUID id;
     private User user;
@@ -13,6 +17,13 @@ public class Comment implements ILikeable {
     private String text; 
     private List<Like<Comment>> likes;
 
+    /**
+     * Create a new comment
+     *
+     * @param user the user who created the comment
+     * @param picture the picture the comment was made on
+     * @param text the text of the comment
+     */
     public Comment(User user, Picture picture, String text) {
         this.id = UUID.randomUUID();
         this.user = user;
@@ -21,6 +32,14 @@ public class Comment implements ILikeable {
         this.likes = new ArrayList<>();
     }
 
+    /**
+     * Create a new comment
+     *
+     * @param id the unique identifier of the comment
+     * @param user the user who created the comment
+     * @param picture the picture the comment was made on
+     * @param text the text of the comment
+     */
     public Comment(UUID id, User user, Picture picture, String text) {
         this.id = id;
         this.user = user;
@@ -29,6 +48,11 @@ public class Comment implements ILikeable {
         this.likes = new ArrayList<>();
     }
 
+    /**
+     * Create a new comment
+     *
+     * @param id the unique identifier of the comment
+     */
     public Comment(UUID id) {
         this.id = id;
     }
