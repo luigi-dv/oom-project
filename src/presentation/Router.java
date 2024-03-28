@@ -65,6 +65,9 @@ public class Router {
             case IMAGEUPLOAD:
                 updateImageUpload();
                 break;
+            case DM:
+                updateDirectMessage();
+                break;
             default:
                 break;
         }
@@ -128,6 +131,7 @@ public class Router {
             views.put(UIViews.NOTIFICATIONS, addAuthenticatedLayout(new NotificationsView(this)));
             views.put(UIViews.PROFILE, addAuthenticatedLayout(new ProfileView(this)));
             views.put(UIViews.IMAGEUPLOAD, addAuthenticatedLayout(new ImageUploadView(this)));
+            views.put(UIViews.DM, addAuthenticatedLayout(new ChatsView(this)));
         }
     }
 
@@ -161,7 +165,11 @@ public class Router {
         }
     }
 
-
+    private void updateDirectMessage() {
+        if (sessionProvider.isAuthenticated()) {
+            views.put(UIViews.DM, addAuthenticatedLayout(new ChatsView(this)));
+        }
+    }
 }
 
 
