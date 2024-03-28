@@ -23,6 +23,8 @@ public class SignUpView extends JPanel {
     private JPanel fieldsJPanel;
     private final SignUpController controller;
 
+    private boolean pictureUploaded = false;
+
     private final Router router;
 
     /**
@@ -153,7 +155,7 @@ public class SignUpView extends JPanel {
     private JButton createUploadPhotoButton() {
         ButtonComponent uploadPhButton = new ButtonComponent("Upload Photo", 14, 5, Component.CENTER_ALIGNMENT, "primary", false);
         uploadPhButton.addActionListener(e -> {
-            controller.handleProfilePictureUpload(txtUsername.getText());
+            pictureUploaded = controller.handleProfilePictureUpload(txtUsername.getText());
         });
         return uploadPhButton;
     }
@@ -171,10 +173,10 @@ public class SignUpView extends JPanel {
         // Validating user input
         if (username.isEmpty() || password.isEmpty() || bio.isEmpty() ||
                 username.equals("Username") || password.equals("Password") || bio.equals("Bio")) {
-            errorMessage.displayErrorMessage("Please fill out all fields.");
-            fieldsJPanel.revalidate();
-            fieldsJPanel.repaint();
+            showError("Please fill out all fields.");
             return;
+        } else if(!pictureUploaded) {
+            showError("Please upload a profile picture.");
         } else {
             // Attempting to register the user
             if (!controller.register(username, password, bio)) {
@@ -187,6 +189,12 @@ public class SignUpView extends JPanel {
                 router.switchTo(UIViews.PROFILE);
             }
         }
+    }
+
+    private void showError(String error){
+        errorMessage.displayErrorMessage(error);
+        fieldsJPanel.revalidate();
+        fieldsJPanel.repaint();
     }
 
     /**

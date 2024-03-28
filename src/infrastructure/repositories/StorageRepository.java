@@ -15,8 +15,8 @@ public class StorageRepository {
      * @param file The file to save
      * @param username The username
      */
-    public void saveProfilePicture(File file, String username) {
-        PictureStorage.saveProfilePicture(file, username);
+    public boolean saveProfilePicture(File file, String username) {
+        return PictureStorage.saveProfilePicture(file, username);
     }
 
     /**
