@@ -111,6 +111,7 @@ public class ChatPreviewComponent extends JPanel {
     private JPanel createAvatarPanel() {
         JPanel avatarPanel = new JPanel(new BorderLayout());
         avatarPanel.setBackground(Color.WHITE);
+        System.out.println(user.getProfilePicturePath());
         AvatarImagePanel avatarImagePanel = new AvatarImagePanel(user.getProfilePicturePath(), 50, 50);
         avatarPanel.add(avatarImagePanel, BorderLayout.CENTER);
         avatarPanel.setMaximumSize(new Dimension(50, 50));
@@ -131,6 +132,9 @@ public class ChatPreviewComponent extends JPanel {
         messagePreviewPanel.add(usernameLabel, BorderLayout.NORTH);
 
         // Truncate message content if longer than 25 characters
+        if (preview == null) {
+            return messagePreviewPanel;
+        }
         String truncatedContent = preview.getContent().length() > 25 ?
                 preview.getContent().substring(0, 25) + "..." : preview.getContent();
 
