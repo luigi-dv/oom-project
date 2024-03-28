@@ -3,7 +3,6 @@ package src.presentation.components.profile;
 import javax.swing.*;
 import java.awt.*;
 import src.domain.entities.User;
-import src.presentation.Router;
 import src.presentation.components.buttons.ButtonComponent;
 import src.presentation.components.buttons.FollowButton;
 import src.presentation.components.ui.AvatarImagePanel;
@@ -15,17 +14,15 @@ public class ProfileHeaderPanel extends JPanel {
      * The current user.
      */
     private final User currentUser;
-    private final Router router;
     private final ProfileHeaderPanelController controller;
 
     /**
      * Constructor for the ProfileHeaderPanel.
      * @param currentUser The current user.
      */
-    public ProfileHeaderPanel(User currentUser, Router router) {
+    public ProfileHeaderPanel(User currentUser) {
         this.currentUser = currentUser;
-        this.router = router;
-        this.controller = new ProfileHeaderPanelController(router);
+        this.controller = new ProfileHeaderPanelController();
 
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -70,7 +67,7 @@ public class ProfileHeaderPanel extends JPanel {
         else{
             buttonsPanel.add(createEditProfileButton(), BorderLayout.WEST);
             buttonsPanel.add(Box.createHorizontalStrut(10)); // Add a 10-pixel gap
-            buttonsPanel.add(createLogoutButton(), BorderLayout.EAST);
+            buttonsPanel.add(createShareProfileButton(), BorderLayout.EAST);
         }
         return buttonsPanel;
     }
@@ -108,11 +105,8 @@ public class ProfileHeaderPanel extends JPanel {
      * Creates the "Share Profile" button.
      * @return The "Share Profile" button.
      */
-    private JButton createLogoutButton() {
-        ButtonComponent buttonComponent = new ButtonComponent("Logout", 12, 5, Component.RIGHT_ALIGNMENT, "danger",  false);
-        buttonComponent.addActionListener(
-                e -> controller.logout()
-        );
-        return buttonComponent;
+    private JButton createShareProfileButton() {
+        return new ButtonComponent("Share Profile", 12, 5, Component.RIGHT_ALIGNMENT, "secondary",  false);
+        // #TODO: Implement sharing functionality
     }
 }

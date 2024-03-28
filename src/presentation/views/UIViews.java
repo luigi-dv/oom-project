@@ -8,7 +8,7 @@ public enum UIViews {
     NOTIFICATIONS("notifications"),
     IMAGEUPLOAD("imageupload"),
     HOME("home"),
-    CHATS("chats");
+    DM("dm");
 
     private final String viewName;
 

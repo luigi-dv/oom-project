@@ -7,15 +7,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import src.domain.entities.User;
 import src.domain.entities.messages.Message;
 
 public class ChatComponent extends JPanel {
-    private JTextField searchField;
-    private MessageComponent messageComponent;
-    private JTextField inputField;
-    private JButton sendButton;
+    private final User user;
+    private final JTextField searchField;
+    private final MessageComponent messageComponent;
+    private final JTextField inputField;
+    private final JButton sendButton;
 
-    public ChatComponent() {
+    public ChatComponent(User user) {
+        // The user is needed to display the info of the user the current user is chatting with.
+        this.user = user;
         setLayout(new BorderLayout());
 
         // Search panel
@@ -50,17 +55,5 @@ public class ChatComponent extends JPanel {
     // Method to update message display
     public void updateMessages(List<Message> messages) {
         messageComponent.updateMessages(messages);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Chat Component");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add(new ChatComponent());
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
     }
 }
